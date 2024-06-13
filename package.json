@@ -1,0 +1,34 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build:pro": "nuxt build --mode pro",
+    "build:test": "nuxt build --mode test",
+    "dev": "nuxt dev --mode dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "nuxt": "^3.5.1",
+    "sass": "^1.62.1",
+    "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.13",
+    "@heroicons/vue": "^2.0.18",
+    "@nuxt/typescript-build": "^3.0.2",
+    "axios": "^1.6.1",
+    "crypto-js": "^4.2.0",
+    "element-plus": "^2.3.5",
+    "nuxt-swiper": "^1.1.0",
+    "sass-loader": "10",
+    "swiper": "^11.0.3",
+    "vue-awesome-swiper": "^5.0.1",
+    "vue-baidu-map": "^0.21.22",
+    "vue-lazyload": "^3.0.0",
+    "vue-slick-carousel": "^1.0.6",
+    "vuex": "^4.1.0"
+  }
+}

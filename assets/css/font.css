@@ -1,0 +1,137 @@
+/*@font-face {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*    src: url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-75-SemiBold/AlibabaPuHuiTi-2-75-SemiBold.eot) format('embedded-opentype'),*/
+/*        url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-75-SemiBold/AlibabaPuHuiTi-2-75-SemiBold.otf) format('opentype'),*/
+/*        url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-75-SemiBold/AlibabaPuHuiTi-2-75-SemiBold.ttf) format('TrueType'),*/
+/*        url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-75-SemiBold/AlibabaPuHuiTi-2-75-SemiBold.woff) format('woff'),*/
+/*        url(https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-2/AlibabaPuHuiTi-2-75-SemiBold/AlibabaPuHuiTi-2-75-SemiBold.woff2) format('woff2');*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+@font-face {
+    font-family: 'Amiri';
+    src: url('@/assets/fonts/Amiri/Amiri-Regular.ttf') format('truetype'); /* 根据您的文件路径修改字体文件的引用路径 */
+    font-weight: normal;
+    font-style: normal;
+}
+ @font-face {
+    font-family: "Amiri-Bold";
+    src: url("@/assets/fonts/Amiri/Amiri-Bold.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Amiri-BoldItalic";
+    src: url("@/assets/fonts/Amiri/Amiri-BoldItalic.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Amiri-Italic";
+    src: url("@/assets/fonts/Amiri/Amiri-Italic.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Amiri-Regular";
+    src: url("@/assets/fonts/Amiri/Amiri-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*@font-face {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_55_Regular_55_Regular";*/
+/*    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_55_Regular_55_Regular.ttf");*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_55_Regular_85_Bold";*/
+/*    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_55_Regular_85_Bold.ttf");*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_65_Medium_65_Medium";*/
+/*    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_65_Medium_65_Medium.ttf");*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_75_SemiBold_75_SemiBold";*/
+/*    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_75_SemiBold_75_SemiBold.ttf");*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*    font-family: "DIN-Condensed-Bold-2";*/
+/*    src: url("@/assets/fonts/DIN-Condensed-Bold-2.ttf");*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+/* @font-face {
+    font-family: "Alibaba_PuHuiTi_2.0_95_ExtraBold_95_ExtraBold";
+    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_95_ExtraBold_95_ExtraBold.ttf");
+    font-weight: normal;
+    font-style: normal;
+} */
+
+/* @font-face {
+    font-family: "Alibaba_PuHuiTi_2.0_105_Heavy_105_Heavy";
+    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_105_Heavy_105_Heavy.ttf");
+    font-weight: normal;
+    font-style: normal;
+} */
+
+/* @font-face {
+    font-family: "Alibaba_PuHuiTi_2.0_115_Black_115_Black";
+    src: url("@/assets/fonts/Alibaba_PuHuiTi_2.0_115_Black_115_Black.ttf");
+    font-weight: normal;
+    font-style: normal;
+} */
+
+/*.AlibabaPuHuiTi_2_35_Thin {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*}*/
+
+/* .Alibaba_PuHuiTi_2_0_45_Light_45_Light{
+    font-family: "Alibaba_PuHuiTi_2.0_45_Light_45_Light";
+} */
+/*.AlibabaPuHuiTi_2_55_Regular {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*    font-weight: 400;*/
+/*}*/
+
+/*.AlibabaPuHuiTi_2_65_Medium {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*.AlibabaPuHuiTi_2_85_Bold {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.AlibabaPuHuiTi_2_75_SemiBold {*/
+/*    font-family: "Alibaba_PuHuiTi_2.0_35_Thin_35_Thin";*/
+/*    font-weight: 600;*/
+/*}*/
+
+/* .Alibaba_PuHuiTi_2_0_95_ExtraBold_95_ExtraBold{
+    font-family: "Alibaba_PuHuiTi_2.0_95_ExtraBold_95_ExtraBold";
+} */
+/* .Alibaba_PuHuiTi_2_0_105_Heavy_105_Heavy{
+    font-family: "Alibaba_PuHuiTi_2.0_105_Heavy_105_Heavy";
+} */
+/* .Alibaba_PuHuiTi_2_0_115_Black_115_Black{
+    font-family: "Alibaba_PuHuiTi_2.0_115_Black_115_Black";
+} */
+/*.DINCondensed-Bold {*/
+/*    font-family: "DIN-Condensed-Bold-2";*/
+/*}*/
