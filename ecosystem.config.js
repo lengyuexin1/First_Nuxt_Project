@@ -2,7 +2,7 @@
 module.exports = {
     apps: [
       {
-        name: 'clickVoice',
+        name: 'AwazMingle',
         port: '3037',
         exec_mode: 'fork',//cluster
         instances: '1',//max
