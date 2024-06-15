@@ -16,7 +16,7 @@
             </svg>
           </div>
           <div style="justify-content: flex-start; align-items: center; display: flex">
-            <div style="color: rgba(0, 0, 0, 0.90); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><nuxt-link to="/voice.html">Voice Room</nuxt-link></div>
+            <div style="color: rgba(0, 0, 0, 0.90); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><nuxt-link to="/voice.html">Voice Chat Room</nuxt-link></div>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
           </svg>
         </div>
         <div style="justify-content: flex-start; align-items: center; display: flex">
-          <div style="color: rgba(0, 0, 0, 0.90); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><nuxt-link to="/voice.html">Voice Room</nuxt-link></div>
+          <div style="color: rgba(0, 0, 0, 0.90); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><nuxt-link to="/voice.html">Voice Chat Room</nuxt-link></div>
         </div>
       </div>
     </section>

@@ -94,7 +94,7 @@ const getList = async() => {
 
       <div class="mx-auto flex items-center justify-between " style="flex-direction: column; justify-content: flex-start; align-items: flex-start;  display: inline-flex">
         <div style="align-self: stretch; justify-content: center; align-items: center; gap: 1px; display: inline-flex">
-          <div style="color: black; font-size: 36px; font-family: Amiri; font-weight: 700; line-height: 36px; word-wrap: break-word">Voice Room</div>
+          <div style="color: black; font-size: 36px; font-family: Amiri; font-weight: 700; line-height: 36px; word-wrap: break-word">Voice Chat Room</div>
         </div>
       </div>
     </section>

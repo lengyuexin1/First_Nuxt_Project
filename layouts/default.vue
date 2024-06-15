@@ -1,8 +1,11 @@
 <template>
   <div>
-    <slot />
+    <slot/>
     <Footer></Footer>
   </div>
 </template>
 <script setup>
 </script>
+<style>
+
+</style>

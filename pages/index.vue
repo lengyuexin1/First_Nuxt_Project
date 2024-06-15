@@ -2,20 +2,22 @@
 import IndexSection8 from "~/components/IndexSection-8.vue";
 
 definePageMeta({
-  alias:[
+  alias: [
     '/index.html',
   ],
 })
 </script>
 <template>
-  <MySwiper />
-  <IndexSection-1 />
-  <IndexSection-2 />
-  <IndexSection-6 />
-  <IndexSection-3 />
-  <IndexSection8/>
-  <IndexSection-4 />
-  <IndexSection-7 />
-  <IndexSection-5 />
+  <MySwiper/>
+  <div style="max-width: 1200px;margin: 0 auto">
+    <IndexSection-1/>
+    <IndexSection-2/>
+    <IndexSection-6/>
+    <IndexSection-3/>
+    <IndexSection8/>
+    <IndexSection-4/>
+    <IndexSection-7/>
+    <IndexSection-5/>
+  </div>
 
 </template>

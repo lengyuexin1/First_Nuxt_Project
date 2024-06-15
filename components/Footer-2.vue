@@ -9,20 +9,20 @@ const contact = () => {
     <div class="hidden lg:flex lg">
         <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4" style="width: 100%; height: 100%; position: relative; background: white">
           <div style=" top: 97px; position: absolute; justify-content: flex-end; align-items: flex-start; display: inline-flex">
+<!--            <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">-->
+<!--              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/live.html">Live</a></div>-->
+<!--            </div>-->
             <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
-              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/live.html">Live</a></div>
-            </div>
-            <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
-              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/voice.html">Voice</a></div>
+              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/voice.html">Voice Chat Room</a></div>
             </div>
             <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
               <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/about.html">About Us</a></div>
             </div>
             <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
-              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/compliance.html">Policy</a></div>
+              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"><a href="/compliance.html">Compliance</a></div>
             </div>
             <div style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
-              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word" @click="contact"><button>Contact</button></div>
+              <div style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word" @click="contact"><button>Recharge</button></div>
             </div>
           </div>
           <div class="container" style="margin-top: 180px;">
