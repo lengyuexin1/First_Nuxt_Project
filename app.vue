@@ -15,7 +15,7 @@ import Fenge from "~/assets/images/fengexian.png"
 <style scoped lang="scss">
 #app {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   img {
     position: absolute;

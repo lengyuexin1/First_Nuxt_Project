@@ -4,7 +4,7 @@ import RechargeList1 from "~/components/RechargeList-1.vue";
 
 
 definePageMeta({
-  alias:[
+  alias: [
     '/recharge.html',
   ],
 })

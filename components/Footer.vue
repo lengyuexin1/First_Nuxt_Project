@@ -30,7 +30,7 @@ const contact = () => {
                   style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
                 <div
                     style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word">
-                  <a href="/voice.html">Voice Chat Room</a></div>
+                  <a href="/index.html">Voice Chat Room</a></div>
               </div>
               <div
                   style="padding-top: 32px; padding-bottom: 32px; padding-right: 48px; justify-content: flex-end; align-items: center; gap: 10px; display: flex">
@@ -55,7 +55,7 @@ const contact = () => {
                 <div
                     style="color: #09090B; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word"
                     @click="contact">
-                  <button>Recharge</button>
+                  <a href="/recharge.html">Recharge</a>
                 </div>
               </div>
             </div>
@@ -215,6 +215,7 @@ const contact = () => {
 <style lang="scss" scoped>
 .footer {
   margin: 0 auto;
+
   .lg {
     footer {
       height: 400px;
