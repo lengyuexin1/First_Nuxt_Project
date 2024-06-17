@@ -235,8 +235,9 @@
           v-if="!isLiveDetail"
       >
         <div class="fixed inset-0 z-10 z-20 w-full h-full" style="background: rgba(0, 0, 0, 0.5);"/>
+<!--        移动端弹窗-->
         <DialogPanel
-            class="fixed inset-y-0 right-0 z-10 w-9/12 overflow-y-auto bg-white sm:ring-gray-900/10 z-20"
+            class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white sm:ring-gray-900/10 z-20"
         >
           <div style="position: relative;height: 100%;display: flex; flex-direction: column;">
             <div class="flex items-center justify-between px-4 py-4">
@@ -263,6 +264,7 @@
                 <XMarkIcon class="h-6 w-6" aria-hidden="true"/>
               </button>
             </div>
+<!--            移动端菜单-->
             <div class="flow-root" style="flex: 1; overflow-y: auto;" v-if="!isLiveDetail">
               <div class="divide-y divide-gray-500/10">
                 <div>
