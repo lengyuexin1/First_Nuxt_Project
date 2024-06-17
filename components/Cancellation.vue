@@ -42,27 +42,31 @@
     <!--    </section>-->
     <section class="p-3 lg:hidden md header-tag">
       <div
-          style="width: 100%; height: 100%;margin-top: 30px;   justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
-        <div style="justify-content: flex-start; align-items: center; display: flex">
-          <div
-              style="color: rgba(0, 0, 0, 0.40); font-size: 14px;  font-weight: 400; line-height: 20px; word-wrap: break-word">
-            <nuxt-link to="/">Home</nuxt-link>
-          </div>
-        </div>
-        <div>
-          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M1.4603 9.45923L0.541064 8.53999L4.08144 4.99961L0.541064 1.45923L1.4603 0.539989L5.91992 4.99961L1.4603 9.45923Z"
-                fill="black" fill-opacity="0.4"/>
-          </svg>
-        </div>
-        <div style="justify-content: flex-start; align-items: center; display: flex">
-          <div
-              style="color: rgba(0, 0, 0, 0.90); font-size: 14px;  font-weight: 400; line-height: 20px; word-wrap: break-word">
-            <nuxt-link to="/cancellation.html">Return Refund & Cancellation Policy</nuxt-link>
-          </div>
-        </div>
+          style="position:absolute;top:11vh;left:20vw;z-index:1;color: #050505;font-family: Archivo;font-size: 26px;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+        <div>Return Refund & Cancellation Policy</div>
       </div>
+      <!--      <div-->
+      <!--          style="width: 100%; height: 100%;margin-top: 30px;   justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">-->
+      <!--        <div style="justify-content: flex-start; align-items: center; display: flex">-->
+      <!--          <div-->
+      <!--              style="color: rgba(0, 0, 0, 0.40); font-size: 14px;  font-weight: 400; line-height: 20px; word-wrap: break-word">-->
+      <!--            <nuxt-link to="/">Home</nuxt-link>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--            <path-->
+      <!--                d="M1.4603 9.45923L0.541064 8.53999L4.08144 4.99961L0.541064 1.45923L1.4603 0.539989L5.91992 4.99961L1.4603 9.45923Z"-->
+      <!--                fill="black" fill-opacity="0.4"/>-->
+      <!--          </svg>-->
+      <!--        </div>-->
+      <!--        <div style="justify-content: flex-start; align-items: center; display: flex">-->
+      <!--          <div-->
+      <!--              style="color: rgba(0, 0, 0, 0.90); font-size: 14px;  font-weight: 400; line-height: 20px; word-wrap: break-word">-->
+      <!--            <nuxt-link to="/cancellation.html">Return Refund & Cancellation Policy</nuxt-link>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </section>
   </section>
   <section class="section">
@@ -124,7 +128,8 @@
           </div>
           <div
               style="padding-bottom: 40px; padding-left: 40px; padding-right: 40px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
-            <div style="font-size: 18px; color: #09090B;/* text-lg/semibold */ font-family:  Archivo; font-weight: 600; line-height: 28px; word-wrap: break-word">
+            <div
+                style="font-size: 18px; color: #09090B;/* text-lg/semibold */ font-family:  Archivo; font-weight: 600; line-height: 28px; word-wrap: break-word">
               Return Refund & Cancellation Policy
             </div>
             <div

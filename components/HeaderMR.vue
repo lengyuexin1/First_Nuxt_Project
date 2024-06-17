@@ -9,7 +9,21 @@
           class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4"
           aria-label="Global"
       >
-        <div class="flex justify-start mr-14">
+        <div class="flex lg:hidden items-center" v-if="!isLiveDetail">
+          <div @click="mobileMenuOpen = true" class="more-icon">
+            <img
+                :style="{ '--delay': '-' + (299 - scrollTop) + 's' }"
+                :src="MoreIconBlack"
+                alt="更多"
+            />
+            <img
+                :style="{ '--delay': '-' + scrollTop + 's' }"
+                :src="MoreIconBlack"
+                alt="更多"
+            />
+          </div>
+        </div>
+        <div class=" flex justify-start mr-14">
           <nuxt-link
               to="/"
               class="-m-1.5 p-1.5 logo h-12"
@@ -55,18 +69,11 @@
             </div>
           </nuxt-link>
         </div>
-        <div class="flex lg:hidden items-center" v-if="!isLiveDetail">
-          <div @click="mobileMenuOpen = true" class="more-icon">
-            <img
-                :style="{ '--delay': '-' + (299 - scrollTop) + 's' }"
-                :src="MoreIconBlack"
-                alt="更多"
-            />
-            <img
-                :style="{ '--delay': '-' + scrollTop + 's' }"
-                :src="MoreIconBlack"
-                alt="更多"
-            />
+        <div class="lg:hidden">
+          <div
+              style="border-radius: var(--Number-6, 6px);background: #080114;display: inline-flex;padding: 5px 10px;justify-content: center;align-items: center;gap: 8px;">
+          <span
+              style="color: var(--color-text-icon-color-white, #FFF);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">Log in</span>
           </div>
         </div>
         <PopoverGroup class="hidden lg:flex lg:flex-2 lg:gap-x-10" style="margin-left:20% ;">
@@ -235,7 +242,7 @@
           v-if="!isLiveDetail"
       >
         <div class="fixed inset-0 z-10 z-20 w-full h-full" style="background: rgba(0, 0, 0, 0.5);"/>
-<!--        移动端弹窗-->
+        <!--        移动端弹窗-->
         <DialogPanel
             class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white sm:ring-gray-900/10 z-20"
         >
@@ -264,17 +271,10 @@
                 <XMarkIcon class="h-6 w-6" aria-hidden="true"/>
               </button>
             </div>
-<!--            移动端菜单-->
+            <!--            移动端菜单-->
             <div class="flow-root" style="flex: 1; overflow-y: auto;" v-if="!isLiveDetail">
               <div class="divide-y divide-gray-500/10">
                 <div>
-                  <nuxt-link
-                      to="/"
-                      class="block rounded-lg px-3 py-1.5 text-base leading-10 text-my-gray AlibabaPuHuiTi_2_55_Regular"
-                      @click="activeNav = null"
-                  >Home
-                  </nuxt-link
-                  >
                   <template v-for="(item, index) in navList" :key="index">
                     <nuxt-link
                         v-if="item.label != 'Compliance'"

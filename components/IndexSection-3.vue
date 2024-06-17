@@ -9,7 +9,7 @@ import icon2 from "@/assets/images/live/voice_h5.png";
       <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4" style=" flex-direction: column;">
         <div style="width: 100%; height: 100%; justify-content: space-between; align-items: center; display: inline-flex">
           <div style="color: black; font-size: 36px; font-family: Amiri; font-weight: 700; line-height: 36px; word-wrap: break-word">Voice Room</div>
-          <NuxtLink to="/voice.html">
+          <NuxtLink to="/index.html">
             <div style="justify-content: flex-start; align-items: center; gap: 4px; display: flex">
               <div style="color: #475467; font-size: 16px; font-family: Figtree; font-weight: 600; word-wrap: break-word">View more</div>
 

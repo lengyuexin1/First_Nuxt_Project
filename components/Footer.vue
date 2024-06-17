@@ -70,7 +70,8 @@ const contact = () => {
       </div>
 
     </div>
-    <div style="margin: 60px 0;text-align: center;color:#454545;font-size:16px">
+    <div class="lg:flex items-center justify-center lg hidden"
+         style="margin: 60px auto;text-align: center;color:#454545;font-size:16px">
       <p>©2024 ClickVoice All Rights Reserved.</p>
     </div>
     <!--    <div class="hidden lg:flex lg">-->
@@ -149,62 +150,55 @@ const contact = () => {
     <!--    </div>-->
     <div class="lg:hidden md">
       <footer>
-        <div style="width: 100%; height: 100%; position: relative; background: white">
-          <div style="width: 287px; height: 108px; left: 20px; top: 114px; position: absolute">
-            <div
-                style="left: 0px; top: 46px; position: absolute; color: #3F3F46; font-size: 14px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">
-              <a href="/about.html">About Us</a></div>
-            <div
-                style="left: 167px; top: 46px; position: absolute; color: #3F3F46; font-size: 14px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">
-              <a href="/compliance.html">Policy</a></div>
-            <div
-                style="left: 0px; top: 0px; position: absolute; color: #3F3F46; font-size: 14px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">
-              <a href="/live.html">Live</a></div>
-            <div
-                style="left: 167px; top: 0px; position: absolute; color: #3F3F46; font-size: 14px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">
-              <a href="/voice.html">Voice</a></div>
-            <div
-                style="left: 0px; top: 92px; position: absolute; color: #3F3F46; font-size: 14px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word"
-                @click="contact">
-              <button>Contact</button>
-            </div>
-          </div>
+        <div class="md:items-center">
           <div
-              style="height: 88px; left: 20px; top: 262px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">
-            <div
-                style="align-self: stretch; height: 50px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: flex">
-              <div
-                  style="color: #3F3F46; font-size: 12px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">
-                VIRTUAL SILVER TECHNOLOGY PRIVATE LIMITED
-              </div>
-              <div
-                  style="width: 434px; color: #3F3F46; font-size: 12px; font-family: Ubuntu; font-weight: 300; word-wrap: break-word">
-                C-193 PH II MAYAPURI,<br/>Janak Puri NEW DELHI West Delhi DL 110064 IN
-              </div>
-            </div>
-            <div style="color: #3F3F46; font-size: 12px; font-family: Ubuntu; font-weight: 400; word-wrap: break-word">©
-              2023 ClickVoice All Rights Reserved.
-            </div>
-          </div>
-          <div
-              style="width: 153.85px; height: 48px; padding-top: 6.56px; padding-bottom: 6.98px; padding-right: 16.71px; left: 20px; top: 32px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.59px; display: inline-flex">
-            <div style="width: 33.54px; height: 34.46px; position: relative">
-              <img style="width: 33.54px; height: 34.46px; left: 0px; top: 0px; position: absolute" :src="logo"/>
-              <div
-                  style="width: 2.26px; height: 8.99px; left: 5.26px; top: 10.17px; position: absolute; background: white; border-radius: 19.61px"></div>
-              <div
-                  style="width: 2.26px; height: 5.72px; left: 9.35px; top: 11.80px; position: absolute; background: white; border-radius: 19.61px"></div>
-              <div
-                  style="width: 2.26px; height: 19.30px; left: 13.53px; top: 5.01px; position: absolute; background: white; border-radius: 19.61px"></div>
-              <div
-                  style="width: 2.26px; height: 9.77px; left: 17.54px; top: 9.78px; position: absolute; background: white; border-radius: 19.61px"></div>
-              <div
-                  style="width: 2.26px; height: 5.72px; left: 21.61px; top: 11.80px; position: absolute; background: white; border-radius: 19.61px"></div>
+              style="width:90vw; height: 48px; padding-top: 6.56px; padding-bottom: 6.98px; padding-right: 16.71px; justify-content: flex-start; align-items: flex-start; gap: 5.59px; display: inline-flex">
+            <div>
+              <img width="40" height="40" alt="logo" :src="logo"/>
             </div>
             <div
                 style="color: #09090B; font-size: 19.57px; font-family: Figtree; font-weight: 700; line-height: 27.95px; word-wrap: break-word">
-              ClickVoice
+              AwazMingle
             </div>
+          </div>
+          <div class="md:flex justify-items-start"
+               style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
+            Dive into lively voice chat rooms and bond with buddies!
+          </div>
+          <div class="flex justify-between  align-items-center"
+               style="width: 326px; height: 120px; margin-top:20px;gap:5px;flex-wrap: wrap;">
+            <div
+                style="width:153px;height:30px;background-color: #fff;text-align: left;color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+              <a href="/index.html">Voice Chat Room</a>
+            </div>
+            <div
+                style="width:153px;height:30px;background-color: #fff;text-align: left;color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+              <a href="./about.html">Contact us</a>
+            </div>
+            <div
+                style="width:153px;height:30px;background-color: #fff;text-align: left;color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+              <a href="/about.html">About Us</a>
+            </div>
+            <div
+                style="width:153px;height:30px;background-color: #fff;text-align: left;color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+              <a href="/compliance.html">Compliance</a>
+            </div>
+            <div
+                style="width:153px;height:30px;background-color: #fff;text-align: left;color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">
+              <a href="/recharge.html">Recharge</a>
+            </div>
+          </div>
+          <div class="md:flex flex-col align-items-center mt-4">
+            <p style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
+              VIRTUAL SILVER TECHNOLOGY PRIVATE LIMITED</p>
+            <p class="mt-2"
+               style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 300;line-height: normal;">
+              C-193 PH II MAYAPURI,</p>
+            <p style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 300;line-height: normal;">
+              Janak Puri NEW DELHI West Delhi DL 110064 IN</p>
+            <p class="mt-7 mb-16"
+               style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
+              © 2022 ClickVoice All Rights Reserved.</p>
           </div>
         </div>
       </footer>
@@ -238,11 +232,12 @@ const contact = () => {
   .md {
     footer {
       display: flex;
-      height: 94vw;
-      flex-flow: column;
+      //height: 94vw;
+      //flex-flow: column;
+      margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      padding: 4.26vw 4.26vw 2.93vw;
+      padding: 4.26vw 4.26vw 2.93vw 4.26vw;
 
     }
   }

@@ -840,7 +840,7 @@ if (process.client) {
           } else if (e.data.type == 3) {
             window.location.href = '/liveDetail/'+route.params.id;
           } else {
-            window.location.href = '/voice.html';
+            window.location.href = '/index.html';
           }
         }
         // 5. 麦位更新 - 2302

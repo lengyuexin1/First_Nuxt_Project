@@ -13,9 +13,9 @@
         </div>
       </div>
     </section>
-    <section class="p-3 lg:hidden md">
-      <div style="width: 100%; color: black; font-size: 20px; font-family: Amiri; font-weight: 700; word-wrap: break-word">Frequently Asked Questions</div>
-    </section>
+<!--    <section class="p-3 lg:hidden md">-->
+<!--      <div style="width: 100%; color: black; font-size: 20px; font-family: Amiri; font-weight: 700; word-wrap: break-word">Frequently Asked Questions</div>-->
+<!--    </section>-->
   </section>
 </template>
 <style scoped lang="scss">

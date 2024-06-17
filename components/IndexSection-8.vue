@@ -175,7 +175,7 @@ const getList = async() => {
           <img style="width: 200px; height: 200px" :src="no_data" />
           <div style=" text-align: center; color: #71717A; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">No voice streams yet. Stay tuned!</div>
       </div>
-      <NuxtLink to="/voice.html">
+      <NuxtLink to="/index.html">
         <div style="width: 100%; height: 100%;margin-top: 1rem; padding-top: 11px; padding-bottom: 12px; background: #FFF1F2; border-radius: 8px; justify-content: center; align-items: center; display: inline-flex">
           <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
             <div style="color: #F43F5E; font-size: 14px; font-family: Figtree; font-weight: 600; word-wrap: break-word">View more</div>

@@ -5,6 +5,9 @@ import people1 from "@/assets/images/people1.png";
 import people2 from "@/assets/images/people2.png";
 import people3 from "@/assets/images/people3.png";
 import image2 from "@/assets/images/about_banner_h5.png";
+import image3 from "@/assets/images/boxone_h5.png";
+import image4 from "@/assets/images/boxtwo_h5.png";
+import image5 from "@/assets/images/boxthree_h5.png";
 import boxone from "~/assets/images/boxone.png";
 import boxtwo from "~/assets/images/boxtwo.png";
 import boxthree from "~/assets/images/boxthree.png";
@@ -12,6 +15,7 @@ import Email from "~/assets/images/Email.png"
 import address from "~/assets/images/address.png"
 import phone from "~/assets/images/phone.png"
 import imgtip from "~/assets/images/imgtip.png"
+import imgtip_h5 from "~/assets/images/imgtip_h5.png"
 import ask from "~/assets/images/ask.png"
 import askno from "~/assets/images/askno.png"
 import swiperleft from "~/assets/images/swiperleft.png"
@@ -19,26 +23,53 @@ import swiperright from "~/assets/images/swiperrihgt.png"
 import user from '~/assets/images/user.png'
 import userEmail from '~/assets/images/userEmail.png'
 import phoneNumber from '~/assets/images/phoneNumber.png'
+import h5aboutleft from '~/assets/images/h5aboutleft.png'
+import h5aboutright from '~/assets/images/h5aboutright.png'
 
 import {ElMessage} from "element-plus";
 import Logo from "assets/images/logotwo.png";
+import Index from "~/pages/index.vue";
 
 const QuestionsList = ref<array>([
-  {QuestionsTitle: 'How do I create an account on AwazMingle?', asktions: 'No answer yet'},
+  {QuestionID: 1, QuestionsTitle: 'How do I create an account on AwazMingle?', asktions: 'No answer yet'},
   {
+    QuestionID: 2,
     QuestionsTitle: 'How do I join a voice room in AwazMingle?',
     asktions: 'Yes, AwazMingle prioritizes your privacy and security. We safeguard and never share your personal data with unauthorized parties without your explicit consent.'
   },
-  {QuestionsTitle: 'What kind of topics are discussed in AwazMingle voice rooms?', asktions: 'No answer yet'},
-  {QuestionsTitle: 'Can I create my own voice room in AwazMingle?', asktions: 'No answer yet'},
   {
+    QuestionID: 3,
+    QuestionsTitle: 'What kind of topics are discussed in AwazMingle voice rooms?',
+    asktions: 'No answer yet'
+  },
+  {QuestionID: 4, QuestionsTitle: 'Can I create my own voice room in AwazMingle?', asktions: 'No answer yet'},
+  {
+    QuestionID: 5,
     QuestionsTitle: 'How does AwazMingle ensure the quality of discussions in the voice rooms?',
     asktions: 'No answer yet'
   },
 ])
-const open = ref<Number>(0)
-const openFunc = (index: number) => open.value = (index + 1)
+const open = ref<number>(0)
+const openstatus = ref<boolean>(false)
+const h5_open = ref<number>(0)
+const h5_openstatus = ref<boolean>(false)
+const openFunc = (index: number) => {
+  if (openstatus.value) {
+    open.value -= index
+  } else {
+    open.value += index
+  }
+  openstatus.value = !openstatus.value
+}
 
+const h5open = (index: number) => {
+  if (h5_openstatus.value) {
+    h5_open.value -= index
+  } else {
+    h5_open.value += index
+  }
+  h5_openstatus.value = !h5_openstatus.value
+}
 
 const centerDialogVisible = ref<boolean>(false)
 
@@ -54,8 +85,6 @@ const openContactUs = () => {
 </script>
 <template>
   <div>
-
-
     <section class="section">
       <section class="hidden lg:flex lg">
         <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4"
@@ -183,14 +212,14 @@ const openContactUs = () => {
               <div>asked questions</div>
             </div>
             <div class="tab-list">
-              <div v-for="(item,index) in QuestionsList" :key="index">
-                <div class="questionsbox" :class="open === index+1?'questionsboxopen':'questionsboxclose'">
+              <div v-for="(item,index) in QuestionsList" :key="item.QuestionID">
+                <div class="questionsbox" :class="open === item.QuestionID?'questionsboxopen':'questionsboxclose'">
                   <div class="askbox">
                     <div class="asktitle">
                       {{ item.QuestionsTitle }}
                     </div>
-                    <div class="askicon" style="cursor: pointer" @click="openFunc(index)">
-                      <img v-if="open === index+1" :src="askno" alt="">
+                    <div class="askicon" style="cursor: pointer" @click="openFunc(item.QuestionID)">
+                      <img v-if="open === item.QuestionID" :src="askno" alt="">
                       <img v-else :src="ask" alt="">
                     </div>
                   </div>
@@ -222,9 +251,156 @@ const openContactUs = () => {
         </div>
       </section>
       <section class="lg:hidden md">
-        <img style="width: 100%; height: 100%; position: relative" :src="image2"/>
+        <div class="pt-16">
+          <img style="width: 64vw;height: 62vw;margin:0 auto;" :src="image3" alt="image2"/>
+        </div>
+        <div class="py-6"
+             style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+          Dive into lively voice chat rooms and bond with buddies!
+        </div>
+        <div class="py-6"
+             style="padding:0 3vw 0 3vw;color: #454545;text-align: center;font-family: Archivo;font-size: 3.4vw;font-style: normal;font-weight: 400;">
+          Explore captivating conversations that spark your curiosity, and broaden your social horizon with a diverse
+          and vibrant community!"
+        </div>
+        <div class="md:flex md items-center justify-center"
+             style="margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 20px;gap: 3px;">
+          <span
+              style="color: #050505;text-align: center;font-family: Archivo;font-size: 2.5vw;font-style: normal;font-weight: 400;line-height: 24px; /* 171.429% */">Join the Voice Room</span>
+          <img :src="rightJ" alt="">
+        </div>
+        <div class="pt-24">
+          <img style="width: 62vw;height: 62vw;margin:0 auto;" :src="image4" alt="image4">
+        </div>
+        <div class="px-8 py-6"
+             style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+          AwazMingle - Where Voices Connect and Gifts Flow!
+        </div>
+        <div class="py-6"
+             style="padding:0 3vw 0 3vw;color: #454545;text-align: center;font-family: Archivo;font-size: 3.4vw;font-style: normal;font-weight: 400;">
+          Join us and immerse yourself in a symphony of conversations, friendships, and heartwarming gift exchanges in
+          our interactive rooms!
+        </div>
+        <div class="md:flex md items-center justify-center"
+             style="margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 20px;gap: 3px;">
+          <span
+              style="color: #050505;text-align: center;font-family: Archivo;font-size: 2.5vw;font-style: normal;font-weight: 400;line-height: 24px; /* 171.429% */">Join the Voice Room</span>
+          <img :src="rightJ" alt="">
+        </div>
+        <div class="pt-24" style="position:relative;">
+          <img style="width: 62vw;height: 62vw;margin:0 auto;" :src="image5" alt="image5">
+          <img style="width:17vw;height:17vw;position: absolute;left:14vw;bottom: 7vw;" :src="imgtip_h5"
+               alt="imgtip_h5">
+        </div>
+        <div class="px-8 py-6"
+             style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+          The principle that leads our AwazMingle.
+        </div>
+        <div class="py-4"
+             style="padding:0 3vw 0 3vw;color: #454545;text-align: center;font-family: Archivo;font-size: 3.4vw;font-style: normal;font-weight: 400;">
+          AwazMingle is a quality-assured hub for voice interactions. Hosts share knowledge for a fee, while we maintain
+          standards. Users fund their wallets to access these experiences, and a fraction of the service fee supports
+          our operations.
+        </div>
+        <div class="px-8 py-8"
+             style="color: #050505;text-align: center;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+          Pratham Kumar
+        </div>
       </section>
-
+      <section class="lg:hidden md">
+        <div class="p-4"
+             style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
+          <div class="flex justify-center items-center my-2">
+            <img :src="Email" alt="Email">
+            <span
+                style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Email</span>
+          </div>
+          <div
+              style="color: var(--Gray-500, #667085);text-align: left;font-family: Inter;font-size: 2.8vw;font-style: normal;font-weight: 400;line-height: normal;">
+            info@teller.zone
+          </div>
+        </div>
+        <div class="p-4"
+             style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
+          <div class="flex justify-center items-center my-2">
+            <img :src="address" alt="Email">
+            <span
+                style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Company address</span>
+          </div>
+          <div
+              style="color: var(--Gray-500, #667085);text-align: left;font-family: Inter;font-size: 2.8vw;font-style: normal;font-weight: 400;line-height: normal;">
+            H.NO-816 C/O SUBHASH KUMAR BANSAL, HARIJAN BASTI BENGALSUITING SECTOR
+            31,FARIDABAD,Faridabad,Haryana,India,121003
+          </div>
+        </div>
+        <div class="p-4"
+             style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
+          <div class="flex justify-center items-center my-2">
+            <img :src="phone" alt="Email">
+            <span
+                style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Contact Phone </span>
+          </div>
+          <div
+              style="color: var(--Gray-500, #667085);text-align: left;font-family: Inter;font-size: 2.8vw;font-style: normal;font-weight: 400;line-height: normal;">
+            +91 8867952846
+          </div>
+        </div>
+      </section>
+      <section class="lg:hidden md">
+        <div class="px-24 my-24"
+             style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+          Some of the most frequently
+          asked questions
+        </div>
+        <div class="p-4" v-for="(item,index) in QuestionsList" :key="item.QuestionID"
+             style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
+          <div class="flex justify-between items-center my-2" style="width: 79vw">
+            <div
+                style="width:60vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 600;line-height: normal;">
+              {{ item.QuestionsTitle }}
+            </div>
+            <div style="width: 5vw;height: 3.5vh;" @click="h5open(item.QuestionID)">
+              <div v-if="h5_open === item.QuestionID">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
+                  <path
+                      d="M12 19.5C7.85775 19.5 4.5 16.1423 4.5 12C4.5 7.85775 7.85775 4.5 12 4.5C16.1423 4.5 19.5 7.85775 19.5 12C19.5 16.1423 16.1423 19.5 12 19.5ZM11.25 11.25H8.25V12.75H11.25H12.75H15.75V11.25H12.75H11.25Z"
+                      fill="#050505"/>
+                </svg>
+              </div>
+              <div v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
+                  <path
+                      d="M12 19.5C7.85775 19.5 4.5 16.1423 4.5 12C4.5 7.85775 7.85775 4.5 12 4.5C16.1423 4.5 19.5 7.85775 19.5 12C19.5 16.1423 16.1423 19.5 12 19.5ZM11.25 11.25H8.25V12.75H11.25V15.75H12.75V12.75H15.75V11.25H12.75V8.25H11.25V11.25Z"
+                      fill="#050505"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div v-show="h5_open === item.QuestionID"
+               style="color: var(--Gray-500, #667085);text-align: left;font-family: Inter;font-size: 2.8vw;font-style: normal;font-weight: 400;line-height: normal;">
+            {{ item.asktions }}
+          </div>
+        </div>
+        <div class="flex justify-between align-items-center overflow-hidden"
+             style="position:relative;margin:8vh auto;width: 90vw;height: 35vh;flex-shrink: 0;border-radius: var(--Radius-8, 8px);border: 1px solid #050505;background: #050505;">
+          <img style="height: 47vh;position: absolute;left:0;top:0;" :src="h5aboutleft" alt="">
+          <div class="flex flex-col justify-center algin-items-center" style="margin: 0 auto;">
+            <div
+                style="padding:0.8vw;color: #FFF;text-align: center;font-family: Inter;font-size: 2.5vw;font-style: normal;font-weight: 600;line-height: 16px; /* 160% */letter-spacing: 0.6px;text-transform: uppercase;border-radius: 44px;border: 1px solid #050505;background: #292929;">
+              Is there any other question?
+            </div>
+            <div
+                style="margin:1.3vh auto 1.6vh 0;width:50vw;color: #FFF;text-align: center;font-family: Archivo;font-size: 22px;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+              Feel free to contact AwazMingle.
+            </div>
+            <div
+                style="width:30vw;height:6vh;margin:0 auto;text-align:center;line-height: 6vh;border-radius: .8vw;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;">
+              Contact us
+            </div>
+          </div>
+          <img style="height: 47vh;position: absolute;right:0;top:0;" :src="h5aboutright" alt="">
+        </div>
+      </section>
     </section>
     <el-dialog
         v-model="centerDialogVisible"
@@ -599,6 +775,18 @@ const openContactUs = () => {
           transition: max-height 0.5s;
         }
 
+        .questionsboxopen_h5 {
+          max-height: 60vh;
+          overflow: hidden;
+          transition: max-height 0.5s;
+        }
+
+        .questionsboxclose_h5 {
+          max-height: 20vh;
+          overflow: hidden;
+          transition: max-height 0.5s;
+        }
+
         .questionsbox {
 
           .questioninfo {
@@ -727,13 +915,13 @@ const openContactUs = () => {
     &.md {
       & > div {
         background-size: 100% 100%;
-        padding-top: 12vw;
-        height: 40.4vw;
+        //padding-top: 8vw;
+        //height: 40.4vw;
         width: 100vw;
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        align-items: center;
+        //display: flex;
+        //flex-flow: column;
+        //justify-content: center;
+        //align-items: center;
       }
     }
   }

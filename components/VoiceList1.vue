@@ -6,6 +6,8 @@ import no_data from "assets/images/live/no_data.png";
 import nodata from "assets/images/nodata.png";
 import voiceleft from "~/assets/images/voiceleft.png"
 import voiceright from "~/assets/images/voiceright.png"
+import voicerleft_h5 from "~/assets/images/vioceleft_h5.png"
+import voiceright_h5 from "~/assets/images/vioceright_h5.png"
 import Group from "~/assets/images/Group.png"
 import viocepeople1 from "~/assets/images/viocepeople1.png"
 import viocepeople2 from "~/assets/images/viocepeople2.png"
@@ -99,8 +101,6 @@ const getList = async () => {
   <section class="section">
 
     <section class="p-12 hidden lg:flex lg">
-
-
       <div class="mx-auto flex items-center justify-between "
            style="flex-direction: column; justify-content: flex-start; align-items: flex-start;  display: inline-flex;position:relative;">
         <div style="align-self: stretch; justify-content: center; align-items: center; gap: 1px; display: inline-flex">
@@ -331,66 +331,230 @@ const getList = async () => {
     </section>
 
     <section class="p-3 lg:hidden md">
-      <div class="container">
-        <div
-            style="width: 100%; color: #101828; font-size: 18px; font-weight: normal; font-weight: 500; line-height: 28px; word-wrap: break-word">
-          Voice Room
-        </div>
-        <div v-if="dataCount > 0" v-for="(slide, idx) in dataInfo"
-             style="width: 100%; height: 100%; padding: 8px;margin-top: 1rem; background: #FAF6F3; border-radius: 12px; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
-          <img style="width: 80px; height: 80px; border-radius: 6px" :src="slide.cover"
-               @click="toDetail(slide.roomId)"/>
-          <div
-              style="width:70%;flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: space-between; align-items: flex-start; display: inline-flex"
-              @click="toDetail(slide.roomId)">
-            <div
-                style="align-self: stretch; justify-content: space-between; align-items: flex-start; display: inline-flex">
-              <div
-                  style="flex: 1 1 0;width: 80%; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
-                <div
-                    style="height: 23px;width: 70%; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
-                  <div
-                      style="width:100%;color: #09090B; font-size: 14px; font-weight: normal; font-weight: 600; line-height: 20px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                    {{ slide.title }}
-                  </div>
-                  <div style="width: 24px; height: 24px; position: relative" v-if="slide.nationalFlag">
-                    <img style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; "
-                         :src="slide.nationalFlag"/>
-                  </div>
-                </div>
-                <div
-                    style="width:100%;align-self: stretch; height: 15px; color: #71717A; font-size: 12px; font-weight: normal; font-weight: 400; line-height: 16px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                  {{ slide.announcement }}
-                </div>
-              </div>
-              <div
-                  style="position: absolute;left:85%; justify-content: flex-start; align-items: flex-start; gap: 2px; display: flex">
-                <div style="width: 14px; height: 14px; position: relative">
-                  <img style="width: 20px; height: 20px;" :src="voice_listen">
-                </div>
-                <div
-                    style="margin-top:4px;color: #435568; font-size: 12px; font-weight: normal; font-weight: 500; line-height: 16px; word-wrap: break-word">
-                  {{ slide.heat }}
-                </div>
-              </div>
-            </div>
-            <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">
 
-              <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex"
-                   v-for="(slide1, idx1) in slide.seatUsers">
-                <img style="width: 24px; height: 24px; border-radius: 9999px; border: 1.20px #F1F4F8 solid"
-                     :src="slide1"/>
+      <div class="container" style="position:relative;">
+        <!--      <section class="p-12 hidden lg:flex md">-->
+        <div class="mx-auto flex items-center justify-between "
+             style="flex-direction: column; justify-content: flex-start; align-items: flex-start;  display: inline-flex;position:relative;">
+          <div
+              style="align-self: stretch; justify-content: center; align-items: center; gap: 1px; display: inline-flex">
+            <!--          <div style="color: black; font-size: 36px; font-family: Amiri; font-weight: 700; line-height: 36px; word-wrap: break-word">Voice Chat Room</div>-->
+            <div class="center-swiper lg:felx"
+                 style="position: absolute;top: -75px;z-index:1;">
+              <img style="width: 54px;height: 100%;position:absolute;top: 0;left: 0;z-index:-1;" :src="voicerleft_h5"
+                   alt="voiceleft">
+              <div class="center-item">
+                <div class="item">
+                  <p class="p-1">
+                    members
+                  </p>
+                  <p class="p-2">
+                    +30K
+                  </p>
+                </div>
+                <div class="item">
+                  <p class="p-1">Number of rooms</p>
+                  <p class="p-2">+224</p>
+                </div>
+                <div class="item">
+                  <p class="p-1">total views</p>
+                  <p class="p-2">+54m</p>
+                </div>
               </div>
+              <img style="width: 54px;height: 100%;position:absolute;top: 0;right: 0;z-index:-1;" :src="voiceright_h5"
+                   alt="voiceright">
             </div>
           </div>
         </div>
-        <div v-if="!dataCount"
-             style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex">
-          <div style="flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
-            <img style="width: 200px; height: 200px" :src="no_data"/>
+        <!--              </section>-->
+        <div v-if="dataCount" class="mx-auto flex max-w-7xl items-center justify-between "
+             style="justify-content: space-between; gap: 10px;margin-top: 60px; display: flex;flex-wrap: wrap">
+          <div v-for="(slide,idx) in dataInfo" class="voice-item w-44"
+               @click="toDetail(slide.roomId)">
+            <img style="object-fit: cover;width: 42vw; height: 151px; border-radius: 12px;"
+                 :src="slide.cover"/>
             <div
-                style="width: 408px; height: 48px; text-align: center; color: #71717A; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
-              No voice streams yet. Stay tuned!
+                style="display: flex;justify-content: space-between;align-items: center; position: absolute;top: 130px;left: 5px;width:38vw;">
+              <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">
+                <img style="width:20px;height:20px;" :src="viocepeople1" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople2" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople3" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople4" alt="">
+              </div>
+              <div style="display: flex;justify-content: space-between;align-items: center;">
+                <img :src="Group" alt="">
+                <!--              <img :src="voice_listen" alt="">-->
+                <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
+                  {{ slide.heat }}</p>
+              </div>
+            </div>
+            <div class="voice-item-info">
+              <div
+                  style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                <!--              {{ slide.title }}-->
+                <!--                <div class="vioce-item-title"> {{ slide.title }}</div>-->
+                <div class="vioce-item-title">priya Sinha</div>
+                <div style="width: 14px; height: 14px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">-->
+                  <!--                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>-->
+                  <!--                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />-->
+                  <!--                    </div>-->
+                  <img style="width: 14px; height: 14px; left: 2px; top: 2px; position: absolute;"
+                       :src="slide.nationalFlag"/>
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
+                </div>
+              </div>
+              <div class="item-info">
+                {{ slide.announcement }}
+              </div>
+            </div>
+            <div class="join" @click="toDetail(slide.roomId)">
+              Join Room
+            </div>
+          </div>
+          <div v-for="(slide,idx) in dataInfo" class="voice-item w-44"
+               @click="toDetail(slide.roomId)">
+            <img style="object-fit: cover;width: 42vw;; height: 151px; border-radius: 12px;"
+                 :src="slide.cover"/>
+            <div
+                style="display: flex;justify-content: space-between;align-items: center; position: absolute;top: 130px;left: 5px;width:38vw;">
+              <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">
+                <img style="width:20px;height:20px;" :src="viocepeople1" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople2" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople3" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople4" alt="">
+              </div>
+              <div style="display: flex;justify-content: space-between;align-items: center;">
+                <img :src="Group" alt="">
+                <!--              <img :src="voice_listen" alt="">-->
+                <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
+                  {{ slide.heat }}</p>
+              </div>
+            </div>
+            <div class="voice-item-info">
+              <div
+                  style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                <!--              {{ slide.title }}-->
+                <!--                <div class="vioce-item-title"> {{ slide.title }}</div>-->
+                <div class="vioce-item-title">priya Sinha</div>
+                <div style="width: 14px; height: 14px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">-->
+                  <!--                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>-->
+                  <!--                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />-->
+                  <!--                    </div>-->
+                  <img style="width: 14px; height: 14px; left: 2px; top: 2px; position: absolute;"
+                       :src="slide.nationalFlag"/>
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
+                </div>
+              </div>
+              <div class="item-info">
+                {{ slide.announcement }}
+              </div>
+            </div>
+            <div class="join" @click="toDetail(slide.roomId)">
+              Join Room
+            </div>
+          </div>
+          <div v-for="(slide,idx) in dataInfo" class="voice-item w-44"
+               @click="toDetail(slide.roomId)">
+            <img style="object-fit: cover;width: 42vw;; height: 151px; border-radius: 12px;"
+                 :src="slide.cover"/>
+            <div
+                style="display: flex;justify-content: space-between;align-items: center; position: absolute;top: 130px;left: 5px;width:38vw;">
+              <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">
+                <img style="width:20px;height:20px;" :src="viocepeople1" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople2" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople3" alt="">
+                <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople4" alt="">
+              </div>
+              <div style="display: flex;justify-content: space-between;align-items: center;">
+                <img :src="Group" alt="">
+                <!--              <img :src="voice_listen" alt="">-->
+                <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
+                  {{ slide.heat }}</p>
+              </div>
+            </div>
+            <div class="voice-item-info">
+              <div
+                  style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                <!--              {{ slide.title }}-->
+                <!--                <div class="vioce-item-title"> {{ slide.title }}</div>-->
+                <div class="vioce-item-title">priya Sinha</div>
+                <div style="width: 14px; height: 14px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">-->
+                  <!--                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>-->
+                  <!--                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />-->
+                  <!--                    </div>-->
+                  <img style="width: 14px; height: 14px; left: 2px; top: 2px; position: absolute;"
+                       :src="slide.nationalFlag"/>
+                  <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
+                </div>
+              </div>
+              <div class="item-info">
+                {{ slide.announcement }}
+              </div>
+            </div>
+            <div class="join" @click="toDetail(slide.roomId)">
+              Join Room
+            </div>
+          </div>
+        </div>
+        <!--        <div v-if="dataCount > 0" v-for="(slide, idx) in dataInfo"-->
+        <!--             style="width: 100%; height: 100%; padding: 8px;margin-top: 1rem; background: #FAF6F3; border-radius: 12px; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">-->
+        <!--          <img style="width: 80px; height: 80px; border-radius: 6px" :src="slide.cover"-->
+        <!--               @click="toDetail(slide.roomId)"/>-->
+        <!--          <div-->
+        <!--              style="width:70%;flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: space-between; align-items: flex-start; display: inline-flex"-->
+        <!--              @click="toDetail(slide.roomId)">-->
+        <!--            <div-->
+        <!--                style="align-self: stretch; justify-content: space-between; align-items: flex-start; display: inline-flex">-->
+        <!--              <div-->
+        <!--                  style="flex: 1 1 0;width: 80%; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">-->
+        <!--                <div-->
+        <!--                    style="height: 23px;width: 70%; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">-->
+        <!--                  <div-->
+        <!--                      style="width:100%;color: #09090B; font-size: 14px; font-weight: normal; font-weight: 600; line-height: 20px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">-->
+        <!--                    {{ slide.title }}-->
+        <!--                  </div>-->
+        <!--                  <div style="width: 24px; height: 24px; position: relative" v-if="slide.nationalFlag">-->
+        <!--                    <img style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; "-->
+        <!--                         :src="slide.nationalFlag"/>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--                <div-->
+        <!--                    style="width:100%;align-self: stretch; height: 15px; color: #71717A; font-size: 12px; font-weight: normal; font-weight: 400; line-height: 16px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">-->
+        <!--                  {{ slide.announcement }}-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--              <div-->
+        <!--                  style="position: absolute;left:85%; justify-content: flex-start; align-items: flex-start; gap: 2px; display: flex">-->
+        <!--                <div style="width: 14px; height: 14px; position: relative">-->
+        <!--                  <img style="width: 20px; height: 20px;" :src="voice_listen">-->
+        <!--                </div>-->
+        <!--                <div-->
+        <!--                    style="margin-top:4px;color: #435568; font-size: 12px; font-weight: normal; font-weight: 500; line-height: 16px; word-wrap: break-word">-->
+        <!--                  {{ slide.heat }}-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex">-->
+
+        <!--              <div style="justify-content: flex-start; align-items: flex-start; display: inline-flex"-->
+        <!--                   v-for="(slide1, idx1) in slide.seatUsers">-->
+        <!--                <img style="width: 24px; height: 24px; border-radius: 9999px; border: 1.20px #F1F4F8 solid"-->
+        <!--                     :src="slide1"/>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--       -->
+        <div v-if="!dataCount"
+             style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex;margin-top: 60px">
+          <div style="flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+            <img style="width: 70px; height: 70px" :src="no_data"/>
+            <div
+                style="margin-top: 20px;width: 252px; height: 48px; text-align: center; color: #71717A; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+              There is no content here yet, come and explore!
             </div>
           </div>
         </div>
@@ -531,6 +695,134 @@ const getList = async () => {
     }
 
     &.md {
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .center-swiper {
+        width: 90vw;
+        height: 95px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: var(--Spacing-2-5, 10px);
+        border-radius: var(--Color-card-2, 12px);
+        border: 1px solid #050505;
+        background: #050505;
+
+        .center-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 3px;
+          flex: 1 0 0;
+          text-align: center;
+
+          .item {
+            width: 28vw;
+            height: 84px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .p-1 {
+              color: #8F8F8F;
+              font-family: Archivo;
+              font-size: 9px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              text-transform: uppercase;
+            }
+
+            .p-2 {
+              color: #FFF;
+              text-align: center;
+              font-family: Archivo;
+              font-size: 24px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;
+              letter-spacing: -0.96px;
+            }
+          }
+        }
+      }
+
+      .voice-item {
+        position: relative;
+        width: 45vw;
+        margin-top: 10px;
+        height: 285px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 12px;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        display: flex;
+        border: 1.163px solid #050505;
+        background: #FFF;
+        box-shadow: 0 9.306px 0 0 #050505;
+
+        .voice-item-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+          align-self: stretch;
+
+          .vioce-item-title {
+            color: #050505;
+            font-family: Archivo;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            letter-spacing: -0.48px;
+          }
+
+          .item-info {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            align-self: stretch;
+            overflow: hidden;
+            color: #454545;
+            text-overflow: ellipsis;
+            font-family: Inter;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+
+        .join {
+          display: flex;
+          width: 40vw;
+          height: 42px;
+          //padding: var(--Spacing-0, 9px) var(--Spacing-0, 24.84px);
+          justify-content: center;
+          align-items: center;
+          border-radius: 4px;
+          border: 1px solid #050505;
+          background: #DACDF4;
+          box-shadow: 0px 4px 0px 0px #050505;
+          color: #050505;
+          text-align: center;
+          font-family: Inter;
+          font-size: 15px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px; /* 160% */
+          letter-spacing: -0.3px;
+        }
+      }
+
       & > div {
         display: flex;
         flex-wrap: wrap;

@@ -132,7 +132,7 @@ if (process.client) {
           } else if (e.data.type == 3) {
             window.location.href = '/liveDetail/' + route.params.id;
           } else {
-            window.location.href = '/voice.html';
+            window.location.href = '/index.html';
           }
         }
         // 5. 麦位更新 - 2302
@@ -142,7 +142,7 @@ if (process.client) {
         if (e.msgId == 2203 && e.data.roomId == route.params.id && e.data.userId == userInfo.value.userInfo.userId) {
           leaveRoom()
           ElMessage.error('You were kicked out of the room by the owner');
-          window.location.href = '/voice.html';
+          window.location.href = '/index.html';
         }
         // 6. 在房用户更新 - 2301
         if (e.msgId == 2301 && e.data.roomId == route.params.id) {
