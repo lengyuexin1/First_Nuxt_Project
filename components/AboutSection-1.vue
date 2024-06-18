@@ -263,8 +263,8 @@ const openContactUs = () => {
           Explore captivating conversations that spark your curiosity, and broaden your social horizon with a diverse
           and vibrant community!"
         </div>
-        <div class="md:flex md items-center justify-center"
-             style="margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 20px;gap: 3px;">
+        <div
+            style="display:flex;justify-content:center;align-items:center;margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 8px;gap: 2vw;">
           <span
               style="color: #050505;text-align: center;font-family: Archivo;font-size: 2.5vw;font-style: normal;font-weight: 400;line-height: 24px; /* 171.429% */">Join the Voice Room</span>
           <img :src="rightJ" alt="">
@@ -281,8 +281,8 @@ const openContactUs = () => {
           Join us and immerse yourself in a symphony of conversations, friendships, and heartwarming gift exchanges in
           our interactive rooms!
         </div>
-        <div class="md:flex md items-center justify-center"
-             style="margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 20px;gap: 3px;">
+        <div
+            style="display:flex;justify-content:center;align-items:center;margin:3vh auto 0 auto;width:43vw;height:5vh;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;padding: 8px 8px;gap: 2vw;">
           <span
               style="color: #050505;text-align: center;font-family: Archivo;font-size: 2.5vw;font-style: normal;font-weight: 400;line-height: 24px; /* 171.429% */">Join the Voice Room</span>
           <img :src="rightJ" alt="">
