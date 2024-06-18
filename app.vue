@@ -1,8 +1,15 @@
+<!--
+ * @Author: your name
+ * @Date: 2023-11-30 13:56:34
+ * @LastEditors: your name
+ * @LastEditTime: 2024-06-18 17:27:55
+ * @Description: 
+-->
 <template>
   <div id="app">
     <main>
       <NuxtLayout>
-        <img :src="Fenge" alt="">
+        <img class="hidden lg" :src="Fenge" alt="">
         <Header></Header>
         <NuxtPage/>
       </NuxtLayout>

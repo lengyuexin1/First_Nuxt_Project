@@ -5,9 +5,9 @@ import LogoBlackH5 from "@/assets/images/index/h5_bg.png";
 import LogoBlackH51 from "@/assets/images/index/background_h5.png";
 import LogoBlackH52 from "@/assets/images/index/background_h5_center.png";
 
+
 const h5Img = ref(LogoBlackH5);
 const runtimeConfig = useRuntimeConfig();
-
 const scrollToBottom = () => {
   console.log('scrollToBottom');
   if (process.client) {

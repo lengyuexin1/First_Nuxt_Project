@@ -7,11 +7,12 @@ import phonepe from "@/assets/images/recharge/phone_pe.png";
 import google_pay from "@/assets/images/recharge/google_pay.png";
 import paytm from "@/assets/images/recharge/paytm.png";
 import pay from "@/assets/images/recharge/pay.png";
+import rightJ from "~/assets/images/rightJ.png"
 
 import * as CryptoJS from "crypto-js";
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import Logo from "assets/images/logo.png";
+import Logo from "assets/images/logotwo.png";
 import loading from "assets/images/recharge/loading.png";
 import NoSelect from "assets/images/login/no_select.png";
 import Select from "assets/images/login/select.png";
@@ -114,7 +115,7 @@ const getRecharge = async () => {
   const sign = "content" + requestData + 'methodmoneyConfigmoduleuserrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -182,7 +183,7 @@ const getGold = async () => {
   const sign = "content" + requestData + 'methodgetUserAccountDetailmodulevivalive-accountrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -245,7 +246,7 @@ const getChannel = async () => {
   const sign = "content" + requestData + 'methodqueryAppPayChannelmodulevivalive-orderrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -309,7 +310,7 @@ const getConfig = async () => {
   const sign = "content" + requestData + 'methodconfigmodulevivalive-msrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -412,7 +413,7 @@ const paySubmit = async (slide: any) => {
   const sign = "content" + requestData + 'methodgetrechargemodulevivalive-orderrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -532,7 +533,7 @@ const getOrderByOrderStatus = async () => {
   const sign = "content" + requestData + 'methodqueryOrderStatusmodulevivalive-orderrpcTypedubbotimestamp' + timestamp + runtimeConfig.public.VITE_APP_ENV_KEY;
   // 进行MD5哈希加密
   const hash = CryptoJS.MD5(sign).toString();
-// 将MD5哈希值转为大写
+  // 将MD5哈希值转为大写
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
@@ -627,26 +628,15 @@ setInterval(() => {
       <!--      </div>-->
 
     </section>
-    <section class="p-3 lg:hidden md header-tag">
+    <section class="lg:hidden md header-tag">
       <div
-          style="width: 100%; height: 100%;margin-top: 20px; padding-left: 16px; padding-right: 16px; padding-top: 10px; padding-bottom: 10px; justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
-        <div style="justify-content: flex-start; align-items: center; display: flex">
-          <div
-              style="color: rgba(0, 0, 0, 0.40); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word">
-            <nuxt-link to="/">Home</nuxt-link>
+          style="position: absolute;top:26vw;left:22vw;justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
+        <div style="z-index:2;justify-content: center;flex-direction: column ;align-items: center; display: flex;">
+          <div class="top-tips">
+            Want to buy a gift? Give it to him?
           </div>
-        </div>
-        <div>
-          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M1.4603 9.45923L0.541064 8.53999L4.08144 4.99961L0.541064 1.45923L1.4603 0.539989L5.91992 4.99961L1.4603 9.45923Z"
-                fill="black" fill-opacity="0.4"/>
-          </svg>
-        </div>
-        <div style="justify-content: flex-start; align-items: center; display: flex">
-          <div
-              style="color: rgba(0, 0, 0, 0.90); font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word">
-            <nuxt-link to="/recharge.html">Recharge</nuxt-link>
+          <div class="top-title">
+            Recharge Coins
           </div>
         </div>
       </div>
@@ -657,10 +647,29 @@ setInterval(() => {
       <div class="mx-auto flex max-w-7xl  justify-between py-2 px-4 lg:p-6 lg:px-4"
            style="position:relative;top:-60px;z-index:1;border-radius: var(--Color-card-2, 12px);border: 2px solid #000;background: #FFF;box-shadow: 0px 4px 0px 0px #000;width:1280px;height:96px;display: flex;padding: 24px;flex-direction: column;align-items: flex-start;gap: var(--Color-card-2, 12px);align-self: stretch;">
         <div>
-          <p style="color: #000;font-family: Archivo;font-size: 18px;font-style: normal;font-weight: 600;line-height: 24px; /* 133.333% */">
+          <p
+              style="color: #000;font-family: Archivo;font-size: 18px;font-style: normal;font-weight: 600;line-height: 24px; /* 133.333% */">
             Fully Protected Payments</p>
-          <p style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
+          <p
+              style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
             Your Details Are Secure with Our Trusted Payment Partners.</p>
+        </div>
+      </div>
+    </section>
+    <section class="p-3 lg:hidden md">
+      <div>
+        <div
+            style="width: 100%; height: 100%; justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
+          <div style="color: black; font-size: 16px;font-weight: 500; word-wrap: break-word">
+            Balance:
+          </div>
+          <div
+              style="width: 24px; height: 24px; padding: 1px; justify-content: center; align-items: center; display: flex">
+            <img style="width: 22px; height: 22px" alt="icon1" :src="icon1"/>
+          </div>
+          <div style="color: black; font-size: 16px;font-weight: 500; word-wrap: break-word">
+            {{ gold }}
+          </div>
         </div>
       </div>
     </section>
@@ -671,7 +680,8 @@ setInterval(() => {
            style="background-color: #fff;position:relative; top: -20px; box-shadow: 0 8px 0 0;border-radius: var(--Color-card-2,12px);border: 2px solid #050505; width: 1280px;margin-bottom: 143px;flex-direction: column;  gap: 12px; display: inline-flex;">
         <div
             style="justify-content: flex-start;flex-direction: column; align-items: flex-start; gap: 2px; display: inline-flex">
-          <p style="color: #000;font-family: Archivo;font-size: 18px;font-style: normal;font-weight: 600;line-height: 24px; /* 133.333% */">
+          <p
+              style="color: #000;font-family: Archivo;font-size: 18px;font-style: normal;font-weight: 600;line-height: 24px; /* 133.333% */">
             Fully Protected Payments</p>
           <div style="display: flex;justify-content: flex-start;align-items: center;margin-top: 10px;">
             <div style="color: black; font-size: 14px; font-weight: normal; font-weight: 500; word-wrap: break-word">
@@ -693,13 +703,8 @@ setInterval(() => {
                 style="color: #000;font-family: Inter;font-size: 14px;font-style: normal;font-weight: 500;line-height: normal;">
               Custom price:
             </div>
-            <el-input-number
-                v-model="num"
-                class="mx-4 input-number"
-                :min="1"
-                controls-position="right"
-                @change="handleChange"
-            />
+            <el-input-number v-model="num" class="mx-4 input-number" :min="1" controls-position="right"
+                             @change="handleChange"/>
 
             <div
                 style="width: 70px; height: 32px; padding-left: 8px; padding-right: 8px; background: #050505; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 10px; display: flex">
@@ -714,18 +719,20 @@ setInterval(() => {
 
         </div>
         <div class="Balanceshop">
-          <div class="Balanceshop-item" v-for="i in 10" :class="activeCount==i?'active':''" @click="activeChange(i)">
+          <div class="Balanceshop-item" v-for="i in 10" :class="activeCount == i ? 'active' : ''"
+               @click="activeChange(i)">
             <div style="display: flex;justify-content: flex-start;align-items: center;box-sizing: border-box;">
               <img :src="icon1" alt="icon1">
-              <p style="margin-left:10px;color: #000;/* text-2xl/semibold */font-family: var(--font, Archivo);font-size: 24px;font-style: normal;font-weight: 600;line-height: 32px; /* 133.333% */">
+              <p
+                  style="margin-left:10px;color: #000;/* text-2xl/semibold */font-family: var(--font, Archivo);font-size: 24px;font-style: normal;font-weight: 600;line-height: 32px; /* 133.333% */">
                 99</p>
             </div>
-            <p style="color: var(--color-text-icon-color-2, #3F3F46);/* text-base/semibold */font-family: var(--font, Archivo);font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
+            <p
+                style="color: var(--color-text-icon-color-2, #3F3F46);/* text-base/semibold */font-family: var(--font, Archivo);font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
               ₹ 0</p>
           </div>
         </div>
-        <div class="paybtn"
-             style="">
+        <div class="paybtn" style="">
           Pay now
         </div>
         <!--        <div-->
@@ -917,15 +924,8 @@ setInterval(() => {
         <!--          </div>-->
         <!--        </div>-->
       </div>
-      <el-dialog
-          v-model="centerDialogVisible"
-          width="510"
-          destroy-on-close
-          :show-close="showClose"
-          center
-          class="login-dialog"
-          append-to-body
-      >
+      <el-dialog v-model="centerDialogVisible" width="510" destroy-on-close :show-close="showClose" center
+                 class="login-dialog" append-to-body>
         <div
             style="width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
           <div
@@ -936,7 +936,7 @@ setInterval(() => {
               style="align-self: stretch; height: 246px; padding-left: 8px; padding-right: 8px; padding-top: 12px; padding-bottom: 12px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
             <div
                 style="align-self: stretch; height: 222px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 10px; display: flex">
-              <div @click="paySubmit(slide)" v-for="(slide,id) in config"
+              <div @click="paySubmit(slide)" v-for="(slide, id) in config"
                    style="cursor: pointer; align-self: stretch; height: 48px; border-bottom: 1px #F4F4F5 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
                 <div
                     style="align-self: stretch; padding-top: 12px; padding-bottom: 12px; justify-content: space-between; align-items: center; display: inline-flex">
@@ -961,43 +961,24 @@ setInterval(() => {
         </div>
       </el-dialog>
 
-      <el-dialog
-          v-model="payStatusDialog"
-          :close-on-press-escape="payClose"
-          :close-on-click-modal="payClose"
-          width="610"
-          destroy-on-close
-          :show-close="showClose"
-          center
-          class="login-dialog"
-          append-to-body
-      >
+      <el-dialog v-model="payStatusDialog" :close-on-press-escape="payClose" :close-on-click-modal="payClose"
+                 width="610" destroy-on-close :show-close="showClose" center class="login-dialog" append-to-body>
         <div
             style="width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
           <div
               style="width: 143.59px; height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
             <div style="width: 34.94px; height: 35.90px; position: relative">
               <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>
-              <div
-                  style="width: 2.35px; height: 9.36px; left: 5.48px; top: 10.59px; position: absolute; background: white; border-radius: 20.43px"></div>
-              <div
-                  style="width: 2.35px; height: 5.96px; left: 9.74px; top: 12.29px; position: absolute; background: white; border-radius: 20.43px"></div>
-              <div
-                  style="width: 2.35px; height: 20.10px; left: 14.10px; top: 5.22px; position: absolute; background: white; border-radius: 20.43px"></div>
-              <div
-                  style="width: 2.35px; height: 10.18px; left: 18.27px; top: 10.18px; position: absolute; background: white; border-radius: 20.43px"></div>
-              <div
-                  style="width: 2.35px; height: 5.96px; left: 22.51px; top: 12.29px; position: absolute; background: white; border-radius: 20.43px"></div>
             </div>
             <div
                 style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">
-              ClickVoice
+              AwazMingle
             </div>
           </div>
           <div v-if="payStatus == 0"
                style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; display: flex">
             <div style="width: 64px; height: 64px; position: relative">
-              <img :src="loading" class="rotating-image" style="width: 64px; height: 64px;">
+              <img :src="loading" alt="loading" class="rotating-image" style="width: 64px; height: 64px;">
 
             </div>
             <div
@@ -1122,26 +1103,26 @@ setInterval(() => {
     </section>
     <section class="p-3 lg:hidden md">
       <div>
+        <!--        <div-->
+        <!--            style="width: 100%; height: 100%; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px; justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">-->
+        <!--          <div style="color: black; font-size: 16px; font-weight: normal; font-weight: 500; word-wrap: break-word">-->
+        <!--            Balance:-->
+        <!--          </div>-->
+        <!--          <div-->
+        <!--              style="width: 24px; height: 24px; padding: 1px; justify-content: center; align-items: center; display: flex">-->
+        <!--            <img style="width: 22px; height: 22px" :src="icon1"/>-->
+        <!--          </div>-->
+        <!--          <div style="color: black; font-size: 16px; font-weight: normal; font-weight: 500; word-wrap: break-word">-->
+        <!--            {{ gold }}-->
+        <!--          </div>-->
+        <!--        </div>-->
         <div
-            style="width: 100%; height: 100%; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px; justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
-          <div style="color: black; font-size: 16px; font-weight: normal; font-weight: 500; word-wrap: break-word">
-            Balance:
-          </div>
-          <div
-              style="width: 24px; height: 24px; padding: 1px; justify-content: center; align-items: center; display: flex">
-            <img style="width: 22px; height: 22px" :src="icon1"/>
-          </div>
-          <div style="color: black; font-size: 16px; font-weight: normal; font-weight: 500; word-wrap: break-word">
-            {{ gold }}
-          </div>
-        </div>
-        <div
-            style="align-self: stretch; flex-wrap: wrap;justify-content: space-between;  justify-content: flex-start;padding-left: 12px; align-items: flex-start; gap: 12px; display: grid; grid-template-columns: repeat(2, 1fr);">
+            style="align-self: stretch; flex-wrap: wrap;justify-content: space-between; align-items: flex-start; gap: 12px; display: grid; grid-template-columns: repeat(2, 1fr);">
           <div v-for="(digit, index) in digits" :key="index">
             <div v-if="!digit.configId.endsWith('constom')"
-                 :class="{'active': currentItem === index, 'no_active': currentItem != index}"
-                 @click="rechargeClick(index,digit)"
-                 style=" height: 80px;   border-radius: 12px; flex-direction: column; justify-content: center; align-items: center; display: flex">
+                 :class="{ 'active': currentItem === index, 'no_active': currentItem != index }"
+                 @click="rechargeClick(index, digit)"
+                 style="background-color: #F4F4F5; height: 80px;   border-radius: 12px; flex-direction: column; justify-content: center; align-items: center; display: flex">
               <div style="justify-content: flex-start; align-items: center; gap: 3.02px; display: inline-flex">
                 <div
                     style="width: 36.23px; height: 36.23px; padding: 1.51px; justify-content: center; align-items: center; display: flex">
@@ -1157,11 +1138,11 @@ setInterval(() => {
                 ₹ {{ digit.price }}
               </div>
             </div>
-            <div v-else :class="{'active': currentItem === index, 'no_active': currentItem != index}"
-                 @click="rechargeClick1(index,digit)"
-                 style=" height: 80px;   border-radius: 12px; flex-direction: column; justify-content: center; align-items: center; display: flex">
+            <div v-else :class="{ 'active': currentItem === index, 'no_active': currentItem != index }"
+                 @click="rechargeClick1(index, digit)"
+                 style="background-color: #F4F4F5; height: 80px;border-radius: 12px; flex-direction: column; justify-content: center; align-items: center; display: flex">
               <div
-                  style="width: 91px; height: 28px; color: #09090B; font-size: 14px; font-weight: normal; font-weight: 600; line-height: 20px; word-wrap: break-word">
+                  style="width: 23vw; height: 28px; color: #050505; font-size: 14px;font-weight: 600; line-height: 20px; word-wrap: break-word">
                 Custom price
               </div>
               <div
@@ -1183,10 +1164,11 @@ setInterval(() => {
           </div>
         </div>
         <div @click="rechargePay(1)"
-             style="width: 100%; height: 100%;margin-top: 50%; padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 12px; justify-content: center; align-items: center; display: inline-flex">
-          <div
-              style="text-align: center; color: white; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
-            Recharge
+             style="width: 100%; height: 100%;margin-top: 50%; padding-top: 15px; padding-bottom: 15px; background: #DACDF4;border:1px solid #050505;box-shadow: 0 5px 0 0; border-radius: 4px; justify-content: center; align-items: center; display: inline-flex">
+          <div class="flex gap-3"
+               style="text-align: center; color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
+            <div>Recharge</div>
+            <img :src="rightJ" alt="rightJ">
           </div>
         </div>
         <el-drawer v-model="payStatusDialog1" :close-on-press-escape="payClose" :close-on-click-modal="payClose"
@@ -1196,30 +1178,19 @@ setInterval(() => {
           <div
               style="width: 100%; height: 100%; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
             <div
-                style="width: 143.59px; height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
-              <div style="width: 34.94px; height: 35.90px; position: relative">
-                <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>
-                <div
-                    style="width: 2.35px; height: 9.36px; left: 5.48px; top: 10.59px; position: absolute; background: white; border-radius: 20.43px"></div>
-                <div
-                    style="width: 2.35px; height: 5.96px; left: 9.74px; top: 12.29px; position: absolute; background: white; border-radius: 20.43px"></div>
-                <div
-                    style="width: 2.35px; height: 20.10px; left: 14.10px; top: 5.22px; position: absolute; background: white; border-radius: 20.43px"></div>
-                <div
-                    style="width: 2.35px; height: 10.18px; left: 18.27px; top: 10.18px; position: absolute; background: white; border-radius: 20.43px"></div>
-                <div
-                    style="width: 2.35px; height: 5.96px; left: 22.51px; top: 12.29px; position: absolute; background: white; border-radius: 20.43px"></div>
+                style=" height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
+              <div style="width: 8vw; height: 8vw; position: relative">
+                <img style="width: 8vw; height: 8vw; left: 0px; top: 0px; position: absolute" :src="Logo"/>
               </div>
               <div
                   style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">
-                ClickVoice
+                AwazMingle
               </div>
             </div>
             <div v-if="payStatus == 0"
                  style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; display: flex">
               <div style="width: 64px; height: 64px; position: relative">
-                <img :src="loading" class="rotating-image" style="width: 64px; height: 64px;">
-
+                <img :src="loading" alt="loading" class="rotating-image" style="width: 64px; height: 64px;">
               </div>
               <div
                   style="width: 405px; text-align: center; color: #09090B; font-size: 18px; font-family: Inter; font-weight: 500; line-height: 28px; word-wrap: break-word">
@@ -1275,10 +1246,10 @@ setInterval(() => {
               </div>
             </div>
 
-            <div v-if="payStatus == -1" @click="payRefresh"
-                 style="width: 100%;  padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
+            <div v-if="payStatus == -1" @click="payRefresh" class="mt-24"
+                 style="box-shadow:0 5px 0 0;border:1px solid #050505;width: 100%;  padding-top: 15px; padding-bottom: 15px; background: #DACDF4; border-radius: 4px; justify-content: center; align-items: center; display: inline-flex">
               <div @click="payRefresh"
-                   style="text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
+                   style="text-align: center; color: #050505; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
                 Got it
               </div>
             </div>
@@ -1335,8 +1306,8 @@ setInterval(() => {
                 </div>
               </div>
             </div>
-            <div v-if="payStatus == 1" @click="payRefresh"
-                 style="width: 100%;  padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
+            <div v-if="payStatus == 1" @click="payRefresh" class="mt-14"
+                 style="box-shadow:0 5px 0 0;border:1px solid #050505;width: 100%;  padding-top: 15px; padding-bottom: 15px; background: #DACDF4; border-radius: 4px; justify-content: center; align-items: center; display: inline-flex">
               <div @click="payRefresh"
                    style="text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
                 Got it
@@ -1358,12 +1329,12 @@ setInterval(() => {
                 </svg>
               </div>
               <div
-                  style="text-align: center; color: black; font-size: 17px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word; flex: 1;">
+                  style="text-align: center; color: #050505; font-size: 17px;  font-weight: 600; line-height: 28px; word-wrap: break-word; flex: 1;">
                 Custom price
               </div>
               <div>
                 <div
-                    style="color: #F43F5E; font-size: 14px; font-weight: normal; font-weight: 500; word-wrap: break-word"
+                    style="color: #050505; font-size: 14px;  font-weight: 600; word-wrap: break-word"
                     @click="rechargePay(2)">Confirm
                 </div>
               </div>
@@ -1377,7 +1348,8 @@ setInterval(() => {
                   style="left: 33px; top: 10px; position: absolute; text-align: center; color: #D4D4D8; font-size: 18px; font-weight: normal; font-weight: 500; line-height: 28px; word-wrap: break-word">
                 <input @input="rechargeInput" v-model="num" inputmode="numeric" pattern="[0-9]*"
                        style="left: 33px; outline: 0; position: absolute; text-align: center; color: #D4D4D8; font-size: 18px; font-weight: normal; font-weight: 500; line-height: 28px; word-wrap: break-word"
-                       placeholder=" Input recharge amount"></div>
+                       placeholder=" Input recharge amount">
+              </div>
 
               <div
                   style="left: 70%; top: 10px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
@@ -1404,7 +1376,7 @@ setInterval(() => {
               </div>
               <div
                   style="text-align: center; color: black; font-size: 17px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word; flex: 1;">
-                Custom price
+                Payment Method
               </div>
               <div style="padding-right: 13px;" @click="drawer2 = false">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1434,8 +1406,8 @@ setInterval(() => {
                 100% SECURE & SAFE PAYMENT
               </div>
             </div>
-            <div
-                style="width: 100%; height: 100%; padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
+            <div class="mt-2"
+                 style="box-shadow:0 3px 0 0 #050505;border:1px solid #050505;width: 100%; height: 100%; padding: .8vw 2vw; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
               <div
                   style="color: #09090B; font-size: 12px; font-weight: normal; font-weight: 400; line-height: 16px; word-wrap: break-word">
                 Payment Details
@@ -1480,8 +1452,8 @@ setInterval(() => {
                 </div>
               </div>
             </div>
-            <div
-                style="width: 100%; height: 100%; padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
+            <div class="mt-4"
+                 style="box-shadow:0 3px 0 0 #050505;border:1px solid #050505;width: 100%; height: 100%; padding: .6vw 2vw; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: inline-flex">
               <div
                   style="color: #09090B; font-size: 12px; font-weight: normal; font-weight: 400; line-height: 16px; word-wrap: break-word">
                 Payment Method
@@ -1517,12 +1489,13 @@ setInterval(() => {
                 </div>
               </div>
             </div>
-            <div
-                style="width: 100%; padding-top: 15px;margin-top: 20px; padding-bottom: 15px; background: #F43F5E; border-radius: 12px; justify-content: center; align-items: center; display: inline-flex"
-                @click="paySubmit1(2)">
-              <div
-                  style="text-align: center; color: white; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
-                Pay now
+            <div class="mt-24"
+                 style="box-shadow:0 4px 0 0;border: 1px solid #050505;width: 100%; padding-top: 15px; padding-bottom: 15px; background: #DACDF4; border-radius: 4px; justify-content: center; align-items: center; display: inline-flex"
+                 @click="paySubmit1(2)">
+              <div class="flex"
+                   style="text-align: center; color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
+                <div>Pay now</div>
+                <img :src="rightJ" alt="rightJ">
               </div>
             </div>
           </div>
@@ -1541,12 +1514,12 @@ setInterval(() => {
               </div>
               <div
                   style="text-align: center; color: black; font-size: 17px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word; flex: 1;">
-                Custom price
+                Pay Using
               </div>
               <div>
                 <div
                     style="color: #F43F5E; font-size: 14px; font-weight: normal; font-weight: 500; word-wrap: break-word;padding-right: 13px;"
-                    @click="drawer3=false">
+                    @click="drawer3 = false">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.3335 3.33301L16.6668 16.6663" stroke="#3F3F46" stroke-width="1.66667"/>
                     <path d="M3.3335 16.667L16.6668 3.33366" stroke="#3F3F46" stroke-width="1.66667"/>
@@ -1558,7 +1531,7 @@ setInterval(() => {
                 style="width: 100%; height: 100%; padding-left: 8px; padding-right: 8px; padding-top: 12px; padding-bottom: 12px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
               <div
                   style="align-self: stretch; height: 222px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 10px; display: flex">
-                <div @click="paySubmit(slide)" v-for="(slide,idx) in config"
+                <div @click="paySubmit(slide)" v-for="(slide, idx) in config"
                      style="align-self: stretch; height: 48px; border-bottom: 1px #F4F4F5 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
                   <div
                       style="align-self: stretch; padding-top: 12px; padding-bottom: 12px; justify-content: space-between; align-items: center; display: inline-flex">
@@ -1606,13 +1579,15 @@ setInterval(() => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 .rotating-image {
-  animation: rotate 2s linear infinite; /* 5s表示动画时长，linear表示线性动画，infinite表示无限循环 */
+  animation: rotate 2s linear infinite;
+  /* 5s表示动画时长，linear表示线性动画，infinite表示无限循环 */
 }
 
 .section {
@@ -1623,7 +1598,8 @@ setInterval(() => {
       .Balanceshop {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px; /* 可选: 添加间距 */
+        gap: 15px;
+        /* 可选: 添加间距 */
       }
 
       .paybtn {
@@ -1639,12 +1615,14 @@ setInterval(() => {
         background: #DACDF4;
         box-shadow: 0px 4px 0px 0px #050505;
         color: #050505;
-        text-align: center; /* text-base/normal */
+        text-align: center;
+        /* text-base/normal */
         font-family: var(--font, Archivo);
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        line-height: 24px; /* 150% */
+        line-height: 24px;
+        /* 150% */
       }
 
       .active {
@@ -1656,8 +1634,10 @@ setInterval(() => {
         cursor: pointer;
         border-radius: var(--Color-card-2, 12px);
         background: var(--Color-surface-, #FAFAFA);
-        flex: 1 0 21%; /* 21% 是为了考虑间距的百分比，可以根据实际情况调整 */
-        max-width: 300px; /* 最大宽度 300 像素 */
+        flex: 1 0 21%;
+        /* 21% 是为了考虑间距的百分比，可以根据实际情况调整 */
+        max-width: 300px;
+        /* 最大宽度 300 像素 */
         height: 100px;
         box-sizing: border-box;
         padding: 10px;
@@ -1683,7 +1663,8 @@ setInterval(() => {
         font-size: 12px;
         font-style: normal;
         font-weight: 600;
-        line-height: 16px; /* 133.333% */
+        line-height: 16px;
+        /* 133.333% */
         letter-spacing: 0.6px;
         text-transform: uppercase;
       }
@@ -1701,7 +1682,7 @@ setInterval(() => {
       //.active {
       //  background: #FFF1F2;
       //  border-radius: 12px;
-      //  border: 2px #F43F5E solid;
+      //  border: 2px #050505 solid;
       //}
 
       .no_active {
@@ -1712,18 +1693,53 @@ setInterval(() => {
 
       /* Checked state style for the radio buttons */
       input[type="radio"]:checked + .radio-label .radio-button {
-        border: 2px solid #F00; /* Red border */
-        background-color: #F00; /* Red background */
+        border: 2px solid #F00;
+        /* Red border */
+        background-color: #F00;
+        /* Red background */
       }
     }
 
     &.md {
-      background-color: #FAFAFA;
+
+      .top-tips {
+        display: inline-flex;
+        padding: .5vw 2vw;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 44px;
+        border: 1px solid #050505;
+        background: #F6CBE4;
+        color: #050505;
+        text-align: center;
+        font-family: Inter;
+        font-size: 2.5vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 16px;
+        /* 133.333% */
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .top-title {
+        color: #050505;
+        font-family: Archivo;
+        font-size: 7vw;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.96px;
+      }
+
+      //background-color: #FAFAFA;
 
       .active {
         background: #FFF1F2;
         border-radius: 12px;
-        border: 2px #F43F5E solid;
+        border: 2px #050505 solid;
+        box-shadow: 0 4px 0 0;
       }
 
       .no_active {
