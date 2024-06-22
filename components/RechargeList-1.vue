@@ -7,6 +7,7 @@ import phonepe from "@/assets/images/recharge/phone_pe.png";
 import google_pay from "@/assets/images/recharge/google_pay.png";
 import paytm from "@/assets/images/recharge/paytm.png";
 import pay from "@/assets/images/recharge/pay.png";
+import recordCircle from "@/assets/images/recharge/record-circle.png";
 import rightJ from "~/assets/images/rightJ.png"
 
 import * as CryptoJS from "crypto-js";
@@ -16,6 +17,7 @@ import Logo from "assets/images/logotwo.png";
 import loading from "assets/images/recharge/loading.png";
 import NoSelect from "assets/images/login/no_select.png";
 import Select from "assets/images/login/select.png";
+import {first} from "lodash-es";
 
 const digits = ref<any>({});
 const currentItem = ref(0);
@@ -40,7 +42,7 @@ const payWaitFomater = ref("");
 const payClose = ref(false)
 const activeCount = ref<number>(0)
 
-const activeChange = (index: number) => {
+const activeChange = (index: any) => {
   activeCount.value = index
 }
 const rechargeClick = (id: number, digit: any) => {
@@ -499,6 +501,14 @@ onMounted(() => {
 });
 const showClose = ref(false);
 const centerDialogVisible = ref(false)
+const firstVisible = ref<boolean>(false)
+
+const firstClose = ref(false)
+const handlefirstopen = () => firstVisible.value = !firstVisible.value
+const handlefirstPay = () => {
+  firstVisible.value = !firstVisible.value
+  centerDialogVisible.value = !centerDialogVisible.value
+}
 
 
 //根据订单号获取订单状态
@@ -719,215 +729,69 @@ setInterval(() => {
 
         </div>
         <div class="Balanceshop">
-          <div class="Balanceshop-item" v-for="i in 10" :class="activeCount == i ? 'active' : ''"
-               @click="activeChange(i)">
+          <div class="Balanceshop-item" v-for="(digit, index) in digits" :key="index"
+               :class="activeCount == index ? 'active' : ''"
+               @click="activeChange(index)">
             <div style="display: flex;justify-content: flex-start;align-items: center;box-sizing: border-box;">
               <img :src="icon1" alt="icon1">
               <p
                   style="margin-left:10px;color: #000;/* text-2xl/semibold */font-family: var(--font, Archivo);font-size: 24px;font-style: normal;font-weight: 600;line-height: 32px; /* 133.333% */">
-                99</p>
+                {{ digit.itemCount }}</p>
             </div>
             <p
                 style="color: var(--color-text-icon-color-2, #3F3F46);/* text-base/semibold */font-family: var(--font, Archivo);font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
-              ₹ 0</p>
+              ₹ {{ digit.price }}</p>
           </div>
         </div>
-        <div class="paybtn" style="">
+        <div class="paybtn flex" @click="handlefirstopen">
           Pay now
+          <img :src="rightJ" alt="rightJ">
         </div>
-        <!--        <div-->
-        <!--            style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">-->
-        <!--          <div-->
-        <!--              style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">-->
-        <!--            <div-->
-        <!--                style="align-self: stretch; height: 444.68px;flex-direction: column; padding-left: 24px; padding-right: 24px; padding-top: 44px; padding-bottom: 44px; background: white; border-radius: 12px; overflow: hidden;  justify-content: flex-start; align-items: flex-start; gap: 24px; display: flex">-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch; height: 300.68px;max-width: 780px;flex-wrap: wrap;justify-content: space-between;  justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">-->
-        <!--                <div v-for="(digit, index) in digits" :key="index">-->
-        <!--                  <div :class="{'active': currentItem === index, 'no_active': currentItem != index}"-->
-        <!--                       @click="rechargeClick(index,digit)"-->
-        <!--                       style=" padding-left: 50px; padding-right: 50px; padding-top: 16px; padding-bottom: 16px;  border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">-->
-        <!--                    <div style="justify-content: flex-start; align-items: center; gap: 3.02px; display: inline-flex">-->
-        <!--                      <div-->
-        <!--                          style="width: 28px; height: 28px; padding: 1.17px; justify-content: center; align-items: center; display: flex">-->
-        <!--                        <img style="width: 25.67px; height: 25.67px" :src="icon1"/>-->
-        <!--                      </div>-->
-        <!--                      <div-->
-        <!--                          style="color: black; font-size: 24px; font-weight: normal; font-weight: 600; line-height: 32px; word-wrap: break-word">-->
-        <!--                        {{ digit.itemCount }}-->
-        <!--                      </div>-->
-        <!--                    </div>-->
-        <!--                    <div-->
-        <!--                        style="color: #3F3F46; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                      ₹ {{ digit.price }}-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">-->
-        <!--                <div-->
-        <!--                    style="color: black; font-size: 14px; font-weight: normal; font-weight: 500; word-wrap: break-word">-->
-        <!--                  Custom price:-->
-        <!--                </div>-->
-        <!--                <el-input-number-->
-        <!--                    v-model="num"-->
-        <!--                    class="mx-4 input-number"-->
-        <!--                    :min="1"-->
-        <!--                    controls-position="right"-->
-        <!--                    @change="handleChange"-->
-        <!--                />-->
-
-        <!--                <div-->
-        <!--                    style="width: 70px; height: 32px; padding-left: 8px; padding-right: 8px; background: #F43F5E; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 10px; display: flex">-->
-        <!--                  <button @click="confirm">-->
-        <!--                    <div-->
-        <!--                        style="color: white; font-size: 14px; font-weight: normal; font-weight: 500; word-wrap: break-word">-->
-        <!--                      Confirm-->
-        <!--                    </div>-->
-        <!--                  </button>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--            <div-->
-        <!--                style="align-self: stretch; height: 147px; padding: 24px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: flex">-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch; height: 49px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 5px; display: flex">-->
-        <!--                <div-->
-        <!--                    style="color: black; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                  100% SECURE & SAFE PAYMENT-->
-        <!--                </div>-->
-        <!--                <div-->
-        <!--                    style="color: #3F3F46; font-size: 14px; font-weight: normal; font-weight: 400; line-height: 20px; word-wrap: break-word">-->
-        <!--                  Your information is safeguarded with third-party payment methods.-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 200px; display: inline-flex">-->
-        <!--                <div style="justify-content: flex-start; align-items: flex-end; gap: 10px; display: flex">-->
-        <!--                  <div style="width: 26px; height: 26px; position: relative">-->
-        <!--                    <img :src="icon2" style="width: 26px; height: 26px;">-->
-        <!--                  </div>-->
-        <!--                  <div-->
-        <!--                      style="color: black; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                    This site is SSL SECURED-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--                <div style="justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">-->
-        <!--                  <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">-->
-        <!--                    <div style="width: 24px; height: 24px; position: relative">-->
-        <!--                      <img :src="icon3" style="width: 24px; height: 24px;">-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                  <div-->
-        <!--                      style="color: black; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                    VERIFIED&SECURED-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--          <div-->
-        <!--              style="width: 450px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">-->
-        <!--            <div-->
-        <!--                style="align-self: stretch;  flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch; height: 268px; padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; display: flex">-->
-        <!--                <div-->
-        <!--                    style="color: #09090B; font-size: 20px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word">-->
-        <!--                  Payment Details-->
-        <!--                </div>-->
-        <!--                <div-->
-        <!--                    style="align-self: stretch; height: 196px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">-->
-        <!--                  <div-->
-        <!--                      style="align-self: stretch; height: 128px; border-bottom: 1px #F4F4F5 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">-->
-        <!--                    <div-->
-        <!--                        style="align-self: stretch; padding-top: 20px; padding-bottom: 20px; justify-content: space-between; align-items: flex-start; display: inline-flex">-->
-        <!--                      <div-->
-        <!--                          style="color: #3F3F46; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                        Subtotal-->
-        <!--                      </div>-->
-        <!--                      <div-->
-        <!--                          style="color: #3F3F46; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                        {{ subtotal }}-->
-        <!--                      </div>-->
-        <!--                    </div>-->
-        <!--                    <div-->
-        <!--                        style="align-self: stretch; padding-top: 20px; padding-bottom: 20px; justify-content: space-between; align-items: flex-start; display: inline-flex">-->
-        <!--                      <div-->
-        <!--                          style="color: #3F3F46; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                        GTS-->
-        <!--                      </div>-->
-        <!--                      <div-->
-        <!--                          style="color: #3F3F46; font-size: 16px; font-weight: normal; font-weight: 600; line-height: 24px; word-wrap: break-word">-->
-        <!--                        ₹ {{ gtsPrice }}-->
-        <!--                      </div>-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                  <div-->
-        <!--                      style="align-self: stretch; padding-top: 20px; padding-bottom: 20px; justify-content: space-between; align-items: flex-start; display: inline-flex">-->
-        <!--                    <div-->
-        <!--                        style="color: #3F3F46; font-size: 20px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word">-->
-        <!--                      Total Payable Amount-->
-        <!--                    </div>-->
-        <!--                    <div-->
-        <!--                        style="color: #3F3F46; font-size: 20px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word">-->
-        <!--                      ₹ {{ payTotal }}-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--              <div-->
-        <!--                  style="align-self: stretch;  padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; background: white; border-radius: 12px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; display: flex">-->
-        <!--                <div-->
-        <!--                    style="color: #09090B; font-size: 20px; font-weight: normal; font-weight: 600; line-height: 28px; word-wrap: break-word">-->
-        <!--                  Payment Method-->
-        <!--                </div>-->
-        <!--                <div-->
-        <!--                    style="align-self: stretch;  border-bottom: 1px #F4F4F5 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">-->
-        <!--                  <div-->
-        <!--                      style="align-self: stretch; padding-top: 12px; padding-bottom: 12px; justify-content: space-between; align-items: center; display: inline-flex">-->
-        <!--                    <div-->
-        <!--                        style="width: 149px; height: 32px; padding-top: 5.83px; padding-bottom: 6.38px;  justify-content: flex-start; align-items: center; display: flex">-->
-        <!--                      <img style="width: 149px;height: 32px;" :src="pay"/>-->
-        <!--                    </div>-->
-        <!--                    <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">-->
-        <!--                      <span>-->
-        <!--                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-        <!--                          <path-->
-        <!--                              d="M2.71997 12.2549C2.71997 7.1491 6.86418 3.00488 11.97 3.00488C17.0853 3.00488 21.22 7.14861 21.22 12.2549C21.22 17.3607 17.0758 21.5049 11.97 21.5049C6.86418 21.5049 2.71997 17.3607 2.71997 12.2549Z"-->
-        <!--                              stroke="#F43F5E" stroke-width="1.5"/>-->
-        <!--                          <path-->
-        <!--                              d="M12 6.25488C8.688 6.25488 6 8.94288 6 12.2549C6 15.5669 8.688 18.2549 12 18.2549C15.312 18.2549 18 15.5669 18 12.2549C18 8.94288 15.318 6.25488 12 6.25488Z"-->
-        <!--                              fill="#F43F5E"/>-->
-        <!--                        </svg>-->
-        <!--                      </span>-->
-        <!--                      &lt;!&ndash;                      <span v-else>&ndash;&gt;-->
-        <!--                      &lt;!&ndash;                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">&ndash;&gt;-->
-        <!--                      &lt;!&ndash;                          <path opacity="0.15" d="M2.71973 12.7646C2.71973 7.65886 6.86394 3.51465 11.9697 3.51465C17.085 3.51465 21.2197 7.65837 21.2197 12.7646C21.2197 17.8704 17.0755 22.0146 11.9697 22.0146C6.86394 22.0146 2.71973 17.8704 2.71973 12.7646Z" stroke="#292D32" stroke-width="1.5"/>&ndash;&gt;-->
-        <!--                      &lt;!&ndash;                        </svg>&ndash;&gt;-->
-        <!--                      &lt;!&ndash;                      </span>&ndash;&gt;-->
-        <!--                    </div>-->
-        <!--                  </div>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--            <div @click="paySubmit1(1)"-->
-        <!--                 style="cursor: pointer; width: 450px; padding-top: 15px; padding-bottom: 15px; padding-left: 186px; padding-right: 198px; background: #F43F5E; border-radius: 7px; justify-content: flex-start; align-items: center; display: inline-flex">-->
-        <!--              <button>-->
-        <!--                <div-->
-        <!--                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">-->
-        <!--                  Pay now-->
-        <!--                </div>-->
-        <!--              </button>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </div>
-      <el-dialog v-model="centerDialogVisible" width="510" destroy-on-close :show-close="showClose" center
+      <el-dialog
+          v-model="firstVisible"
+          width="765" destroy-on-close :show-close="showClose" center append-to-body
+          :close-on-press-escape="firstClose"
+          class="login-dialog"
+      >
+        <div class="first-box">
+          <div class="first-title">Payment</div>
+          <div class="first-content flex justify-start items-start flex-col">
+            <div class="first-tips">Payment Details</div>
+            <div class="first-item flex justify-between items-center">
+              <div>Coins</div>
+              <div>{{ subtotal }}</div>
+            </div>
+            <div class="first-item  flex justify-between items-center">
+              <div>GTS</div>
+              <div><span>₹ </span>{{ gtsPrice }}</div>
+            </div>
+            <div class="first-item  flex justify-between items-center">
+              <div
+                  style="color: var(--color-text-icon-color-2, #3F3F46);/* text-xl/semibold */font-family: var(--font, Archivo);font-size: 20px;font-style: normal;font-weight: 600;line-height: 28px; /* 140% */">
+                Total Payable Amount
+              </div>
+              <div
+                  style="color: var(--color-text-icon-color-2, #3F3F46);/* text-xl/semibold */font-family: var(--font, Archivo);font-size: 20px;font-style: normal;font-weight: 600;line-height: 28px; /* 140% */">
+                <span>₹ </span>{{ payTotal }}
+              </div>
+            </div>
+            <div class="first-tips mt-8">Payment Method</div>
+            <div class="flex justify-between items-center w-full">
+              <img width="149" :src="pay" alt="">
+              <img width="24" :src="recordCircle" alt="">
+            </div>
+            <div class="first-btn mt-8" @click="handlefirstPay">
+              Pay now
+              <img :src="rightJ" alt="rightJ">
+            </div>
+          </div>
+        </div>
+      </el-dialog>
+      <el-dialog v-model="centerDialogVisible" width="765" destroy-on-close :show-close="showClose" center
                  class="login-dialog" append-to-body>
         <div
-            style="width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
+            style=" box-shadow:0 8px 0 0 #050505;border: 1px solid #050505;width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
           <div
               style="color: #09090B; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">
             Pay Using
@@ -937,7 +801,7 @@ setInterval(() => {
             <div
                 style="align-self: stretch; height: 222px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 10px; display: flex">
               <div @click="paySubmit(slide)" v-for="(slide, id) in config"
-                   style="cursor: pointer; align-self: stretch; height: 48px; border-bottom: 1px #F4F4F5 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+                   style="cursor: pointer; align-self: stretch; height: 48px; border-bottom: 1px #050505 solid; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
                 <div
                     style="align-self: stretch; padding-top: 12px; padding-bottom: 12px; justify-content: space-between; align-items: center; display: inline-flex">
                   <div
@@ -964,17 +828,17 @@ setInterval(() => {
       <el-dialog v-model="payStatusDialog" :close-on-press-escape="payClose" :close-on-click-modal="payClose"
                  width="610" destroy-on-close :show-close="showClose" center class="login-dialog" append-to-body>
         <div
-            style="width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
-          <div
-              style="width: 143.59px; height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
-            <div style="width: 34.94px; height: 35.90px; position: relative">
-              <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>
-            </div>
-            <div
-                style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">
-              AwazMingle
-            </div>
-          </div>
+            style=" box-shadow: 0 8px 0 0 #050505;border: 1px solid #050505; width: 100%; height: 100%; padding-left: 90px; padding-right: 90px; padding-top: 32px; padding-bottom: 32px; background: white; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: inline-flex">
+          <!--          <div-->
+          <!--              style="height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">-->
+          <!--            <div style="width: 34.94px; height: 35.90px; position: relative">-->
+          <!--              <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>-->
+          <!--            </div>-->
+          <!--            <div-->
+          <!--                style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">-->
+          <!--              AwazMingle-->
+          <!--            </div>-->
+          <!--          </div>-->
           <div v-if="payStatus == 0"
                style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; display: flex">
             <div style="width: 64px; height: 64px; position: relative">
@@ -982,7 +846,7 @@ setInterval(() => {
 
             </div>
             <div
-                style="width: 405px; text-align: center; color: #09090B; font-size: 18px; font-family: Inter; font-weight: 500; line-height: 28px; word-wrap: break-word">
+                style="width: 405px; text-align: center; color: #09090B; font-size: 18px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">
               {{ payWaitFomater }}
             </div>
           </div>
@@ -991,7 +855,7 @@ setInterval(() => {
             <div
                 style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: flex">
               <div
-                  style="width: 405px; text-align: center; color: #09090B; font-size: 18px; font-family: Inter; font-weight: 500; line-height: 28px; word-wrap: break-word">
+                  style="width: 405px; text-align: center; color: #09090B; font-size: 18px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">
                 Your recharge is processing now
               </div>
             </div>
@@ -1002,6 +866,16 @@ setInterval(() => {
           </div>
           <div v-if="payStatus == -1"
                style="width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+            <div
+                style="height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
+              <div style="width: 34.94px; height: 35.90px; position: relative">
+                <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>
+              </div>
+              <div
+                  style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">
+                AwazMingle
+              </div>
+            </div>
             <div
                 style="width: 64px; height: 64px; padding: 5.33px; justify-content: center; align-items: center; display: inline-flex">
               <svg width="65" height="64" viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1032,14 +906,24 @@ setInterval(() => {
             </div>
           </div>
           <div v-if="payStatus == -1" @click="payRefresh"
-               style="cursor: pointer; width: 100%; height: 100%; padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
+               style="box-shadow:0 5px 0 0 #050505;border:1px solid #050505;cursor: pointer; width: 100%; height: 100%; padding-top: 15px; padding-bottom: 15px; background: #DACDF4; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
             <div @click="payRefresh"
-                 style="text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
+                 style="text-align: center; color: #050505; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
               Got it
             </div>
           </div>
           <div v-if="payStatus == 1"
                style="width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+            <div
+                style="height: 50px; padding-top: 6.83px; padding-bottom: 7.27px; padding-right: 0.83px; justify-content: center; align-items: flex-end; gap: 5.82px; display: inline-flex">
+              <div style="width: 34.94px; height: 35.90px; position: relative">
+                <img style="width: 34.94px; height: 35.90px; left: 0px; top: 0px; position: absolute" :src="Logo"/>
+              </div>
+              <div
+                  style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 29.12px; word-wrap: break-word">
+                AwazMingle
+              </div>
+            </div>
             <div style="width: 64px; height: 64px; position: relative">
               <svg width="65" height="64" viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -1092,7 +976,7 @@ setInterval(() => {
             </div>
           </div>
           <div v-if="payStatus == 1" @click="payRefresh"
-               style="width: 100%; height: 100%; padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
+               style="box-shadow:0 8px 0 0 #050505;border:1px solid #050505;width: 100%; height: 100%; padding-top: 15px; padding-bottom: 15px; background: #DACDF4; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">
             <div @click="payRefresh"
                  style="text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 24px; word-wrap: break-word">
               Got it
@@ -1142,7 +1026,7 @@ setInterval(() => {
                  @click="rechargeClick1(index, digit)"
                  style="background-color: #F4F4F5; height: 80px;border-radius: 12px; flex-direction: column; justify-content: center; align-items: center; display: flex">
               <div
-                  style="width: 23vw; height: 28px; color: #050505; font-size: 14px;font-weight: 600; line-height: 20px; word-wrap: break-word">
+                  style="height: 28px; color: #050505; font-size: 14px;font-weight: 600; line-height: 20px; word-wrap: break-word">
                 Custom price
               </div>
               <div
@@ -1561,7 +1445,13 @@ setInterval(() => {
     </section>
   </section>
 </template>
-<style>
+<style scoped>
+.login-dialog {
+  --el-dialog-padding-primary: 0px;
+  --el-dialog-box-shadow: 0px;
+  background: none;
+}
+
 .input-number {
   --el-color-primary: #050505;
   --el-border-color: #050505;
@@ -1590,10 +1480,87 @@ setInterval(() => {
   /* 5s表示动画时长，linear表示线性动画，infinite表示无限循环 */
 }
 
+.first-box {
+  border-radius: 20px;
+  border: 1px solid #050505;
+  background: #FFF;
+  box-shadow: 0px 8px 0px 0px #050505;
+  display: inline-flex;
+  padding: 40px 150px;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  width: 765px;
+  height: 555px;
+
+  .first-title {
+    color: #050505;
+    text-align: center;
+    font-family: Archivo;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 5vh; /* 144% */
+    letter-spacing: -0.96px;
+  }
+
+  .first-content {
+    width: 765px;
+    padding: 40px 150px;
+
+    .first-tips {
+      text-align: left;
+      color: var(--color-text-icon-color-2, #3F3F46);
+      font-family: Archivo;
+      font-size: 0.8vw;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .first-item {
+      color: var(--color-text-icon-color-2, #3F3F46);
+      /* text-base/semibold */
+      font-family: var(--font, Archivo);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px; /* 150% */
+      border-bottom: 1px solid #050505;
+      height: 56px;
+      width: 100%;
+    }
+
+    .first-btn {
+      cursor: pointer;
+      display: flex;
+      width: 420px;
+      margin: 20px auto;
+      padding: 13px 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+      border-radius: 4px;
+      border: 1px solid #050505;
+      background: #DACDF4;
+      box-shadow: 0px 4px 0px 0px #050505;
+      color: #050505;
+      text-align: center;
+      /* text-base/normal */
+      font-family: var(--font, Archivo);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+    }
+  }
+}
+
 .section {
   section {
     &.lg {
       //background-color: #FAFAFA;
+
 
       .Balanceshop {
         display: flex;
@@ -1603,6 +1570,7 @@ setInterval(() => {
       }
 
       .paybtn {
+        cursor: pointer;
         display: flex;
         width: 420px;
         margin: 20px auto;

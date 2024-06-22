@@ -72,7 +72,7 @@ const contact = () => {
     </div>
     <div class="lg:flex items-center justify-center lg hidden"
          style="margin: 60px auto;text-align: center;color:#454545;font-size:16px">
-      <p>©2024 ClickVoice All Rights Reserved.</p>
+      <p>©2024 AwazMingle All Rights Reserved.</p>
     </div>
     <!--    <div class="hidden lg:flex lg">-->
     <!--      <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4"-->
@@ -198,7 +198,7 @@ const contact = () => {
               Janak Puri NEW DELHI West Delhi DL 110064 IN</p>
             <p class="mt-7 mb-16"
                style="color: var(--color-text-icon-color-2, #3F3F46);font-family: Archivo;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
-              © 2022 ClickVoice All Rights Reserved.</p>
+              © 2024 AwazMingle All Rights Reserved.</p>
           </div>
         </div>
       </footer>

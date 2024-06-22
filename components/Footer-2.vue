@@ -71,7 +71,7 @@ const contact = () => {
 
     </div>
     <div style="margin: 60px 0;text-align: center;color:#454545;font-size:16px">
-      <p>©2024 ClickVoice All Rights Reserved.</p>
+      <p>©2024 AwazMingle All Rights Reserved.</p>
     </div>
     <!--    <div class="hidden lg:flex lg">-->
     <!--        <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4" style="width: 100%; height: 100%; position: relative; background: white">-->

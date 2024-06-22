@@ -69,13 +69,14 @@
             </div>
           </nuxt-link>
         </div>
-        <div class="lg:hidden">
+        <div class="lg:hidden" v-if="!isLogin">
           <div @click="loginDrawerClose"
                style="border-radius: var(--Number-6, 6px);background: #080114;display: inline-flex;padding: 5px 10px;justify-content: center;align-items: center;gap: 8px;">
           <span
               style="color: var(--color-text-icon-color-white, #FFF);font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: normal;">Log in</span>
           </div>
         </div>
+        <div style="padding: 5px 24px;" v-else></div>
         <PopoverGroup class="hidden lg:flex lg:flex-2 lg:gap-x-10" style="margin-left:20% ;">
           <template v-for="(item, index) in navList" :key="index">
             <Popover class="relative" v-if="item.type === 'disclosure'">
@@ -219,8 +220,8 @@
                   </ElDropdownItem>
                   <!--                   @click="Recharge"-->
                    <ElDropdownItem>
-                    <div
-                        style="width:188px;height:32px;color: #050505;text-align:left;font-size: 14px;font-weight: normal;font-weight: 500;line-height: 32px;"
+                    <div @click="Rechargshowopen"
+                         style="width:188px;height:32px;color: #050505;text-align:left;font-size: 14px;font-weight: normal;font-weight: 500;line-height: 32px;"
                     >Recharge Record</div>
                   </ElDropdownItem>
                   <ElDropdownItem @click="loginOut">
@@ -415,6 +416,7 @@
           </div>
         </DialogPanel>
       </Dialog>
+      <!--      登录弹窗-->
       <el-dialog
           v-model="centerDialogVisible"
           :close-on-press-escape="loginClose"
@@ -477,17 +479,26 @@
                       +91
                     </div>
                   </div>
+                </template>
+                <template #append>
+                  <div>
+                    <div style="cursor:pointer;color:#09090B;" @click="reSendMsg" v-if="!sms.disabled">
+                      Get OTP
+                    </div>
+                    <div style="color:gray;" v-else>
+                      Get OTP ({{ sms.count }})
+                    </div>
+                  </div>
 
                 </template>
               </el-input>
               <el-input
-                  v-model="phoneNume"
-                  @input="handleInput"
+                  v-model="digits"
                   placeholder="Enter your OTP"
                   class="input-with-select"
                   style=" width: 420px;height: 62px;border: 0;font-size: 16px;margin-top:30px;"
               ></el-input>
-              <div @click="sendSms2(2)"
+              <div @click="sendSmsLogin"
                    style="cursor:pointer;margin-top:20px;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;display: flex;padding: 13px 20px;justify-content: center;align-items: center;gap: 3px;align-self: stretch;">
                 <p>Sign in</p>
                 <img :src="rightJ" alt="">
@@ -507,73 +518,6 @@
                 Check Terms & Conditions.</p>
             </div>
           </div>
-          <!--          <div style="display: flex;justify-content: flex-start;align-items: center;gap: 16px;">-->
-          <!--            <div>-->
-          <!--              <img width="50" height="50" alt="logo" :src="Logo"/>-->
-          <!--            </div>-->
-          <!--            <div-->
-          <!--                style="color: #09090B; font-size: 20.38px; font-family: Figtree; font-weight: 700; line-height: 35.9px; word-wrap: break-word">-->
-          <!--              AwazMingle-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--          <div-->
-          <!--              style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: flex">-->
-          <!--            <div style="width: 420px;height: 62px;">-->
-          <!--              <el-input-->
-          <!--                  v-model="phoneNume"-->
-          <!--                  @input="handleInput"-->
-          <!--                  placeholder="Enter your mobile number"-->
-          <!--                  class="input-with-select"-->
-          <!--                  style="height: 62px;border: 0;font-size: 16px;"-->
-          <!--              >-->
-          <!--                <template #prepend>-->
-          <!--                  <div style="display: flex;text-align: center;align-items: center;">-->
-          <!--                    <div>-->
-          <!--                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"-->
-          <!--                           xmlns:xlink="http://www.w3.org/1999/xlink">-->
-          <!--                        <rect width="24" height="24" fill="url(#pattern0)"/>-->
-          <!--                        <defs>-->
-          <!--                          <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">-->
-          <!--                            <use xlink:href="#image0_1413_3628" transform="scale(0.0138889)"/>-->
-          <!--                          </pattern>-->
-          <!--                          <image id="image0_1413_3628" width="72" height="72"-->
-          <!--                                 xlink:href="data:image/png;base64,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"/>-->
-          <!--                        </defs>-->
-          <!--                      </svg>-->
-          <!--                    </div>-->
-          <!--                    <div-->
-          <!--                        style="color: black; font-size: 16px; font-family: Inter; font-weight: 500; line-height: 24px; word-wrap: break-word">-->
-          <!--                      +91-->
-          <!--                    </div>-->
-          <!--                  </div>-->
-
-          <!--                </template>-->
-          <!--              </el-input>-->
-          <!--            </div>-->
-          <!--            <button @click="sendSms2(2)">-->
-          <!--              <div-->
-          <!--                  style="width: 420px; padding-top: 15px; padding-bottom: 15px; background: #F43F5E; border-radius: 7px; justify-content: center; align-items: center; display: inline-flex">-->
-          <!--                <div-->
-          <!--                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">-->
-          <!--                  Send OTP-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--            </button>-->
-          <!--            <div-->
-          <!--                style="width: 420px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">-->
-          <!--              <div style="width: 24px; height: 24px; position: relative" v-if="!isArgee">-->
-          <!--                <button @click="isArgee=true"><img :src="NoSelect" style="width: 24px; height: 24px;"></button>-->
-          <!--              </div>-->
-          <!--              <div style="width: 24px; height: 24px; position: relative" v-if="isArgee">-->
-          <!--                <button @click="isArgee=false"><img :src="Select" style="width: 24px; height: 24px;"></button>-->
-          <!--              </div>-->
-          <!--              <div-->
-          <!--                  style="width: 386px; color: #71717A; font-size: 14px; font-weight: normal; font-weight: 500; line-height: 20px; word-wrap: break-word">-->
-          <!--                <span></span>I authorize Teller.zone & associated astrologers to contactme via email or phone or-->
-          <!--                SMS.<br/>Any doubts, you can Check Terms & Conditions.-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
         </div>
       </el-dialog>
       <el-dialog
@@ -699,20 +643,31 @@
                   @input="handleInput"
                   style="height: 14vw;border: 0"
               >
+                <template #append>
+                  <div>
+                    <div style="cursor:pointer;color:#09090B;" @click="reSendMsg" v-if="!sms.disabled">
+                      Get OTP
+                    </div>
+                    <div style="color:gray;" v-else>
+                      Get OTP ({{ sms.count }})
+                    </div>
+                  </div>
+
+                </template>
 
               </el-input>
             </div>
-            <div class="flex justify-center items-center "
-                 style="margin:0 2vw;color:  #71717A;font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 600;line-height: 24px; /* 171.429% */">
-              Get OTP
-            </div>
+            <!--            <div class="flex justify-center items-center "-->
+            <!--                 style="margin:0 2vw;color:  #71717A;font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 600;line-height: 24px; /* 171.429% */">-->
+            <!--              Get OTP-->
+            <!--            </div>-->
           </div>
           <div class="mt-8 flex justify-between align-items-center"
                style="height: 14vw;border-radius: var(--Radius-8, 8px);background: var(--Color-surface-, #F4F4F5);">
             <div class="mx-2">
 
               <el-input
-                  v-model="phoneNume"
+                  v-model="digits"
                   placeholder="Enter your mobile number"
                   class="input-with-select"
                   inputmode="numeric"
@@ -722,7 +677,20 @@
               </el-input>
             </div>
           </div>
-          <div class="my-28" @click="login2"
+          <div class="flex justify-start items-center mt-10">
+            <div style="margin-right: 15px;">
+              <div style="width: 24px; height: 24px; position: relative" v-if="!isArgee">
+                <button @click="isArgee=true"><img :src="NoSelect" style="width: 24px; height: 24px;"></button>
+              </div>
+              <div style="width: 24px; height: 24px; position: relative" v-if="isArgee">
+                <button @click="isArgee=false"><img :src="Select" style="width: 24px; height: 24px;"></button>
+              </div>
+            </div>
+            <p style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family: var(--font, Archivo);font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
+              I authorize AwazMingle to contactme via email or phone or SMS. Any doubts, you can
+              Check Terms & Conditions.</p>
+          </div>
+          <div class="my-28" @click="sendSmsLogin"
                style="width:100%;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;bottom: 0;position: sticky;justify-content: center; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;justify-content: center; align-items: center; display: inline-flex">
             <p
                 style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
@@ -803,7 +771,7 @@
         </div>
 
       </el-drawer>
-
+      <!--      验证码登录弹窗-->
       <el-drawer v-model="drawer2" :direction="direction" :append-to-body=true :visible="drawer" size="50%"
                  title="I am the title" :with-header="false" :z-index=999
                  style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem">
@@ -840,6 +808,38 @@
         </div>
       </el-drawer>
 
+      <!--      Recharge Record弹出框-->
+      <el-dialog
+          v-model="RechargVisible"
+          :close-on-press-escape="RechargClose"
+          :close-on-click-modal="RechargClose"
+          width="600"
+          destroy-on-close
+          :show-close="RechargshowClose"
+          center
+          class="login-dialog"
+          append-to-body
+      >
+        <div class="Recharge-box">
+          <div class="m-12 text-centert"
+               style="color: #09090B;/* text-xl/semibold */font-family: Archivo;font-size: 20px;font-style: normal;font-weight: 600;line-height: 28px; /* 140% */">
+            Recharge Record
+          </div>
+          <div class="flex flex-col items-center w-3/4 h-4/6" style="overflow-y:scroll;scrollbar-width: none;">
+            <div class="flex flex-col items-left w-3/4 p-4 m-2" v-for="i in 6"
+                 style="border-radius:10px;background: #F4F4F5;">
+              <div
+                  style="color: var(--color-text-icon-color-1, #09090B);/* text-base/semibold */font-family: var(--font, Archivo);font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
+                Recharge 300 Coins paying 100 Rs
+              </div>
+              <div
+                  style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family: var(--font, Archivo);font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
+                12:00:00 04/08/2024
+              </div>
+            </div>
+          </div>
+        </div>
+      </el-dialog>
     </header>
   </div>
 
@@ -898,6 +898,18 @@ const panelId = ref(0);
 const isArgee = ref(false);
 const showClose = ref(false);
 const sendSmsDialog = ref(false);
+const RechargVisible = ref<boolean>(false)
+const RechargClose = ref<boolean>(true)
+const RechargshowClose = ref(false);
+const Rechargshowopen = () => {
+  userInfo.value = JSON.parse(localStorage.getItem('logindata'))
+
+  if (!userInfo.value) {
+    localStorage.removeItem('logindata');
+    return
+  }
+  RechargVisible.value = !RechargVisible.value
+}
 const loginDrawerClose = () => drawer.value = !drawer.value
 const handleInput = () => {
   phoneNume.value = phoneNume.value.replace(/[^0-9]/g, '');
@@ -1001,6 +1013,8 @@ const sendSms2 = async (type: number) => {
         body: requestData,
       }
   );
+  console.log('登录')
+  console.log(loginData.value.data)
   if (loginData.value.data.code === 200) {
 
     if (type === 1) {
@@ -1024,12 +1038,33 @@ const sendSms2 = async (type: number) => {
   }
 
 }
+// 验证码计时器
+const sms = reactive({
+  disabled: false,
+  total: 60,
+  count: 0
+})
 
+// 计时器处理器
+const timerHandler = () => {
+  sms.count = sms.total
+  sms.disabled = true
+
+  let timer = setInterval(() => {
+    if (sms.count > 1 && sms.count <= sms.total) {
+      sms.count--
+    } else {
+      sms.disabled = false
+      clearInterval(timer)
+    }
+  }, 1000)
+}
 const reSendMsg = async () => {
   if (!phoneNume.value) {
     ElMessage.error("Please input phone number");
     return
   }
+  timerHandler()
   const timestamp = new Date().getTime();
   const requestData = JSON.stringify({
     "baseParams": {
@@ -1125,7 +1160,7 @@ const scrollToBottom = () => {
 }
 const isLiveDetail = ref(false)
 const isLogin = ref(false)
-const digits = ref(['', '', '', '', '', '']);
+const digits = ref('');
 const userInfo = ref({
   userInfo: {
     headImg: "",
@@ -1153,6 +1188,10 @@ const sendSmsLogin = async () => {
   password = Object.values(digits.value).join('');
   if (String(password).length < 6 || String(password).length > 6) {
     ElMessage.error("Please input right phone verify code");
+    return
+  }
+  if (!isArgee.value) {
+    ElMessage.error("Authorize agree Teller.zone & associated ");
     return
   }
   // const loginData = ref("")
@@ -1225,7 +1264,7 @@ const sendSmsLogin = async () => {
     // isLogin.value = true;
     // ElMessage.success("提交成功");
   } else {
-    digits.value = ['', '', '', '', '', ''];
+    digits.value = '';
     const nextInput = document.querySelector(`.digit-input:first-child`);
     if (nextInput) {
       nextInput.focus();
@@ -1416,6 +1455,23 @@ onDeactivated(() => {
   box-shadow: 0px 8px 0px 0px #050505;
 }
 
+.Recharge-box {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: -30%;
+  width: 1000px;
+  height: 600px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  border: 1px solid #050505;
+  background: #FFF;
+  box-shadow: 0px 8px 0px 0px #050505;
+}
+
 .img {
   width: 500px;
   height: 600px;
@@ -1468,14 +1524,17 @@ onDeactivated(() => {
   box-shadow: 0px 4px 0px 0px #000;
 }
 
+.el-popper__arrow {
+  display: none;
+}
+
 .el-scrollbar__view {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  border-radius: var(--Radius-8, 8px);
-  border: 1px solid var(--color-text-icon-color-1, #09090B);
-  background: #FFF;
-  box-shadow: 0px 4px 0px 0px #000;
+  //border-radius: var(--Radius-8, 8px);
+  //background: #FFF;
+  //box-shadow: 0px 4px 0px 0px #000;
 }
 
 .el-dropdown-menu {

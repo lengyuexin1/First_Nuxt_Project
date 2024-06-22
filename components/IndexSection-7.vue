@@ -8,8 +8,8 @@ interface Panel {
 }
 const panels = ref([
   { title: "Will my personal information be kept confidential?", content: "Absolutely. At ClickVoice, your privacy and security are paramount. We take every measure to ensure the safety of your personal data. Your information is safeguarded, and we never share it with unauthorized parties without your explicit consent. ", active: false },
-  { title: "Why should I choose ClickVoice?", content: "ClickVoice offers a seamless and secure platform for voice communication. With robust privacy measures, user-friendly interfaces, and a dedicated team ensuring a smooth experience, we prioritize user satisfaction and confidentiality above all else.", active: false },
-  { title: "How can I speak in a voice room?", content: "To participate in a voice room, simply navigate to the designated room within ClickVoice and join the conversation. Once there, you'll be able to communicate verbally with others in the room.", active: false },
+  { title: "Why should I choose ClickVoice?", content: "AwazMingle offers a seamless and secure platform for voice communication. With robust privacy measures, user-friendly interfaces, and a dedicated team ensuring a smooth experience, we prioritize user satisfaction and confidentiality above all else.", active: false },
+  { title: "How can I speak in a voice room?", content: "To participate in a voice room, simply navigate to the designated room within AwazMingle and join the conversation. Once there, you'll be able to communicate verbally with others in the room.", active: false },
   { title: "What should I do if my screen freezes or the audio breaks up?", content: "If you encounter screen freezing or audio disruptions while using ClickVoice, first check your internet connection. Refreshing the page or rejoining the room might also resolve the issue. If problems persist, contact our support team for immediate assistance.", active: false },
   // Add more panels as needed
 ]);

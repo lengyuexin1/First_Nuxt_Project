@@ -114,8 +114,8 @@ const getList = async () => {
   </section>
   <section class="section">
     <section class="hidden lg:flex lg">
-      <div class="mx-auto flex max-w-7xl items-center justify-between "
-           style="justify-content: space-between; gap: 48px; display: flex;width: 1280px;">
+      <div class="mx-auto flex max-w-7xl items-center justify-between flex-wrap"
+           style="justify-content: space-between; gap: 40px; display: flex;width: 1280px;">
 <!--        <div v-for="(slide, idx) in dataInfo"-->
 <!--             style="height: 200px;cursor: pointer; padding: 20px; background: #FAF6F3; border-radius: 12px; justify-content: flex-start; align-items: flex-start; gap: 20px; display: flex"-->
 <!--             @click="toDetail(slide.roomId)">-->
@@ -208,90 +208,48 @@ const getList = async () => {
             Join Room
           </div>
         </div>
-        <div v-for="(slide,idx) in dataInfo" class="voice-item"
-             @click="toDetail(slide.roomId)">
-          <img style="object-fit: cover;width: 352px; height: 352px; border-radius: 12px;"
-               :src="slide.cover"/>
-          <div
-              style="width:320px;display: flex;justify-content: space-between;align-items: center; position: absolute;top: 310px;left: 25px">
-            <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">
-              <img :src="viocepeople1" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople2" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople3" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople4" alt="">
-            </div>
-            <div style="display: flex;justify-content: space-between;align-items: center;">
-              <img :src="Group" alt="">
-              <!--              <img :src="voice_listen" alt="">-->
-              <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
-                {{ slide.heat }}</p>
-            </div>
-          </div>
-          <div class="voice-item-info">
-            <div
-                style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-              <!--              {{ slide.title }}-->
-              <div class="vioce-item-title"> {{ slide.title }}</div>
-              <div style="width: 24px; height: 24px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">
-                <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">-->
-                <!--                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>-->
-                <!--                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />-->
-                <!--                    </div>-->
-                <img style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute;"
-                     :src="slide.nationalFlag"/>
-                <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
-              </div>
-            </div>
-            <div class="item-info">
-              {{ slide.announcement }}
-            </div>
-          </div>
-          <div class="join" @click="toDetail(slide.roomId)">
-            Join Room
-          </div>
-        </div>
-        <div v-for="(slide,idx) in dataInfo" class="voice-item"
-             @click="toDetail(slide.roomId)">
-          <img style="object-fit: cover;width: 352px; height: 352px; border-radius: 12px;"
-               :src="slide.cover"/>
-          <div
-              style="width:320px;display: flex;justify-content: space-between;align-items: center; position: absolute;top: 310px;left: 25px">
-            <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">
-              <img :src="viocepeople1" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople2" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople3" alt="">
-              <img style="margin-left: -15px;" :src="viocepeople4" alt="">
-            </div>
-            <div style="display: flex;justify-content: space-between;align-items: center;">
-              <img :src="Group" alt="">
-              <!--              <img :src="voice_listen" alt="">-->
-              <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
-                {{ slide.heat }}</p>
-            </div>
-          </div>
-          <div class="voice-item-info">
-            <div
-                style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-              <!--              {{ slide.title }}-->
-              <div class="vioce-item-title"> {{ slide.title }}</div>
-              <div style="width: 24px; height: 24px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">
-                <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">-->
-                <!--                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>-->
-                <!--                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />-->
-                <!--                    </div>-->
-                <img style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute;"
-                     :src="slide.nationalFlag"/>
-                <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
-              </div>
-            </div>
-            <div class="item-info">
-              {{ slide.announcement }}
-            </div>
-          </div>
-          <div class="join" @click="toDetail(slide.roomId)">
-            Join Room
-          </div>
-        </div>
+<!--        <div v-for="(slide,idx) in dataInfo" class="voice-item"-->
+<!--             @click="toDetail(slide.roomId)">-->
+<!--          <img style="object-fit: cover;width: 352px; height: 352px; border-radius: 12px;"-->
+<!--               :src="slide.cover"/>-->
+<!--          <div-->
+<!--              style="width:320px;display: flex;justify-content: space-between;align-items: center; position: absolute;top: 310px;left: 25px">-->
+<!--            <div style="display: flex;justify-content: flex-start;align-items: center;margin: 0 10px">-->
+<!--              <img :src="viocepeople1" alt="">-->
+<!--              <img style="margin-left: -15px;" :src="viocepeople2" alt="">-->
+<!--              <img style="margin-left: -15px;" :src="viocepeople3" alt="">-->
+<!--              <img style="margin-left: -15px;" :src="viocepeople4" alt="">-->
+<!--            </div>-->
+<!--            <div style="display: flex;justify-content: space-between;align-items: center;">-->
+<!--              <img :src="Group" alt="">-->
+<!--              &lt;!&ndash;              <img :src="voice_listen" alt="">&ndash;&gt;-->
+<!--              <p style="margin-left:10px;color: var(&#45;&#45;Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">-->
+<!--                {{ slide.heat }}</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="voice-item-info">-->
+<!--            <div-->
+<!--                style="display:flex;justify-content:space-between;align-items:center;color: #09090B; font-size: 20px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">-->
+<!--              &lt;!&ndash;              {{ slide.title }}&ndash;&gt;-->
+<!--              <div class="vioce-item-title"> {{ slide.title }}</div>-->
+<!--              <div style="width: 24px; height: 24px; margin-left: 10px;position: relative" v-if="slide.nationalFlag">-->
+<!--                &lt;!&ndash;                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute">&ndash;&gt;-->
+<!--                &lt;!&ndash;                      <div style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute; background: #C4C4C4; border-radius: 9999px"></div>&ndash;&gt;-->
+<!--                &lt;!&ndash;                      <img style="width: 27px; height: 20px; left: 23.50px; top: 0px; position: absolute; transform: rotate(-180deg); transform-origin: 0 0" src="https://via.placeholder.com/27x20" />&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                <img style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute;"-->
+<!--                     :src="slide.nationalFlag"/>-->
+<!--                &lt;!&ndash;                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="item-info">-->
+<!--              {{ slide.announcement }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="join" @click="toDetail(slide.roomId)">-->
+<!--            Join Room-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
 
     </section>
