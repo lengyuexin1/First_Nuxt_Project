@@ -98,10 +98,12 @@ if (process.client) {
   const LavieSDK = window.LavieSDK;
   LavieSDK.lavieSdkInit();
   userInfo.value = JSON.parse(localStorage.getItem('logindata'))
+  console.log(userInfo,'userInfo')
   await LavieSDK.accountLoginHandle(userInfo.value, 'sdfasdfsdf232rfsdfsd20022');
   // LavieSDK.enterLiveRoom(route.params.id);
   LavieSDK.addMsgListener(LavieSDK.MESSAGE_TYPE.ROOM_MESSAGE,
     (e: MessageData) => {
+      console.log('MessageData',MessageData)
       //1. 送礼消息 - 2400
       if (e.msgId == 2400 && e.data.roomId == route.params.id) {
         e.msgType = 2400;
@@ -2577,7 +2579,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
 }
 
 .active1 {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(194, 190, 190, 0.38);
   border-radius: 10px;
 }
 

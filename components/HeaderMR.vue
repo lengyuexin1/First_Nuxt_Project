@@ -149,9 +149,18 @@
                 :class="{ active: activeNav === index }"
                 :style="{ '--delay': '-' + scrollTop + 's' }"
             >
+              <div
+                  v-if="item.to ==='popup'"
+                  :style="{ '--delay': '-' + scrollTop + 's' }"
+                  class="text-md leading-10 AlibabaPuHuiTi_2_75_SemiBold popoverText cursor-pointer"
+                  @click="openContactUs"
+              >
+                {{ item.label }}
+              </div>
               <nuxt-link
+                  v-else
                   :to="item.to"
-                  class="text-md leading-10 AlibabaPuHuiTi_2_75_SemiBold popoverText"
+                  class="text-md leading-10 AlibabaPuHuiTi_2_75_SemiBold popoverText cursor-pointer"
                   :style="{ '--delay': '-' + scrollTop + 's' }"
                   @click="activeNav = index"
               >{{ item.label }}
@@ -235,6 +244,43 @@
           </span>
         </div>
       </nav>
+      <!--    Contact Us 弹窗  -->
+      <el-dialog
+          v-model="ContactDialogVisible"
+          :close-on-press-escape="ContactClose"
+          :close-on-click-modal="ContactClose"
+          width="695"
+          :show-close="false"
+          destroy-on-close
+          center
+          class="login-dialog"
+          append-to-body
+      >
+        <div class="contact-us">
+          <div class="contact-us-title">
+            Contact us
+          </div>
+          <div class="contact-us-input input-with-select">
+            <img :src="user" alt="">
+            <el-input v-model="usertext" placeholder="Enter your user"></el-input>
+          </div>
+          <div class="contact-us-input input-with-select">
+            <img :src="userEmail" alt="">
+            <el-input v-model="userEmailtext" placeholder="Enter your userEmail"></el-input>
+          </div>
+          <div class="contact-us-input input-with-select">
+            <img :src="phoneNumber" alt="">
+            <el-input v-model="userphoneNumber" placeholder="Enter your phoneNumber"></el-input>
+          </div>
+          <div class="contact-us-textarea">
+            <textarea></textarea>
+          </div>
+          <div class="contact-us-btn cursor-pointer">
+            <div>Send</div>
+            <img :src="rightJ" alt="">
+          </div>
+        </div>
+      </el-dialog>
       <!--      左侧菜单-->
       <Dialog
           as="div"
@@ -886,6 +932,9 @@ import axios from "axios";
 
 import MoreIcon from "@/assets/images/index/more.png";
 import MoreIconBlack from "@/assets/images/index/more-black.png";
+import user from "assets/images/user.png";
+import userEmail from "assets/images/userEmail.png";
+import phoneNumber from "assets/images/phoneNumber.png";
 
 const drawer = ref(false)
 const drawer2 = ref(false)
@@ -893,7 +942,7 @@ const direction = "btt" as "btt";
 const openMoreMenuActive = ref(false)
 const gold = ref(0)
 const scrollTop = ref(0);
-const activeNav = ref(null);
+const activeNav = ref<number | null>(null);
 const panelId = ref(0);
 const isArgee = ref(false);
 const showClose = ref(false);
@@ -901,6 +950,17 @@ const sendSmsDialog = ref(false);
 const RechargVisible = ref<boolean>(false)
 const RechargClose = ref<boolean>(true)
 const RechargshowClose = ref(false);
+const ContactDialogVisible = ref<boolean>(false)
+
+const ContactClose = ref<boolean>(true)
+
+const usertext = ref<string>('')
+const userEmailtext = ref<string>('')
+const userphoneNumber = ref<string>('')
+const openContactUs = () => {
+  ContactDialogVisible.value = !ContactDialogVisible.value
+}
+
 const Rechargshowopen = () => {
   userInfo.value = JSON.parse(localStorage.getItem('logindata'))
 
@@ -1347,7 +1407,7 @@ const navList = [
   // {label: "Live", to: "/live.html", toList: ["/live.html"]},
   {label: "Voice Chat Room", to: "/index.html", toList: ["/index.html"]},
   {label: "About Us", to: "/about.html", toList: ["/about.html"]},
-  {label: 'Contact us', to: '', toList: []},
+  {label: 'Contact us', to: 'popup', toList: []},
   {
     label: "Compliance",
     to: "/compliance.html",
@@ -1437,6 +1497,9 @@ onDeactivated(() => {
   --el-dialog-padding-primary: 0px;
   --el-dialog-box-shadow: 0px;
   background: none;
+}
+:deep(.el-dialog__header) {
+  display: none;
 }
 
 .login-box {
@@ -1609,6 +1672,80 @@ onDeactivated(() => {
   }
   to {
     opacity: 1;
+  }
+}
+
+.contact-us {
+  border-radius: 20px;
+  border: 1px solid #050505;
+  background: #FFF;
+  box-shadow: 0px 8px 0px 0px #050505;
+  display: inline-flex;
+  padding: 40px 150px;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  width: 765px;
+  height: 595px;
+
+  .contact-us-title {
+    color: #050505;
+    text-align: center;
+    font-family: Archivo;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 57.6px; /* 144% */
+    letter-spacing: -0.96px;
+  }
+
+  .contact-us-input {
+    display: flex;
+    padding: 0 10px;
+    height: 44px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 11.565px;
+    border: 2px solid #050505;
+    background: #FFF;
+    box-shadow: 0px 2px 0px 0px #050505;
+
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+    }
+
+
+  }
+
+  .contact-us-textarea textarea {
+    width: 465px;
+    min-height: 137px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+    border-radius: 11.565px;
+    border: 2px solid #050505;
+    background: #FFF;
+    box-shadow: 0px 2px 0px 0px #050505;
+    padding: 10px;
+  }
+
+  .contact-us-btn {
+    display: flex;
+    width: 200px;
+    padding: 13px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    border-radius: 4px;
+    border: 1px solid #050505;
+    background: #DACDF4;
+    box-shadow: 0px 4px 0px 0px #050505;
   }
 }
 
