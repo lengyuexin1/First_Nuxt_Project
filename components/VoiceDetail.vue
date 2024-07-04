@@ -103,7 +103,6 @@ if (process.client) {
   // LavieSDK.enterLiveRoom(route.params.id);
   LavieSDK.addMsgListener(LavieSDK.MESSAGE_TYPE.ROOM_MESSAGE,
     (e: MessageData) => {
-      console.log('MessageData',MessageData)
       //1. 送礼消息 - 2400
       if (e.msgId == 2400 && e.data.roomId == route.params.id) {
         e.msgType = 2400;
@@ -1403,18 +1402,18 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                   <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg" />
                   <div class="enter-text-content">
                     <div
-                      style="color: white; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                       {{ slide.nickName }}
                     </div>
                     <div
-                      style="color: white; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
+                      style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
                       {{ slide.type }}
                     </div>
                   </div>
                 </div>
                 <img v-if="slide.giftImg" style="width: 39px; height: 39px;" :src="slide.giftImg" />
                 <div
-                  style="color: #FFD41A; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; margin-right: 5px;word-wrap: break-word">
+                  style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; margin-right: 5px;word-wrap: break-word">
                   ×{{ slide.num }}
                 </div>
               </div>
@@ -1606,18 +1605,18 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                         <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg" />
                         <div class="enter-text-content">
                           <div
-                            style="color: white; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
-                            {{ slide.nickName }}
+                            style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
+                            {{ slide.nickName}}
                           </div>
                           <div
-                            style="color: white; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
+                            style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
                             {{ slide.type }}
                           </div>
                         </div>
                       </div>
                       <img v-if="slide.giftImg" style="width: 39px; height: 39px; " :src="slide.giftImg" />
                       <div
-                        style="color: #FFD41A; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
+                        style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
                         ×{{ slide.num }}
                       </div>
                     </div>
@@ -2610,15 +2609,20 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         justify-content: center;
         margin-bottom: 10%;
         position: relative;
+        padding:5px 10px;
       }
 
       .enter-content {
+        //width: 224.008px;
+        flex-shrink: 0;
         height: 40px;
         display: flex;
         align-items: center;
-        border-radius: 31.26px;
         overflow: hidden;
-        background: linear-gradient(90deg, #5F38FE 64%, rgba(95, 56, 254, 0) 100%);
+        border-radius: 100px;
+        border: 1px solid #000;
+        box-shadow: 0px 2px 0px 0px #000;
+        background: linear-gradient(90deg, #FBEE9D 64%, rgba(95, 56, 254, 0) 100%);
         margin-left: 20px;
       }
 
@@ -2723,7 +2727,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         align-items: center;
         border-radius: 31.26px;
         overflow: hidden;
-        background: linear-gradient(90deg, #5F38FE 64%, rgba(95, 56, 254, 0) 100%);
+        background: linear-gradient(90deg, #FBEE9D 64%, rgba(95, 56, 254, 0) 100%);
         margin-left: 20px;
       }
 

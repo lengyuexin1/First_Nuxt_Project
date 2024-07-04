@@ -25,7 +25,7 @@ export default defineNuxtConfig({
             ],
             link: [],
             script: [
-                {src: 'https://video-qa.hayyaapp.com/live-sdk/0.1.7/LavieSDK.min.js'},
+                {src: 'https://video-qa.hayyaapp.com/live-sdk/0.2.3/LavieSDK.min.js'},
                 {src: 'https://download.agora.io/sdk/release/AgoraRTC_N-4.19.3.js'},
                 {src: 'https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.1/build/svga.min.js'},
                 // {src:'https://cdn.jsdelivr.net/npm/howler@2.0.15/dist/howler.core.min.js'}
