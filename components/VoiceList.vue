@@ -7,9 +7,9 @@
   <section class="section">
     <section class=" hidden lg:flex lg">
       <div class="lg:p-6 lg:px-4 py-2 px-4 items-center flex max-w-7xl header-tag"
-           style="width: 100%; height: 100%; padding-top: 16px;position:relative; padding-bottom: 16px; margin: 0 auto ;">
+           style="width: 100%; height: 100%;z-index:99; padding-top: 16px;position:relative; padding-bottom: 16px; margin: 0 auto ;">
         <div
-            style="justify-content: center;flex-direction: column; align-items: center; gap: 4px; display: flex;position:absolute;top: -230px;left:25%;">
+            style="justify-content: center;flex-direction: column; align-items: center; gap: 4vh; display: flex;position:absolute;top: -215px;left:35%;">
           <div class="top-tips">Super popular and interesting room</div>
           <div class="top-title">Voice Chat Room</div>
         </div>
@@ -42,8 +42,8 @@
         background: #F6CBE4;
         color: #050505;
         text-align: center;
-        font-family: Inter;
-        font-size: 12px;
+        font-family: Archivo;
+        font-size: 0.6vw;
         font-style: normal;
         font-weight: 600;
         line-height: 16px; /* 133.333% */
@@ -54,7 +54,7 @@
       .top-title {
         color: #050505;
         font-family: Archivo;
-        font-size: 64px;
+        font-size: 3.1vw;
         font-style: normal;
         font-weight: 500;
         line-height: normal;

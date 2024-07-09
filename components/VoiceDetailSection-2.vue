@@ -7,7 +7,7 @@ import viocepeople1 from "assets/images/viocepeople1.png";
 import viocepeople2 from "assets/images/viocepeople2.png";
 import viocepeople3 from "assets/images/viocepeople3.png";
 import viocepeople4 from "assets/images/viocepeople4.png";
-import Group from "assets/images/Group.png";
+import Group from "assets/images/voice/voice_listen.webp";
 
 const url = ref("");
 const toDetail = (id: number) => {
@@ -179,7 +179,7 @@ const getList = async () => {
               <img style="margin-left: -15px;" :src="viocepeople4" alt="">
             </div>
             <div style="display: flex;justify-content: space-between;align-items: center;">
-              <img :src="Group" alt="">
+              <img width="15" height="15" :src="Group" alt="">
               <!--              <img :src="voice_listen" alt="">-->
               <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
                 {{ slide.heat }}</p>
@@ -201,7 +201,7 @@ const getList = async () => {
               </div>
             </div>
             <div class="item-info">
-              {{ slide.announcement }}
+              {{ slide.announcement}}
             </div>
           </div>
           <div class="join" @click="toDetail(slide.roomId)">
@@ -316,6 +316,11 @@ const getList = async () => {
             font-weight: 400;
             line-height: 28.8px; /* 180% */
             letter-spacing: -0.32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
         }
 
@@ -352,7 +357,7 @@ const getList = async () => {
         background: #F6CBE4;
         color: #050505;
         text-align: center;
-        font-family: Inter;
+        font-family: Archivo;
         font-size: 12px;
         font-style: normal;
         font-weight: 600;

@@ -11,12 +11,8 @@
         <!--        <div style="justify-content: center; align-items: center; gap: 4px; display: flex;position: relative">-->
         <div
             style="justify-content: center;flex-direction: column ;align-items: center; display: flex;position:absolute;top: -200px;">
-          <div class="top-tips">
-            We value your rights.
-          </div>
-          <div class="top-title">
-            Compliance
-          </div>
+          <div class="top-tips">We value your rights.</div>
+          <div class="top-title">Compliance</div>
         </div>
         <!--        </div>-->
       </div>

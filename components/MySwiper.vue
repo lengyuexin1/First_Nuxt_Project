@@ -41,9 +41,9 @@ const scrollToBottom = () => {
         }"
       >
         <SwiperSlide class="h-full">
-          <button @click="scrollToBottom" class="w-full h-full">
+<!--          <button @click="scrollToBottom" class="w-full h-full">-->
             <img :src="LogoBlack" class="w-full h-full"/>
-          </button>
+<!--          </button>-->
         </SwiperSlide>
 
         <!-- <SwiperControls /> -->

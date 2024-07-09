@@ -687,7 +687,7 @@ setInterval(() => {
   <section class="section">
     <section class="hidden lg:flex lg">
       <div class="mx-auto flex max-w-7xl  justify-between py-2 px-4 lg:p-6 lg:px-4"
-           style="background-color: #fff;position:relative; top: -20px; box-shadow: 0 8px 0 0;border-radius: var(--Color-card-2,12px);border: 2px solid #050505; width: 1280px;margin-bottom: 143px;flex-direction: column;  gap: 12px; display: inline-flex;">
+           style="background-color: #fff;position:relative; top: -35px; box-shadow: 0 8px 0 0;border-radius: var(--Color-card-2,12px);border: 2px solid #050505; width: 1280px;margin-bottom: 143px;flex-direction: column;  gap: 12px; display: inline-flex;">
         <div
             style="justify-content: flex-start;flex-direction: column; align-items: flex-start; gap: 2px; display: inline-flex">
           <p
@@ -733,7 +733,7 @@ setInterval(() => {
                :class="activeCount == index ? 'active' : ''"
                @click="activeChange(index)">
             <div style="display: flex;justify-content: flex-start;align-items: center;box-sizing: border-box;">
-              <img :src="icon1" alt="icon1">
+              <img width="36" height="36" :src="icon1" alt="icon1">
               <p
                   style="margin-left:10px;color: #000;/* text-2xl/semibold */font-family: var(--font, Archivo);font-size: 24px;font-style: normal;font-weight: 600;line-height: 32px; /* 133.333% */">
                 {{ digit.itemCount }}</p>
@@ -745,7 +745,7 @@ setInterval(() => {
         </div>
         <div class="paybtn flex" @click="handlefirstopen">
           Pay now
-          <img :src="rightJ" alt="rightJ">
+          <img width="15" height="15" :src="rightJ" alt="rightJ">
         </div>
       </div>
       <el-dialog
@@ -783,7 +783,7 @@ setInterval(() => {
             </div>
             <div class="first-btn mt-8" @click="handlefirstPay">
               Pay now
-              <img :src="rightJ" alt="rightJ">
+              <img width="15" height="15" :src="rightJ" alt="rightJ">
             </div>
           </div>
         </div>
@@ -1379,7 +1379,7 @@ setInterval(() => {
               <div class="flex"
                    style="text-align: center; color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
                 <div>Pay now</div>
-                <img :src="rightJ" alt="rightJ">
+                <img width="15" height="15" :src="rightJ" alt="rightJ">
               </div>
             </div>
           </div>
@@ -1467,11 +1467,11 @@ setInterval(() => {
 <style scoped lang="scss">
 @keyframes rotate {
   from {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
 
   to {
-    transform: rotate(360deg);
+    transform: rotate(0deg);
   }
 }
 
@@ -1506,7 +1506,7 @@ setInterval(() => {
 
   .first-content {
     width: 765px;
-    padding: 40px 150px;
+    padding: 24px 150px;
 
     .first-tips {
       text-align: left;
@@ -1565,7 +1565,7 @@ setInterval(() => {
       .Balanceshop {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 12px;
         /* 可选: 添加间距 */
       }
 

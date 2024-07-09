@@ -7,10 +7,11 @@
     <section class=" hidden lg:flex lg">
       <!--       style="position: absolute;top: 160px;left: 45%"-->
       <div class="lg:p-6 lg:px-4 py-2 px-4 items-center flex max-w-7xl header-tag"
-           style="width: 100%; height: 100%; padding-top: 16px; padding-bottom: 16px; margin: 100px auto auto auto;">
-        <div style="justify-content: flex-start; align-items: center; gap: 4px; display: flex">
-          <div class="top-title hidden lg">GET TO KNOW US</div>
-          <div class="top-content hidden  lg">About AwazMingle</div>
+           style="width: 100%; height: 100%; justify-content: center; position: relative; padding-top: 16px; padding-bottom: 16px; margin: 0 auto auto auto;">
+        <div
+            style="justify-content: center;flex-direction: column ;align-items: center; display: flex;position:absolute;top: -200px;">
+          <div class="top-title">GET TO KNOW US</div>
+          <div class="top-content">About AwazMingle</div>
         </div>
       </div>
     </section>
@@ -77,7 +78,7 @@
         font-weight: 500;
         line-height: normal;
         letter-spacing: -0.96px;
-        margin: 10px 0 0 -220px;
+        margin: 10px 0 0 -5px;
       }
     }
 

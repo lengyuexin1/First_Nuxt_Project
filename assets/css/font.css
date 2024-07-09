@@ -10,29 +10,68 @@
 /*}*/
 
 @font-face {
+    font-family: "Archivo";
+    src: url('@/assets/fonts/Archivo/Archivo-Medium.ttf') format('truetype'); /* 根据您的文件路径修改字体文件的引用路径 */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Archivo-Bold";
+    src: url("@/assets/fonts/Archivo/Archivo-Bold.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Archivo-BoldItalic";
+    src: url("@/assets/fonts/Archivo/Archivo-BoldItalic.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Archivo-Italic";
+    src: url("@/assets/fonts/Archivo/Archivo-Italic.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Archivo-Regular";
+    src: url("@/assets/fonts/Archivo/Archivo-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Amiri';
     src: url('@/assets/fonts/Amiri/Amiri-Regular.ttf') format('truetype'); /* 根据您的文件路径修改字体文件的引用路径 */
     font-weight: normal;
     font-style: normal;
 }
- @font-face {
+
+@font-face {
     font-family: "Amiri-Bold";
     src: url("@/assets/fonts/Amiri/Amiri-Bold.ttf");
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: "Amiri-BoldItalic";
     src: url("@/assets/fonts/Amiri/Amiri-BoldItalic.ttf");
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: "Amiri-Italic";
     src: url("@/assets/fonts/Amiri/Amiri-Italic.ttf");
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: "Amiri-Regular";
     src: url("@/assets/fonts/Amiri/Amiri-Regular.ttf");

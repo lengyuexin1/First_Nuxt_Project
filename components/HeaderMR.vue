@@ -83,7 +83,7 @@
               <PopoverButton
                   class="text-md leading-10 AlibabaPuHuiTi_2_75_SemiBold"
                   as="div"
-                  :class="{ active: activeNav === index }"
+                  :class="{ active: activeNav == index }"
               >
                 <span
                     class="popoverText"
@@ -146,7 +146,7 @@
             </Popover>
             <div
                 v-else
-                :class="{ active: activeNav === index }"
+                :class="{ active: activeNav == index }"
                 :style="{ '--delay': '-' + scrollTop + 's' }"
             >
               <div
@@ -171,9 +171,9 @@
         </PopoverGroup>
         <div class="hidden lg:flex lg:flex-auto lg:justify-end lg:items-center">
           <div v-if="!isLogin"
-               style="width: 141px; height: 39px;  background: #000; border-radius: 12px; justify-content: center; align-items: center; gap: 8px; display: inline-flex">
+               style="width: 141px; height: 39px;  background: #000; border-radius: 7px; justify-content: center; align-items: center; gap: 8px; display: inline-flex">
             <div
-                style="color: white; font-size: 14px; font-weight: normal; font-weight: 500; line-height: 20px; word-wrap: break-word">
+                style="color: white; font-size: 14px;cursor:pointer; font-weight: normal; font-weight: 500; line-height: 20px; word-wrap: break-word">
               <button @click="login">Sign up/Login</button>
             </div>
           </div>
@@ -260,24 +260,24 @@
           <div class="contact-us-title">
             Contact us
           </div>
-          <div class="contact-us-input input-with-select">
+          <div class="contact-us-input">
             <img :src="user" alt="">
             <el-input v-model="usertext" placeholder="Enter your user"></el-input>
           </div>
-          <div class="contact-us-input input-with-select">
+          <div class="contact-us-input">
             <img :src="userEmail" alt="">
             <el-input v-model="userEmailtext" placeholder="Enter your userEmail"></el-input>
           </div>
-          <div class="contact-us-input input-with-select">
+          <div class="contact-us-input">
             <img :src="phoneNumber" alt="">
             <el-input v-model="userphoneNumber" placeholder="Enter your phoneNumber"></el-input>
           </div>
           <div class="contact-us-textarea">
             <textarea></textarea>
           </div>
-          <div class="contact-us-btn cursor-pointer">
+          <div class="contact-us-btn cursor-pointer" @click="closeCOntact">
             <div>Send</div>
-            <img :src="rightJ" alt="">
+            <img width="15" height="15" :src="rightJ" alt="">
           </div>
         </div>
       </el-dialog>
@@ -308,7 +308,8 @@
                   <XMarkIcon class="h-6 w-6" aria-hidden="true"/>
                 </button>
                 <img
-                    class="h-8 w-auto"
+                    width="36"
+                    height="36"
                     :src="Logo"
                     alt="logo"
                     :style="{ '--delay': '-' + scrollTop + 's' }"
@@ -334,7 +335,7 @@
                         v-if="item.label != 'Compliance'"
                         :to="item.to"
                         class="mx-5 py-2.5 text-base mt-6 text-my-gray b-bottom flex justify-between items-center"
-                        style="cursor: pointer"
+                        style="cursor: pointer;font-family: Archivo"
                     >{{ item.label }}
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                            xmlns="http://www.w3.org/2000/svg">
@@ -374,27 +375,27 @@
                         <nuxt-link
                             to="/compliance.html"
                             class="block rounded-lg px-3 py-1.5 text-base leading-10 underline text-my-gray"
-                            style="cursor: pointer"
+                            style="cursor: pointer;font-family: Archivo"
                         ><span>Privacy Policy</span></nuxt-link>
                         <nuxt-link
                             to="/terms.html"
                             class="block rounded-lg px-3 py-1.5 text-base leading-10 underline text-my-gray"
-                            style="cursor: pointer"
+                            style="cursor: pointer;font-family: Archivo"
                         ><span>Terms & Conditions</span></nuxt-link>
                         <nuxt-link
                             to="/cancellation.html"
                             class="block rounded-lg px-3 py-1.5 text-base leading-10 underline text-my-gray"
-                            style="cursor: pointer"
+                            style="cursor: pointer;font-family: Archivo"
                         ><span>Return Refund & Cancellation Policy</span></nuxt-link>
                         <nuxt-link
                             to="/disclaimer.html"
                             class="block rounded-lg px-3 py-1.5 text-base leading-10 underline text-my-gray"
-                            style="cursor: pointer"
+                            style="cursor: pointer;font-family: Archivo"
                         ><span>Disclaimer</span></nuxt-link>
                         <nuxt-link
                             to="/purchase.html"
                             class="block rounded-lg px-3 py-1.5 text-base leading-10 underline text-my-gray"
-                            style="cursor: pointer"
+                            style="cursor: pointer;font-family: Archivo"
                         ><span>Process Flow to Purchase the Product & Service</span></nuxt-link>
                       </div>
                     </div>
@@ -407,10 +408,10 @@
               <div @click="login2" v-if="!isLogin"
                    style="border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;width: 80%;bottom: 0;position: sticky;justify-content: center; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; align-items: center; display: inline-flex">
                 <p
-                    style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
+                    style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word;margin-right:10px;">
                   Sign up/Login
                 </p>
-                <img :src="rightJ" alt="rightJ">
+                <img width="15" height="15" :src="rightJ" alt="rightJ">
               </div>
               <div v-if="isLogin" class="p-4"
                    style=" bottom: 0;border: 1px solid #050505; position: sticky; width: 90%; background: #FFFFFF;box-shadow: 0 5px 0 0; border-radius: 0.35rem; flex-direction: column; justify-content: center; align-items: flex-start; gap: 0.625rem; display: inline-flex">
@@ -453,7 +454,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="underline"
+                <div @click="Rechargeinfoopen"
                      style="color: #000;font-family: Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */text-decoration-line: underline;">
                   Recharge Record
                 </div>
@@ -462,6 +463,39 @@
           </div>
         </DialogPanel>
       </Dialog>
+      <!--      充值信息弹窗-->
+      <el-drawer
+          v-model="RechargeVisible"
+          :append-to-body=true
+          size="70%"
+          :show-close="false"
+          :direction="direction"
+          style="border-radius: 20px 20px 0 0;"
+      >
+        <template #header="{ close, titleId, titleClass }">
+          <div style="text-align: center;position:relative;">
+            <div style="font-size:20px; font-family: Archivo;color:#050505;">Recharge Record</div>
+            <img @click="close" width="24" height="24" style="position:absolute;top:3px;right:0;" :src="closeimg"
+                 alt="closeimg">
+          </div>
+        </template>
+        <div class="Rechargeinfo-box">
+          <div style="background-color: #F4F4F5;border-radius: 8px;" v-if="true" v-for="i in 9">
+            <div class="flex flex-col py-2.5 px-6 my-2">
+              <div class="my-0.5" style="font-family: Archivo;font-size:16px;font-weight: 600;">Recharge 300 Coins
+                paying
+                100 Rs
+              </div>
+              <div class="my-1" style="font-family: Archivo;font-size: 14px;">12:00:00 04/08/2024</div>
+            </div>
+          </div>
+          <div v-else>
+            <img style="margin:100px auto 12px auto;" width="70" height="70" :src="nodata" alt="nodata">
+            <p style="font-family: Archivo;font-weight: 400;font-size: 12px;color: #050505;line-height: 14px;text-align: center;font-style: normal;text-transform: none;">
+              There is no content here yet.</p>
+          </div>
+        </div>
+      </el-drawer>
       <!--      登录弹窗-->
       <el-dialog
           v-model="centerDialogVisible"
@@ -497,57 +531,62 @@
               <p style="width: 405px;margin:10px 0;color: var(--color-text-icon-color-3, #71717A);font-family: Archivo;font-size: 15px;font-style: normal;font-weight: 400;line-height: 20px; /* 125% */">
                 We will send you a one-time verification code through SMS.</p>
             </div>
-            <div>
-              <el-input
-                  v-model="phoneNume"
-                  @input="handleInput"
-                  placeholder="Enter your mobile number"
-                  class="input-with-select"
-                  style=" width: 420px;height: 62px;border: 0;font-size: 16px;"
-              >
-                <template #prepend>
-                  <div style="display: flex;text-align: center;align-items: center;">
+            <div class="flex flex-col gap-8">
+              <div class="input-border">
+                <el-input
+                    v-model="phoneNume"
+                    @input="handleInput"
+                    placeholder="Enter your mobile number"
+                    class="input-with-select"
+                    style=" width: 420px;height: 62px;border: 0;font-size: 16px;"
+                >
+                  <template #prepend>
+                    <div style="display: flex;text-align: center;align-items: center;">
+                      <div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <rect width="24" height="24" fill="url(#pattern0)"/>
+                          <defs>
+                            <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                              <use xlink:href="#image0_1413_3628" transform="scale(0.0138889)"/>
+                            </pattern>
+                            <image id="image0_1413_3628" width="72" height="72"
+                                   xlink:href="data:image/png;base64,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"/>
+                          </defs>
+                        </svg>
+                      </div>
+                      <div
+                          style="color: black; font-size: 16px;  font-family: Archivo; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                        +91
+                      </div>
+                    </div>
+                  </template>
+                  <template #append>
                     <div>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                           xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <rect width="24" height="24" fill="url(#pattern0)"/>
-                        <defs>
-                          <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-                            <use xlink:href="#image0_1413_3628" transform="scale(0.0138889)"/>
-                          </pattern>
-                          <image id="image0_1413_3628" width="72" height="72"
-                                 xlink:href="data:image/png;base64,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"/>
-                        </defs>
-                      </svg>
+                      <div style=" font-family: Archivo;cursor:pointer;color:#09090B;" @click="reSendMsg"
+                           v-if="!sms.disabled">
+                        Get OTP
+                      </div>
+                      <div style=" font-family: Archivo;color:gray;" v-else>
+                        Get OTP ({{ sms.count }})
+                      </div>
                     </div>
-                    <div
-                        style="color: black; font-size: 16px; font-family: Inter; font-weight: 500; line-height: 24px; word-wrap: break-word">
-                      +91
-                    </div>
-                  </div>
-                </template>
-                <template #append>
-                  <div>
-                    <div style="cursor:pointer;color:#09090B;" @click="reSendMsg" v-if="!sms.disabled">
-                      Get OTP
-                    </div>
-                    <div style="color:gray;" v-else>
-                      Get OTP ({{ sms.count }})
-                    </div>
-                  </div>
 
-                </template>
-              </el-input>
-              <el-input
-                  v-model="digits"
-                  placeholder="Enter your OTP"
-                  class="input-with-select"
-                  style=" width: 420px;height: 62px;border: 0;font-size: 16px;margin-top:30px;"
-              ></el-input>
+                  </template>
+                </el-input>
+              </div>
+              <div class="input-border">
+                <el-input
+                    v-model="digits"
+                    placeholder="Enter your OTP"
+                    class="input-with-select"
+                    style=" font-family: Archivo; width: 420px;height: 62px;border: 0;font-size: 16px;"
+                ></el-input>
+              </div>
               <div @click="sendSmsLogin"
                    style="cursor:pointer;margin-top:20px;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;display: flex;padding: 13px 20px;justify-content: center;align-items: center;gap: 3px;align-self: stretch;">
-                <p>Sign in</p>
-                <img :src="rightJ" alt="">
+                <p style="font-family: Archivo;font-size:16px;">Sign in</p>
+                <img width="15" height="15" :src="rightJ" alt="">
               </div>
             </div>
             <div style="display: flex;justify-content: flex-start;align-items: center;margin-top: 80px;">
@@ -646,7 +685,7 @@
             </div>
           </div>
           <div class="pt-12">
-            <img style="width: 74vw;height: 72vw;margin:0 auto;" :src="boxone" alt="boxone">
+            <img style=" height: 72vw;margin:0 auto;" :src="boxone" alt="boxone">
           </div>
           <div style="display: flex;justify-content: flex-start;gap:2px; height: 35.90px; line-height: 35.9px;">
             <img style="width: 2.18rem; height: 2rem;" :src=" Logo"
@@ -687,14 +726,15 @@
                   class="input-with-select"
                   inputmode="numeric"
                   @input="handleInput"
-                  style="height: 14vw;border: 0"
+                  style=" font-family: Archivo;height: 14vw;border: 0"
               >
                 <template #append>
                   <div>
-                    <div style="cursor:pointer;color:#09090B;" @click="reSendMsg" v-if="!sms.disabled">
+                    <div style=" font-family: Archivo;cursor:pointer;color:#09090B;" @click="reSendMsg"
+                         v-if="!sms.disabled">
                       Get OTP
                     </div>
-                    <div style="color:gray;" v-else>
+                    <div style=" font-family: Archivo;color:gray;" v-else>
                       Get OTP ({{ sms.count }})
                     </div>
                   </div>
@@ -708,7 +748,7 @@
             <!--              Get OTP-->
             <!--            </div>-->
           </div>
-          <div class="mt-8 flex justify-between align-items-center"
+          <div class="mt-3 flex justify-between align-items-center"
                style="height: 14vw;border-radius: var(--Radius-8, 8px);background: var(--Color-surface-, #F4F4F5);">
             <div class="mx-2">
 
@@ -718,7 +758,7 @@
                   class="input-with-select"
                   inputmode="numeric"
                   @input="handleInput"
-                  style="height: 14vw;;border: 0"
+                  style="height: 14vw;;border: 0; font-family: Archivo;"
               >
               </el-input>
             </div>
@@ -732,17 +772,17 @@
                 <button @click="isArgee=false"><img :src="Select" style="width: 24px; height: 24px;"></button>
               </div>
             </div>
-            <p style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family: var(--font, Archivo);font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
+            <p style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
               I authorize AwazMingle to contactme via email or phone or SMS. Any doubts, you can
               Check Terms & Conditions.</p>
           </div>
           <div class="my-28" @click="sendSmsLogin"
                style="width:100%;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 4px 0px 0px #050505;bottom: 0;position: sticky;justify-content: center; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;justify-content: center; align-items: center; display: inline-flex">
             <p
-                style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word">
+                style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 700; line-height: 24px; word-wrap: break-word;margin-right:10px">
               Sign up/Login
             </p>
-            <img :src="rightJ" alt="rightJ">
+            <img width="20" height="20" :src="rightJ" alt="rightJ">
           </div>
           <!--          <div-->
           <!--              style="width: 100%;  margin-top: 20px;  background: #F4F4F5; border-radius: 7px; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">-->
@@ -861,7 +901,6 @@
           :close-on-click-modal="RechargClose"
           width="600"
           destroy-on-close
-          :show-close="RechargshowClose"
           center
           class="login-dialog"
           append-to-body
@@ -871,15 +910,15 @@
                style="color: #09090B;/* text-xl/semibold */font-family: Archivo;font-size: 20px;font-style: normal;font-weight: 600;line-height: 28px; /* 140% */">
             Recharge Record
           </div>
-          <div class="flex flex-col items-center w-3/4 h-4/6" style="overflow-y:scroll;scrollbar-width: none;">
+          <div class="flex flex-col items-center w-11/12 h-4/6" style="overflow-y:scroll;scrollbar-width: none;">
             <div class="flex flex-col items-left w-3/4 p-4 m-2" v-for="i in 6"
                  style="border-radius:10px;background: #F4F4F5;">
               <div
-                  style="color: var(--color-text-icon-color-1, #09090B);/* text-base/semibold */font-family: var(--font, Archivo);font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
+                  style="color: var(--color-text-icon-color-1, #09090B);/* text-base/semibold */font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 600;line-height: 24px; /* 150% */">
                 Recharge 300 Coins paying 100 Rs
               </div>
               <div
-                  style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family: var(--font, Archivo);font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
+                  style="color: var(--color-text-icon-color-3, #71717A);/* text-sm/normal */font-family:Archivo;font-size: 14px;font-style: normal;font-weight: 400;line-height: 20px; /* 142.857% */">
                 12:00:00 04/08/2024
               </div>
             </div>
@@ -928,6 +967,8 @@ import Recharge from "@/assets/images/login/recharge.png";
 import DropdownImg from "@/assets/images/login/dropdown.png";
 import boxone from "~/assets/images/boxone.png";
 import rightJ from "~/assets/images/rightJ.png";
+import closeimg from "~/assets/images/close.png";
+import nodata from "~/assets/images/nodata.png";
 import axios from "axios";
 
 import MoreIcon from "@/assets/images/index/more.png";
@@ -949,15 +990,21 @@ const showClose = ref(false);
 const sendSmsDialog = ref(false);
 const RechargVisible = ref<boolean>(false)
 const RechargClose = ref<boolean>(true)
-const RechargshowClose = ref(false);
+const RechargshowClose = ref(true);
 const ContactDialogVisible = ref<boolean>(false)
-
+const RechargeVisible = ref<boolean>(false)
 const ContactClose = ref<boolean>(true)
 
 const usertext = ref<string>('')
 const userEmailtext = ref<string>('')
 const userphoneNumber = ref<string>('')
-const openContactUs = () => {
+
+const Rechargeinfoopen = () => RechargeVisible.value = !RechargeVisible.value
+const openContactUs = () => ContactDialogVisible.value = !ContactDialogVisible.value
+
+
+const closeCOntact = () => {
+  ElMessage.success('Submission successful')
   ContactDialogVisible.value = !ContactDialogVisible.value
 }
 
@@ -1014,7 +1061,7 @@ const sendSms2 = async (type: number) => {
     return
   }
   if (!isArgee.value) {
-    ElMessage.error("Authorize agree Teller.zone & associated ");
+    ElMessage.error("Authorize agree AwazMingle & associated ");
     return
   }
   //发送验证码
@@ -1251,7 +1298,7 @@ const sendSmsLogin = async () => {
     return
   }
   if (!isArgee.value) {
-    ElMessage.error("Authorize agree Teller.zone & associated ");
+    ElMessage.error("Authorize agree AwazMingle & associated ");
     return
   }
   // const loginData = ref("")
@@ -1498,8 +1545,28 @@ onDeactivated(() => {
   --el-dialog-box-shadow: 0px;
   background: none;
 }
+
 :deep(.el-dialog__header) {
   display: none;
+}
+
+.login-dialog .el-dialog__headerbtn {
+  z-index: 9;
+  top: 50px;
+  right: -95px;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 4px 0 0 #050505;
+  border: 1px solid #050505;
+  border-radius: 8px;
+
+  .el-icon {
+    font-size: 1.5vw;
+  }
+}
+
+.Rechargeinfo-box {
+  width: 100%;
 }
 
 .login-box {
@@ -1525,8 +1592,8 @@ onDeactivated(() => {
   align-items: center;
   position: absolute;
   top: 50%;
-  left: -30%;
-  width: 1000px;
+  left: -14%;
+  width: 800px;
   height: 600px;
   flex-shrink: 0;
   border-radius: 20px;
@@ -1556,12 +1623,23 @@ onDeactivated(() => {
   border-radius: 50px !important;
 }
 
+.input-border:focus-within {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+.input-with-select .el-input__inner {
+  color: #09090B;
+  font-family: Archivo;
+}
+
 .input-with-select .el-input-group__prepend {
   background: #F4F4F5;
 }
 
 .input-with-select .el-input__wrapper {
   background: #F4F4F5;
+  padding-left: 16px;
 }
 
 .input-with-select .el-input--suffix {
@@ -1710,6 +1788,15 @@ onDeactivated(() => {
     border: 2px solid #050505;
     background: #FFF;
     box-shadow: 0px 2px 0px 0px #050505;
+    --el-border-color: none;
+    --el-border-color-hover: none;
+    --el-color-primary: none;
+
+    .el-input__inner {
+      font-family: Archivo;
+      color: #09090B;
+    }
+
 
     img {
       width: 16px;
@@ -1746,6 +1833,10 @@ onDeactivated(() => {
     border: 1px solid #050505;
     background: #DACDF4;
     box-shadow: 0px 4px 0px 0px #050505;
+  }
+
+  .contact-us-btn:hover {
+    background-color: #C9B2F7;
   }
 }
 

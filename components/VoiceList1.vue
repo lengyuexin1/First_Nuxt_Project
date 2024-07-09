@@ -8,7 +8,7 @@ import voiceleft from "~/assets/images/voiceleft.png"
 import voiceright from "~/assets/images/voiceright.png"
 import voicerleft_h5 from "~/assets/images/vioceleft_h5.png"
 import voiceright_h5 from "~/assets/images/vioceright_h5.png"
-import Group from "~/assets/images/Group.png"
+import Group from "~/assets/images/voice/voice_listen.webp"
 import viocepeople1 from "~/assets/images/viocepeople1.png"
 import viocepeople2 from "~/assets/images/viocepeople2.png"
 import viocepeople3 from "~/assets/images/viocepeople3.png"
@@ -140,8 +140,7 @@ const getList = async () => {
     <section class="hidden lg:flex lg">
       <div v-if="dataCount" class="mx-auto flex max-w-7xl items-center justify-between "
            style="justify-content: flex-start; gap: 40px;flex-wrap: wrap; display: flex;width: 1280px;">
-        <div v-for="(slide,idx) in dataInfo" class="voice-item"
-             @click="toDetail(slide.roomId)">
+        <div v-for="(slide,idx) in dataInfo" class="voice-item">
           <img style="object-fit: cover;width: 352px; height: 352px; border-radius: 12px;"
                :src="slide.cover"/>
           <div
@@ -153,7 +152,7 @@ const getList = async () => {
               <img style="margin-left: -15px;" :src="viocepeople4" alt="">
             </div>
             <div style="display: flex;justify-content: space-between;align-items: center;">
-              <img :src="Group" alt="">
+              <img width="15" height="15" :src="Group" alt="">
               <!--              <img :src="voice_listen" alt="">-->
               <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
                 {{ slide.heat }}</p>
@@ -174,9 +173,9 @@ const getList = async () => {
                 <!--                    <div style="width: 20px; height: 20px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; border: 1.50px #E8E8E8 solid"></div>-->
               </div>
             </div>
-            <div class="item-info">
+            <p class="item-info">
               {{ slide.announcement }}
-            </div>
+            </p>
           </div>
           <div class="join" @click="toDetail(slide.roomId)">
             Join Room
@@ -340,7 +339,7 @@ const getList = async () => {
                 <img style="width:20px;height:20px;margin-left: -5px;" :src="viocepeople4" alt="">
               </div>
               <div style="display: flex;justify-content: space-between;align-items: center;">
-                <img :src="Group" alt="">
+                <img width="15" height="15" :src="Group" alt="">
                 <!--              <img :src="voice_listen" alt="">-->
                 <p style="margin-left:10px;color: var(--Color-surface-, #FFF);font-family: Archivo;font-size: 16px;font-style: normal;font-weight: 500;line-height: 20px; /* 125% */ ">
                   {{ slide.heat }}</p>
@@ -494,7 +493,6 @@ const getList = async () => {
         position: relative;
         width: 400px;
         height: 590px;
-        cursor: pointer;
         padding: 20px;
         background: #FAF6F3;
         border-radius: 12px;
@@ -528,11 +526,6 @@ const getList = async () => {
           }
 
           .item-info {
-            display: flex;
-            height: 57.6px;
-            flex-direction: column;
-            justify-content: center;
-            align-self: stretch;
             color: #454545;
             font-family: Inter;
             font-size: 16px;
@@ -540,6 +533,11 @@ const getList = async () => {
             font-weight: 400;
             line-height: 28.8px; /* 180% */
             letter-spacing: -0.32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
         }
 
@@ -563,6 +561,15 @@ const getList = async () => {
           line-height: 24px; /* 160% */
           letter-spacing: -0.3px;
         }
+
+        .join:hover {
+          cursor: pointer;
+          background-color: #C9B2F7;
+        }
+      }
+
+      .voice-item:hover {
+        transform: translate(0, -16px);
       }
     }
 
@@ -638,7 +645,7 @@ const getList = async () => {
         display: flex;
         border: 1.163px solid #050505;
         background: #FFF;
-        box-shadow: 0 9.306px 0 0 #050505;
+        box-shadow: 0 4.5px 0 0 #050505;
 
         .voice-item-info {
           display: flex;

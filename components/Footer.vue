@@ -7,6 +7,7 @@ const contact = () => {
 </script>
 <template>
   <div class="footer">
+    <el-divider />
     <div class="hidden lg:flex lg">
       <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4"
            style="width: 100%; height: 100%; ">

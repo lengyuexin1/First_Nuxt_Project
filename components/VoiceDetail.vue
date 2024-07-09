@@ -16,18 +16,19 @@ import icon10 from "@/assets/images/live/bbt.png";
 import icon11 from "@/assets/images/live/voice_loading-h5.png";
 import voice_desk from "@/assets/images/live/voice_desk.png";
 import Unmute from "~/assets/images/Unmute.png"
+import Vector from "~/assets/images/Vector.png"
 
 import rechargeh5 from "@/assets/images/live/recharge-h5.png";
-import { ElMessage } from "element-plus";
+import {ElMessage} from "element-plus";
 
 import * as CryptoJS from "crypto-js";
 import axios from "axios";
 import LoginRight from "assets/images/login/login_right.png";
 import boxone from "assets/images/boxone.png";
-import { XMarkIcon } from "@heroicons/vue/24/outline";
+import {XMarkIcon} from "@heroicons/vue/24/outline";
 import Logo from "assets/images/logotwo.png";
 import MoreIconBlack from "assets/images/index/more-black.png";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 
 const drawer = ref(false)
 const direction = "btt" as "btt";
@@ -98,78 +99,78 @@ if (process.client) {
   const LavieSDK = window.LavieSDK;
   LavieSDK.lavieSdkInit();
   userInfo.value = JSON.parse(localStorage.getItem('logindata'))
-  console.log(userInfo,'userInfo')
+  console.log(userInfo, 'userInfo')
   await LavieSDK.accountLoginHandle(userInfo.value, 'sdfasdfsdf232rfsdfsd20022');
   // LavieSDK.enterLiveRoom(route.params.id);
   LavieSDK.addMsgListener(LavieSDK.MESSAGE_TYPE.ROOM_MESSAGE,
-    (e: MessageData) => {
-      //1. 送礼消息 - 2400
-      if (e.msgId == 2400 && e.data.roomId == route.params.id) {
-        e.msgType = 2400;
-        let receiverName = ''
-        if (e.data.receiverNickName) {
-          receiverName = "Send to " + e.data.receiverNickName
-        } else {
-          receiverName = "Send to All Users"
+      (e: MessageData) => {
+        //1. 送礼消息 - 2400
+        if (e.msgId == 2400 && e.data.roomId == route.params.id) {
+          e.msgType = 2400;
+          let receiverName = ''
+          if (e.data.receiverNickName) {
+            receiverName = "Send to " + e.data.receiverNickName
+          } else {
+            receiverName = "Send to All Users"
+          }
+          //goodsImgUrl  senderHeadImg  senderNickName senderHeadImg
+          enterRoomInfo.value.push({
+            headImg: e.data.senderHeadImg,
+            nickName: e.data.senderNickName,
+            giftImg: e.data.goodsImgUrl,
+            num: e.data.goodsNum,
+            type: receiverName,
+            timestamp: new Date().getTime()
+          })
+          //送礼动效
         }
-        //goodsImgUrl  senderHeadImg  senderNickName senderHeadImg
-        enterRoomInfo.value.push({
-          headImg: e.data.senderHeadImg,
-          nickName: e.data.senderNickName,
-          giftImg: e.data.goodsImgUrl,
-          num: e.data.goodsNum,
-          type: receiverName,
-          timestamp: new Date().getTime()
-        })
-        //送礼动效
-      }
-      // 2. 进房消息 - 2201
-      if (e.msgId == 2201 && e.data.roomId == route.params.id) {
-        //进房动效果
-        // enterRoomInfo.value.push({
-        //   headImg: e.data.avatarUrl,
-        //   nickName: e.data.userName,
-        //   giftImg: e.data.staticUrl,
-        //   type: "enter the room",
-        //   timestamp: new Date().getTime()
-        // })
-        chatMsgInfo.value.push({ userName: e.data.userName, content: "Enter the room" })
-      }
-      // 3. 公屏聊天 - 2304
-      if (e.msgId == 2304 && e.data.roomId == route.params.id) {
-        if (e.data.content && (e.data.content.includes('http://') || e.data.content.includes('https://'))) {
-          return
+        // 2. 进房消息 - 2201
+        if (e.msgId == 2201 && e.data.roomId == route.params.id) {
+          //进房动效果
+          // enterRoomInfo.value.push({
+          //   headImg: e.data.avatarUrl,
+          //   nickName: e.data.userName,
+          //   giftImg: e.data.staticUrl,
+          //   type: "enter the room",
+          //   timestamp: new Date().getTime()
+          // })
+          chatMsgInfo.value.push({userName: e.data.userName, content: "Enter the room"})
         }
-        addMsg(e.data)
-      }
-      // 4. 房间类型切换消息 - 103041008
-      if (e.msgId == 103041008 && e.data.roomId == route.params.id) {
-        //退出房间
-        leaveRoom()
-        ElMessage.error('Room type is update');
-        if (e.data.type == 0) {
-          window.location.href = '/voiceDetail/' + route.params.id;
-        } else if (e.data.type == 3) {
-          window.location.href = '/liveDetail/' + route.params.id;
-        } else {
+        // 3. 公屏聊天 - 2304
+        if (e.msgId == 2304 && e.data.roomId == route.params.id) {
+          if (e.data.content && (e.data.content.includes('http://') || e.data.content.includes('https://'))) {
+            return
+          }
+          addMsg(e.data)
+        }
+        // 4. 房间类型切换消息 - 103041008
+        if (e.msgId == 103041008 && e.data.roomId == route.params.id) {
+          //退出房间
+          leaveRoom()
+          ElMessage.error('Room type is update');
+          if (e.data.type == 0) {
+            window.location.href = '/voiceDetail/' + route.params.id;
+          } else if (e.data.type == 3) {
+            window.location.href = '/liveDetail/' + route.params.id;
+          } else {
+            window.location.href = '/index.html';
+          }
+        }
+        // 5. 麦位更新 - 2302
+        if (e.msgId == 2302 && e.data.roomId == route.params.id) {
+          getUser()
+        }
+        if (e.msgId == 2203 && e.data.roomId == route.params.id && e.data.userId == userInfo.value.userInfo.userId) {
+          leaveRoom()
+          ElMessage.error('You were kicked out of the room by the owner');
           window.location.href = '/index.html';
         }
-      }
-      // 5. 麦位更新 - 2302
-      if (e.msgId == 2302 && e.data.roomId == route.params.id) {
-        getUser()
-      }
-      if (e.msgId == 2203 && e.data.roomId == route.params.id && e.data.userId == userInfo.value.userInfo.userId) {
-        leaveRoom()
-        ElMessage.error('You were kicked out of the room by the owner');
-        window.location.href = '/index.html';
-      }
-      // 6. 在房用户更新 - 2301
-      if (e.msgId == 2301 && e.data.roomId == route.params.id) {
-        getRoomUser()
-      }
-      //console.log('DEMO -> ChatRoom::MSG_TYPE_ROOM_MESSAGE--->', e);
-    });
+        // 6. 在房用户更新 - 2301
+        if (e.msgId == 2301 && e.data.roomId == route.params.id) {
+          getRoomUser()
+        }
+        //console.log('DEMO -> ChatRoom::MSG_TYPE_ROOM_MESSAGE--->', e);
+      });
 
 
   setInterval(() => {
@@ -263,23 +264,23 @@ const sendGift = async (svgaVal: any) => {
   const loginData = ref();
   try {
     loginData.value = await axios.post(
-      runtimeConfig.public.VITE_BASE_URL,
-      requestData,
-      {
-        headers: {
-          'module': 'vivalive-order',
-          'appId': 'v.o.sendGiftVc',
-          'method': 'sendGiftVc',
-          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-          'sign': uppercaseHash,
-          'timestamp': timestamp,
-          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-          'rpcType': 'dubbo',
-          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-          'appVersion': '1',
-          'Content-Type': 'application/json'
-        },
-      }
+        runtimeConfig.public.VITE_BASE_URL,
+        requestData,
+        {
+          headers: {
+            'module': 'vivalive-order',
+            'appId': 'v.o.sendGiftVc',
+            'method': 'sendGiftVc',
+            'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+            'sign': uppercaseHash,
+            'timestamp': timestamp,
+            'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+            'rpcType': 'dubbo',
+            //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+            'appVersion': '1',
+            'Content-Type': 'application/json'
+          },
+        }
     );
     if (loginData.value.data.code === 3002003) {
       ElMessage.error(loginData.value.data.message);
@@ -366,23 +367,23 @@ const getDetail = async () => {
   const loginData = ref();
   try {
     loginData.value = await axios.post(
-      runtimeConfig.public.VITE_BASE_URL,
-      requestData,
-      {
-        headers: {
-          'module': 'vivalive-voice-room',
-          'appId': 'v.v.r.queryRoomInfo',
-          'method': 'queryRoomInfo',
-          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-          'sign': uppercaseHash,
-          'timestamp': timestamp,
-          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-          'rpcType': 'dubbo',
-          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-          'appVersion': '1',
-          'Content-Type': 'application/json'
-        },
-      }
+        runtimeConfig.public.VITE_BASE_URL,
+        requestData,
+        {
+          headers: {
+            'module': 'vivalive-voice-room',
+            'appId': 'v.v.r.queryRoomInfo',
+            'method': 'queryRoomInfo',
+            'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+            'sign': uppercaseHash,
+            'timestamp': timestamp,
+            'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+            'rpcType': 'dubbo',
+            //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+            'appVersion': '1',
+            'Content-Type': 'application/json'
+          },
+        }
     );
     if (loginData.value.data.code === 30010205) {
       ElMessage.error("Please login");
@@ -456,23 +457,23 @@ const getGift = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'goods',
-        'appId': 'v.g.queryGoods',
-        'method': 'queryGoods',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'goods',
+          'appId': 'v.g.queryGoods',
+          'method': 'queryGoods',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 200) {
     giftInfo.value = chunkArray(loginData.value.data.data, 8);
@@ -559,23 +560,23 @@ const joinRoom = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'vivalive-voice-room',
-        'appId': 'v.v.r.enterRoom',
-        'method': 'enterRoom',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'vivalive-voice-room',
+          'appId': 'v.v.r.enterRoom',
+          'method': 'enterRoom',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 30010205) {
     ElMessage.error("Please login");
@@ -694,23 +695,23 @@ const leaveRoom = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'vivalive-voice-room',
-        'appId': 'v.v.r.leaveRoom',
-        'method': 'leaveRoom',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'vivalive-voice-room',
+          'appId': 'v.v.r.leaveRoom',
+          'method': 'leaveRoom',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 200) {
 
@@ -768,23 +769,23 @@ const getGold = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'vivalive-account',
-        'appId': 'v.ac.getUserAccountDetail',
-        'method': 'getUserAccountDetail',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'vivalive-account',
+          'appId': 'v.ac.getUserAccountDetail',
+          'method': 'getUserAccountDetail',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 200) {
     gold.value = loginData.value.data.data.gold
@@ -834,23 +835,23 @@ const getRoomUser = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'vivalive-voice-room',
-        'appId': 'v.v.r.queryOnlineRoomUserList',
-        'method': 'queryOnlineRoomUserList',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'vivalive-voice-room',
+          'appId': 'v.v.r.queryOnlineRoomUserList',
+          'method': 'queryOnlineRoomUserList',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 200) {
     userTotalCount.value = loginData.value.data.totalCount;
@@ -901,23 +902,23 @@ const getUser = async () => {
   const uppercaseHash = hash.toUpperCase();
   const loginData = ref({});
   loginData.value = await axios.post(
-    runtimeConfig.public.VITE_BASE_URL,
-    requestData,
-    {
-      headers: {
-        'module': 'vivalive-voice-room',
-        'appId': 'v.v.r.queryRoomSeatInfoList',
-        'method': 'queryRoomSeatInfoList',
-        'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
-        'sign': uppercaseHash,
-        'timestamp': timestamp,
-        'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
-        'rpcType': 'dubbo',
-        //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
-        'appVersion': '1',
-        'Content-Type': 'application/json'
-      },
-    }
+      runtimeConfig.public.VITE_BASE_URL,
+      requestData,
+      {
+        headers: {
+          'module': 'vivalive-voice-room',
+          'appId': 'v.v.r.queryRoomSeatInfoList',
+          'method': 'queryRoomSeatInfoList',
+          'appKey': runtimeConfig.public.VITE_APP_ENV_KEY,
+          'sign': uppercaseHash,
+          'timestamp': timestamp,
+          'publicKey': runtimeConfig.public.VITE_PUBLIC_KEY,
+          'rpcType': 'dubbo',
+          //'secret': 'V3op8vdC3K47KR8R21k24B65D7LA93nuvfJGe26u3hW3KTXAEp602cUOXi4O2nJj',
+          'appVersion': '1',
+          'Content-Type': 'application/json'
+        },
+      }
   );
   if (loginData.value.data.code === 200) {
     userList.value = loginData.value.data.data;
@@ -981,7 +982,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
 </script>
 <template>
   <section class="section">
-    <MySwiper v-if="!isLiveVoiceRoom" />
+    <MySwiper v-if="!isLiveVoiceRoom"/>
     <section class=" hidden lg:flex lg">
       <!--      <div class="lg:p-6 lg:px-4 py-2 px-4 items-center flex max-w-7xl header-tag" style="width: 100%; height: 100%; padding-top: 16px; padding-bottom: 16px; margin: 100px auto auto auto;">-->
       <!--        <div style="justify-content: flex-start; align-items: center; gap: 4px; display: flex">-->
@@ -1008,33 +1009,33 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
     <section class="hidden lg:flex lg">
       <!--      <button @click="play">123333</button>-->
       <div class="mx-auto flex max-w-7xl items-center justify-between py-2 px-4 lg:p-6 lg:px-4"
-        style="width: 100%; height: 100%;  justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">
+           style="width: 100%; height: 100%;  justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">
         <!--        <button @click="addMsg">addMsg</button>-->
         <div
-          style="border-radius: var(--Color-card-2, 12px);border: 2px solid #050505;box-shadow: 0px 4px 0px 0px #000; position: relative; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            style="border-radius: var(--Color-card-2, 12px);border: 2px solid #050505;box-shadow: 0px 4px 0px 0px #000; position: relative; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
 
           <div
-            style="width: 926px; height: 60px; position: relative; background: white;border-bottom: 2px solid #050505">
+              style="width: 926px; height: 60px; position: relative; background: white;border-bottom: 2px solid #050505">
             <div
-              style="left: 64px; top: 35px; position: absolute; color: #71717A; font-size: 10px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                style="left: 64px; top: 35px; position: absolute; color: #71717A; font-size: 10px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
               {{ dataInfo.announcement }}
             </div>
             <div
-              style="left: 64px; top: 14px; position: absolute; justify-content: flex-start; align-items: center; gap: 9px; display: inline-flex">
+                style="left: 64px; top: 14px; position: absolute; justify-content: flex-start; align-items: center; gap: 9px; display: inline-flex">
               <div
-                style="color: #09090B; font-size: 16px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
+                  style="color: #09090B; font-size: 16px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
                 {{ dataInfo.title }}
               </div>
               <div
-                style="padding-left: 5.33px; padding-right: 5.33px; padding-top: 1px; padding-bottom: 1.33px; border-radius: 6666px; justify-content: flex-start; align-items: center; gap: 1.33px; display: flex">
+                  style="padding-left: 5.33px; padding-right: 5.33px; padding-top: 1px; padding-bottom: 1.33px; border-radius: 6666px; justify-content: flex-start; align-items: center; gap: 1.33px; display: flex">
                 <div style="width: 100%; position: relative">
-                  <img style="width: 41.6px;height: 16.6px;" :src="icon1" />
+                  <img style="width: 41.6px;height: 16.6px;" :src="icon1"/>
                 </div>
               </div>
             </div>
             <div
-              style="width: 40px; height: 40px; left: 15px; top: 10px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
-              <img style="width: 40px; height: 40px; border-radius: 8px" :src="dataInfo.avatarUrl" />
+                style="width: 40px; height: 40px; left: 15px; top: 10px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+              <img style="width: 40px; height: 40px; border-radius: 8px" :src="dataInfo.avatarUrl"/>
             </div>
             <!--            <div style="left: 842px; text-align: right; top: 22px; position: absolute; justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">-->
             <!--              <div style="width: 16px; height: 16px; position: relative">-->
@@ -1045,7 +1046,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
           </div>
           <!--      :style="{ backgroundImage: 'url(' + icon3 + ')' }"     -->
           <div v-cloak class="chat-content"
-            style="background: linear-gradient(180deg, #F5F1FB 0%, #FAF5FB 67.29%, rgba(253, 247, 251, 0.40) 100%); #000000 Linear Gradient #F5F1FB 100% #FAF5FB 100% #FDF7FB 40%">
+               style="background: linear-gradient(180deg, #F5F1FB 0%, #FAF5FB 67.29%, rgba(253, 247, 251, 0.40) 100%); #000000 Linear Gradient #F5F1FB 100% #FAF5FB 100% #FDF7FB 40%">
             <div class="avatar-row" style="display: flex;justify-content: center;align-items: center;width:646px;">
               <!--              <div>-->
               <!--                  style="width: 100%; height: 100%; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex;margin: 0 20px">-->
@@ -1067,328 +1068,328 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
               <!--                </div>-->
               <!--              </div>-->
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex"
-                v-if="userList[0]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex"
+                  v-if="userList[0]">
                 <div
-                  style="width: 73.53px; height: 73.53px;  position: relative;border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                    style="width: 73.53px; height: 73.53px;  position: relative;border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
                   <div style="width: 73.53px; height: 73.53px;">
-                    <img style="width: 73.53px; height: 73.53px;" :src="userList[0].avatarUrl" />
+                    <img style="width: 73.53px; height: 73.53px;" :src="userList[0].avatarUrl"/>
                   </div>
                 </div>
                 <div
-                  style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[0].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: #050505; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.1
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[1]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[1]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[1].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[1].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[1].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px;flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px;flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.2
                 </div>
               </div>
             </div>
             <div class="avatar-row">
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[2]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[2]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[2].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[2].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[2].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.3
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[3]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[3]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[3].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[3].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[3].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.4
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[4]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[4]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[4].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[4].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[4].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.5
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[5]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[5]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[5].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[5].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[5].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.6
                 </div>
               </div>
             </div>
             <div class="avatar-row">
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[6]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[6]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[6].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[6].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[6].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.7
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[7]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[7]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[7].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[7].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[7].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.8
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[8]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[8]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[8].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[8].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[8].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.9
                 </div>
               </div>
               <div
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
-                v-if="userList[9]">
+                  style="width: 200px; height: 115px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex"
+                  v-if="userList[9]">
                 <div style="width: 100px; height: 100px; position: relative">
                   <div
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; background: #C4C4C4; border-radius: 9999px">
                   </div>
                   <img
-                    style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
-                    :src="userList[9].avatarUrl" />
+                      style="width: 73.53px; height: 73.53px; left: 13.24px; top: 13.24px; position: absolute; border-radius: 9999px; border: 2px rgba(255, 255, 255, 0.50) solid"
+                      :src="userList[9].avatarUrl"/>
                   <div
-                    style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
+                      style="width: 73.53px; height: 73.53px; padding: 25px; left: 13.24px; top: 13.24px; position: absolute; justify-content: center; align-items: center; display: inline-flex">
                     <div
-                      style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
+                        style="flex: 1 1 0; align-self: stretch; justify-content: center; align-items: center; display: inline-flex">
                     </div>
                   </div>
                 </div>
                 <div
-                  style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: white; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   {{ userList[9].userName }}
                 </div>
               </div>
               <div v-else
-                style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+                   style="width: 200px; height: 115px; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
                 <div
-                  style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
-                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk" />
+                    style="display:flex;justify-content:center;align-items:center;width: 81.4px; height: 81.4px; border-radius: 12px;border: 2px #050505 solid;overflow: hidden;box-shadow: 0 2.2px 0 0 #050505">
+                  <img style="width: 35.29px; height: 35.29px; margin: 0 auto;" alt="voice_desk" :src="voice_desk"/>
                 </div>
                 <div
-                  style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
+                    style="color: var(--color-text-icon-color-1, #09090B);; font-size: 16px; font-weight: normal; font-weight: 500; line-height: 24px; word-wrap: break-word">
                   &nbsp;No.10
                 </div>
               </div>
@@ -1399,28 +1400,28 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             <div class="enter-the-room" :style="{ left: -(idx * 20) + 'px' }" v-for="(slide, idx) in enterRoomInfo2">
               <div class="enter-content">
                 <div class="enter-left-content">
-                  <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg" />
+                  <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg"/>
                   <div class="enter-text-content">
                     <div
-                      style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                       {{ slide.nickName }}
                     </div>
                     <div
-                      style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
+                        style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
                       {{ slide.type }}
                     </div>
                   </div>
                 </div>
-                <img v-if="slide.giftImg" style="width: 39px; height: 39px;" :src="slide.giftImg" />
+                <img v-if="slide.giftImg" style="width: 39px; height: 39px;" :src="slide.giftImg"/>
                 <div
-                  style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; margin-right: 5px;word-wrap: break-word">
+                    style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; margin-right: 5px;word-wrap: break-word">
                   ×{{ slide.num }}
                 </div>
               </div>
             </div>
           </div>
           <div v-if="!voicePlay" @click="play" style="cursor:pointer; position: absolute;top:76%;left:5%;z-index: 999">
-            <img :src="Unmute" alt="Unmute">
+            <img width="100" height="75" :src="Unmute" alt="Unmute">
             <!--            <svg width="98" height="32" viewBox="0 0 98 32" fill="none" xmlns="http://www.w3.org/2000/svg">-->
             <!--              <rect x="0.333008" width="97" height="32" rx="16" fill="white" fill-opacity="0.1"/>-->
             <!--              <path fill-rule="evenodd" clip-rule="evenodd"-->
@@ -1441,7 +1442,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             <!--            </svg>-->
           </div>
           <div v-if="voicePlay" @click="noPlay" style="cursor:pointer; position: absolute;top:76%;left:5%;z-index: 999">
-            <img :src="Unmute" alt="Unmute">
+            <img width="100" height="75" :src="Vector" alt="Unmute">
             <!--            <svg width="79" height="32" viewBox="0 0 79 32" fill="none" xmlns="http://www.w3.org/2000/svg">-->
             <!--              <rect width="79" height="32" rx="16" fill="white" fill-opacity="0.1"/>-->
             <!--              <path-->
@@ -1459,71 +1460,71 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             <!--            </svg>-->
           </div>
           <div
-            style="border-top:2px solid #050505;width: 926px; height: 110px;margin-right: 70px; padding-top: 30px; padding-bottom: 8px; padding-left: 290px; padding-right: 8px; background: white; justify-content: flex-end; align-items: center; display: inline-flex">
+              style="border-top:2px solid #050505;width: 926px; height: 110px;margin-right: 70px; padding-top: 30px; padding-bottom: 8px; padding-left: 290px; padding-right: 8px; background: white; justify-content: flex-end; align-items: center; display: inline-flex">
             <div
-              style="justify-content: flex-start; align-items: flex-start;  display: inline-flex;margin-right: 8px;margin-left: 8px">
+                style="justify-content: flex-start; align-items: flex-start;  display: inline-flex;margin-right: 8px;margin-left: 8px">
               <div style="justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex">
                 <div @click="sendGift(slide.goodsDto)" @mouseover="activeGift(idx)" @mouseleave="currentItem = null"
-                  v-for="(slide, idx) in giftInfo1"
-                  style="cursor: pointer; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                     v-for="(slide, idx) in giftInfo1"
+                     style="cursor: pointer; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <div
-                    style="width: 70px;height: 62px; background: #FAFAFA; border-radius: 6px;gap: 4px;align-items: center; display: flex;flex-direction: column;">
+                      style="width: 70px;height: 62px; background: #FAFAFA; border-radius: 6px;gap: 4px;align-items: center; display: flex;flex-direction: column;">
                     <div
-                      style="width: 40px; height: 40px; justify-content: center; align-items: center; display: inline-flex">
-                      <img style="width: 40px; height: 40px" :src="slide.goodsDto.url" />
+                        style="width: 40px; height: 40px; justify-content: center; align-items: center; display: inline-flex">
+                      <img style="width: 40px; height: 40px" :src="slide.goodsDto.url"/>
                     </div>
                     <div
-                      style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
+                        style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
                       {{ slide.goodsDto.title }}
                     </div>
                   </div>
                   <div :class="{ 'active': currentItem === idx, 'no_active': currentItem != idx }"
-                    style="align-self: stretch; padding-top: 4px;border-bottom-left-radius: 6px;border-bottom-right-radius: 6px; padding-bottom: 4px; background: #F43F5E; justify-content: center; align-items: center; gap: 8px; ">
+                       style="align-self: stretch; padding-top: 4px;border-bottom-left-radius: 6px;border-bottom-right-radius: 6px; padding-bottom: 4px; background: #F43F5E; justify-content: center; align-items: center; gap: 8px; ">
                     <svg width="70" height="22" viewBox="0 0 70 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="70" height="22" fill="#F43F5E" />
+                      <rect width="70" height="22" fill="#F43F5E"/>
                       <path
-                        d="M24.9205 15.144C24.4965 15.144 24.1165 15.08 23.7805 14.952C23.4525 14.824 23.1725 14.652 22.9405 14.436C22.7165 14.22 22.5485 13.976 22.4365 13.704L23.4205 13.272C23.5485 13.52 23.7405 13.724 23.9965 13.884C24.2525 14.036 24.5365 14.112 24.8485 14.112C25.1925 14.112 25.4765 14.052 25.7005 13.932C25.9245 13.804 26.0365 13.624 26.0365 13.392C26.0365 13.168 25.9525 12.992 25.7845 12.864C25.6165 12.736 25.3725 12.632 25.0525 12.552L24.4885 12.408C23.9285 12.256 23.4925 12.028 23.1805 11.724C22.8685 11.42 22.7125 11.076 22.7125 10.692C22.7125 10.108 22.9005 9.656 23.2765 9.336C23.6605 9.016 24.2205 8.856 24.9565 8.856C25.3165 8.856 25.6445 8.908 25.9405 9.012C26.2445 9.116 26.5005 9.264 26.7085 9.456C26.9245 9.648 27.0765 9.876 27.1645 10.14L26.2045 10.572C26.1085 10.332 25.9445 10.156 25.7125 10.044C25.4805 9.932 25.2085 9.876 24.8965 9.876C24.5765 9.876 24.3245 9.944 24.1405 10.08C23.9565 10.216 23.8645 10.408 23.8645 10.656C23.8645 10.792 23.9405 10.924 24.0925 11.052C24.2525 11.172 24.4845 11.272 24.7885 11.352L25.4365 11.508C25.8285 11.604 26.1525 11.752 26.4085 11.952C26.6645 12.144 26.8565 12.364 26.9845 12.612C27.1125 12.852 27.1765 13.104 27.1765 13.368C27.1765 13.728 27.0765 14.044 26.8765 14.316C26.6845 14.58 26.4165 14.784 26.0725 14.928C25.7365 15.072 25.3525 15.144 24.9205 15.144ZM31.0623 15.144C30.4783 15.144 29.9623 15.012 29.5143 14.748C29.0663 14.476 28.7143 14.104 28.4583 13.632C28.2023 13.16 28.0743 12.616 28.0743 12C28.0743 11.384 28.2023 10.84 28.4583 10.368C28.7143 9.896 29.0663 9.528 29.5143 9.264C29.9703 8.992 30.4903 8.856 31.0743 8.856C31.6183 8.856 32.0983 8.996 32.5143 9.276C32.9383 9.548 33.2663 9.94 33.4983 10.452C33.7383 10.956 33.8583 11.552 33.8583 12.24H32.7183C32.7183 11.728 32.6543 11.296 32.5263 10.944C32.3983 10.592 32.2063 10.328 31.9503 10.152C31.7023 9.968 31.3983 9.876 31.0383 9.876C30.6783 9.876 30.3623 9.964 30.0903 10.14C29.8263 10.308 29.6183 10.552 29.4663 10.872C29.3223 11.184 29.2503 11.568 29.2503 12.024C29.2503 12.448 29.3343 12.816 29.5023 13.128C29.6703 13.432 29.8943 13.672 30.1743 13.848C30.4623 14.016 30.7863 14.1 31.1463 14.1C31.5383 14.1 31.8623 14.008 32.1183 13.824C32.3823 13.64 32.5903 13.404 32.7423 13.116L33.7623 13.584C33.5943 13.896 33.3823 14.172 33.1263 14.412C32.8783 14.644 32.5783 14.824 32.2263 14.952C31.8823 15.08 31.4943 15.144 31.0623 15.144ZM28.8183 12.24L28.8303 11.304H33.2223V12.24H28.8183ZM35.0303 15V9H36.0983L36.1703 10.104V15H35.0303ZM39.1823 15V11.928L40.3223 11.568V15H39.1823ZM39.1823 11.928C39.1823 11.384 39.1183 10.972 38.9903 10.692C38.8703 10.404 38.6983 10.204 38.4743 10.092C38.2583 9.98 38.0063 9.92 37.7183 9.912C37.2303 9.912 36.8503 10.084 36.5783 10.428C36.3063 10.772 36.1703 11.256 36.1703 11.88H35.6783C35.6783 11.248 35.7703 10.708 35.9543 10.26C36.1383 9.804 36.4023 9.456 36.7463 9.216C37.0983 8.976 37.5183 8.856 38.0063 8.856C38.7263 8.856 39.2903 9.08 39.6983 9.528C40.1143 9.968 40.3223 10.648 40.3223 11.568L39.1823 11.928ZM46.1488 15L46.1008 13.884V6.6H47.2288V15H46.1488ZM44.1328 15.144C43.5888 15.144 43.1128 15.012 42.7048 14.748C42.3048 14.484 41.9888 14.116 41.7568 13.644C41.5328 13.172 41.4208 12.624 41.4208 12C41.4208 11.368 41.5328 10.82 41.7568 10.356C41.9888 9.884 42.3048 9.516 42.7048 9.252C43.1128 8.988 43.5888 8.856 44.1328 8.856C44.6368 8.856 45.0728 8.988 45.4408 9.252C45.8168 9.516 46.1048 9.884 46.3048 10.356C46.5048 10.82 46.6048 11.368 46.6048 12C46.6048 12.624 46.5048 13.172 46.3048 13.644C46.1048 14.116 45.8168 14.484 45.4408 14.748C45.0728 15.012 44.6368 15.144 44.1328 15.144ZM44.3968 14.112C44.7328 14.112 45.0288 14.024 45.2848 13.848C45.5408 13.664 45.7408 13.416 45.8848 13.104C46.0288 12.784 46.1008 12.416 46.1008 12C46.1008 11.584 46.0288 11.22 45.8848 10.908C45.7408 10.588 45.5408 10.34 45.2848 10.164C45.0288 9.98 44.7288 9.888 44.3848 9.888C44.0328 9.888 43.7208 9.98 43.4488 10.164C43.1768 10.34 42.9648 10.588 42.8128 10.908C42.6608 11.22 42.5848 11.584 42.5848 12C42.5848 12.416 42.6608 12.784 42.8128 13.104C42.9728 13.416 43.1888 13.664 43.4608 13.848C43.7328 14.024 44.0448 14.112 44.3968 14.112Z"
-                        fill="white" />
+                          d="M24.9205 15.144C24.4965 15.144 24.1165 15.08 23.7805 14.952C23.4525 14.824 23.1725 14.652 22.9405 14.436C22.7165 14.22 22.5485 13.976 22.4365 13.704L23.4205 13.272C23.5485 13.52 23.7405 13.724 23.9965 13.884C24.2525 14.036 24.5365 14.112 24.8485 14.112C25.1925 14.112 25.4765 14.052 25.7005 13.932C25.9245 13.804 26.0365 13.624 26.0365 13.392C26.0365 13.168 25.9525 12.992 25.7845 12.864C25.6165 12.736 25.3725 12.632 25.0525 12.552L24.4885 12.408C23.9285 12.256 23.4925 12.028 23.1805 11.724C22.8685 11.42 22.7125 11.076 22.7125 10.692C22.7125 10.108 22.9005 9.656 23.2765 9.336C23.6605 9.016 24.2205 8.856 24.9565 8.856C25.3165 8.856 25.6445 8.908 25.9405 9.012C26.2445 9.116 26.5005 9.264 26.7085 9.456C26.9245 9.648 27.0765 9.876 27.1645 10.14L26.2045 10.572C26.1085 10.332 25.9445 10.156 25.7125 10.044C25.4805 9.932 25.2085 9.876 24.8965 9.876C24.5765 9.876 24.3245 9.944 24.1405 10.08C23.9565 10.216 23.8645 10.408 23.8645 10.656C23.8645 10.792 23.9405 10.924 24.0925 11.052C24.2525 11.172 24.4845 11.272 24.7885 11.352L25.4365 11.508C25.8285 11.604 26.1525 11.752 26.4085 11.952C26.6645 12.144 26.8565 12.364 26.9845 12.612C27.1125 12.852 27.1765 13.104 27.1765 13.368C27.1765 13.728 27.0765 14.044 26.8765 14.316C26.6845 14.58 26.4165 14.784 26.0725 14.928C25.7365 15.072 25.3525 15.144 24.9205 15.144ZM31.0623 15.144C30.4783 15.144 29.9623 15.012 29.5143 14.748C29.0663 14.476 28.7143 14.104 28.4583 13.632C28.2023 13.16 28.0743 12.616 28.0743 12C28.0743 11.384 28.2023 10.84 28.4583 10.368C28.7143 9.896 29.0663 9.528 29.5143 9.264C29.9703 8.992 30.4903 8.856 31.0743 8.856C31.6183 8.856 32.0983 8.996 32.5143 9.276C32.9383 9.548 33.2663 9.94 33.4983 10.452C33.7383 10.956 33.8583 11.552 33.8583 12.24H32.7183C32.7183 11.728 32.6543 11.296 32.5263 10.944C32.3983 10.592 32.2063 10.328 31.9503 10.152C31.7023 9.968 31.3983 9.876 31.0383 9.876C30.6783 9.876 30.3623 9.964 30.0903 10.14C29.8263 10.308 29.6183 10.552 29.4663 10.872C29.3223 11.184 29.2503 11.568 29.2503 12.024C29.2503 12.448 29.3343 12.816 29.5023 13.128C29.6703 13.432 29.8943 13.672 30.1743 13.848C30.4623 14.016 30.7863 14.1 31.1463 14.1C31.5383 14.1 31.8623 14.008 32.1183 13.824C32.3823 13.64 32.5903 13.404 32.7423 13.116L33.7623 13.584C33.5943 13.896 33.3823 14.172 33.1263 14.412C32.8783 14.644 32.5783 14.824 32.2263 14.952C31.8823 15.08 31.4943 15.144 31.0623 15.144ZM28.8183 12.24L28.8303 11.304H33.2223V12.24H28.8183ZM35.0303 15V9H36.0983L36.1703 10.104V15H35.0303ZM39.1823 15V11.928L40.3223 11.568V15H39.1823ZM39.1823 11.928C39.1823 11.384 39.1183 10.972 38.9903 10.692C38.8703 10.404 38.6983 10.204 38.4743 10.092C38.2583 9.98 38.0063 9.92 37.7183 9.912C37.2303 9.912 36.8503 10.084 36.5783 10.428C36.3063 10.772 36.1703 11.256 36.1703 11.88H35.6783C35.6783 11.248 35.7703 10.708 35.9543 10.26C36.1383 9.804 36.4023 9.456 36.7463 9.216C37.0983 8.976 37.5183 8.856 38.0063 8.856C38.7263 8.856 39.2903 9.08 39.6983 9.528C40.1143 9.968 40.3223 10.648 40.3223 11.568L39.1823 11.928ZM46.1488 15L46.1008 13.884V6.6H47.2288V15H46.1488ZM44.1328 15.144C43.5888 15.144 43.1128 15.012 42.7048 14.748C42.3048 14.484 41.9888 14.116 41.7568 13.644C41.5328 13.172 41.4208 12.624 41.4208 12C41.4208 11.368 41.5328 10.82 41.7568 10.356C41.9888 9.884 42.3048 9.516 42.7048 9.252C43.1128 8.988 43.5888 8.856 44.1328 8.856C44.6368 8.856 45.0728 8.988 45.4408 9.252C45.8168 9.516 46.1048 9.884 46.3048 10.356C46.5048 10.82 46.6048 11.368 46.6048 12C46.6048 12.624 46.5048 13.172 46.3048 13.644C46.1048 14.116 45.8168 14.484 45.4408 14.748C45.0728 15.012 44.6368 15.144 44.1328 15.144ZM44.3968 14.112C44.7328 14.112 45.0288 14.024 45.2848 13.848C45.5408 13.664 45.7408 13.416 45.8848 13.104C46.0288 12.784 46.1008 12.416 46.1008 12C46.1008 11.584 46.0288 11.22 45.8848 10.908C45.7408 10.588 45.5408 10.34 45.2848 10.164C45.0288 9.98 44.7288 9.888 44.3848 9.888C44.0328 9.888 43.7208 9.98 43.4488 10.164C43.1768 10.34 42.9648 10.588 42.8128 10.908C42.6608 11.22 42.5848 11.584 42.5848 12C42.5848 12.416 42.6608 12.784 42.8128 13.104C42.9728 13.416 43.1888 13.664 43.4608 13.848C43.7328 14.024 44.0448 14.112 44.3968 14.112Z"
+                          fill="white"/>
                     </svg>
                   </div>
                   <div v-if="currentItem != idx"
-                    style="align-self: stretch; padding-top: 4px; padding-bottom: 4px;  justify-content: center; align-items: center; gap: 8px; ">
+                       style="align-self: stretch; padding-top: 4px; padding-bottom: 4px;  justify-content: center; align-items: center; gap: 8px; ">
                     &nbsp;
                   </div>
                 </div>
 
                 <div
-                  style="width: 70px;height: 62px; padding-left: 2px; padding-right: 2px;   background: #FAFAFA;  flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                    style="width: 70px;height: 62px; padding-left: 2px; padding-right: 2px;   background: #FAFAFA;  flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <ClientOnly>
                     <el-popover placement="bottom-end" title="" v-if="giftInfo" :width="475" :effect="dark"
-                      :show-arrow="false" trigger="click" :persistent=true :teleported=true offset="30"
-                      :popper-style="popperStyle"
-                      style="border-radius: 4px;border: 2px solid #000;background: #FFF;box-shadow: 0px 4px 0px 0px #000;">
+                                :show-arrow="false" trigger="click" :persistent=true :teleported=true offset="30"
+                                :popper-style="popperStyle"
+                                style="border-radius: 4px;border: 2px solid #000;background: #FFF;box-shadow: 0px 4px 0px 0px #000;">
                       <p>
-                      <div
-                        style="color: #050505; font-size: 18px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word">
-                        Gift
-                      </div>
+                        <div
+                            style="color: #050505; font-size: 18px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word">
+                          Gift
+                        </div>
                       </p>
                       <el-carousel height="auto" :autoplay="autoplay">
                         <el-carousel-item v-for="(slide, idx) in giftInfo" style="height: 250px;margin-left: 30px;">
                           <div style="overflow: hidden;align-items: center;justify-content: center;">
                             <span v-for="(slide1, idx1) in slide" @click="activeGift1(idx1, slide1.goodsDto)"
-                              style="cursor: pointer; width: 81px; margin: 10px; height: 96px; float: left; ">
+                                  style="cursor: pointer; width: 81px; margin: 10px; height: 96px; float: left; ">
                               <div :class="{ 'active1': currentItem1 === idx1, 'no_active1': currentItem1 != idx1 }"
-                                style="display: flex;flex-direction: column;align-items: center;">
-                                <img style="width: 60px; height: 60px; " :src="slide1.goodsDto.url" />
+                                   style="display: flex;flex-direction: column;align-items: center;">
+                                <img style="width: 60px; height: 60px; " :src="slide1.goodsDto.url"/>
                                 <p
-                                  style="width: 81px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; color: var(--color-text-icon-color-1, #09090B);text-align: center;/* text-xs/semibold */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 600;line-height: 16px; /* 133.333% */">
+                                    style="width: 81px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; color: var(--color-text-icon-color-1, #09090B);text-align: center;/* text-xs/semibold */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 600;line-height: 16px; /* 133.333% */">
                                   {{
                                     slide1.goodsDto.title
                                   }}</p>
                                 <p style="display: flex;align-items: center;">
                                   <span>
-                                    <img style="width: 9px; height: 9px;" :src="icon7" />
+                                    <img style="width: 9px; height: 9px;" :src="icon7"/>
                                   </span>
                                   <span
-                                    style="color: var(--color-text-icon-color-1, #09090B);/* text-xs/font-thin */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 400;line-height: 16px; /* 133.333% */">{{
+                                      style="color: var(--color-text-icon-color-1, #09090B);/* text-xs/font-thin */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 400;line-height: 16px; /* 133.333% */">{{
                                       slide1.goodsDto.price
                                     }}</span>
                                 </p>
@@ -1533,32 +1534,32 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                         </el-carousel-item>
                       </el-carousel>
                       <div
-                        style="width: 100%; height: 100%; padding: 12px; justify-content: space-between; align-items: center; display: inline-flex">
+                          style="width: 100%; height: 100%; padding: 12px; justify-content: space-between; align-items: center; display: inline-flex">
                         <div
-                          style="padding-top: 7px; padding-bottom: 7px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                            style="padding-top: 7px; padding-bottom: 7px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                           <div style="justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
                             <div style="justify-content: flex-start; align-items: center; gap: 4px; display: flex">
                               <div style="width: 16px; height: 16px; position: relative">
                                 <img style="width: 16px; height: 16px; left: 0px; top: 0px; position: absolute"
-                                  :src="icon7" />
+                                     :src="icon7"/>
                               </div>
                               <div
-                                style="color: var(--color-text-icon-color-1, #09090B);font-family: Mulish;font-size: 14px;font-style: normal;font-weight: 600;line-height: normal;">
+                                  style="color: var(--color-text-icon-color-1, #09090B);font-family: Mulish;font-size: 14px;font-style: normal;font-weight: 600;line-height: normal;">
                                 {{ gold }}
                               </div>
                             </div>
                             <div style="justify-content: flex-start; align-items: center; display: flex">
                               <nuxt-link to="/recharge.html">
                                 <div
-                                  style="color: #F59E0B; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
+                                    style="color: #F59E0B; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
                                   Recharge
                                 </div>
                               </nuxt-link>
                               <div style="width: 16px; height: 16px; position: relative;">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                  xmlns="http://www.w3.org/2000/svg">
+                                     xmlns="http://www.w3.org/2000/svg">
                                   <path d="M5.33366 13.3335L10.667 8.00016L5.33366 2.66683" stroke="#F59E0B"
-                                    stroke-width="1.33333" stroke-linecap="square" />
+                                        stroke-width="1.33333" stroke-linecap="square"/>
                                 </svg>
                               </div>
                             </div>
@@ -1567,11 +1568,11 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                         <div>
                           <div @click="sendGift(currentItem1Info)">
                             <svg width="65" height="32" viewBox="0 0 65 32" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <rect width="65" height="32" rx="16" fill="#F43F5E" />
+                                 xmlns="http://www.w3.org/2000/svg">
+                              <rect width="65" height="32" rx="16" fill="#F43F5E"/>
                               <path
-                                d="M19.354 21.168C18.8593 21.168 18.3973 21.1073 17.968 20.986C17.5387 20.8647 17.156 20.6967 16.82 20.482C16.484 20.258 16.204 20.0107 15.98 19.74C15.7653 19.4693 15.6253 19.1847 15.56 18.886L17.436 18.326C17.5573 18.6433 17.772 18.9187 18.08 19.152C18.388 19.376 18.7753 19.4927 19.242 19.502C19.7367 19.5113 20.138 19.404 20.446 19.18C20.7633 18.956 20.922 18.6667 20.922 18.312C20.922 18.004 20.796 17.7473 20.544 17.542C20.3013 17.3273 19.9653 17.164 19.536 17.052L18.262 16.716C17.786 16.5947 17.366 16.4127 17.002 16.17C16.638 15.918 16.3533 15.61 16.148 15.246C15.9427 14.882 15.84 14.4573 15.84 13.972C15.84 13.048 16.1433 12.3293 16.75 11.816C17.366 11.2933 18.234 11.032 19.354 11.032C19.9793 11.032 20.5253 11.1253 20.992 11.312C21.468 11.4893 21.8647 11.746 22.182 12.082C22.4993 12.418 22.742 12.8147 22.91 13.272L21.048 13.846C20.936 13.5287 20.7307 13.258 20.432 13.034C20.1333 12.81 19.7553 12.698 19.298 12.698C18.8313 12.698 18.4627 12.8053 18.192 13.02C17.9307 13.2347 17.8 13.538 17.8 13.93C17.8 14.238 17.9027 14.4807 18.108 14.658C18.3227 14.8353 18.612 14.9707 18.976 15.064L20.264 15.386C21.104 15.5913 21.7573 15.96 22.224 16.492C22.6907 17.024 22.924 17.6167 22.924 18.27C22.924 18.8487 22.784 19.3573 22.504 19.796C22.224 20.2253 21.818 20.5613 21.286 20.804C20.754 21.0467 20.11 21.168 19.354 21.168ZM27.5779 21.168C26.8872 21.168 26.2759 21.014 25.7439 20.706C25.2119 20.3887 24.7919 19.9547 24.4839 19.404C24.1852 18.8533 24.0359 18.2187 24.0359 17.5C24.0359 16.7813 24.1899 16.1467 24.4979 15.596C24.8152 15.0453 25.2446 14.616 25.7859 14.308C26.3366 13.9907 26.9666 13.832 27.6759 13.832C28.2826 13.832 28.8426 13.9953 29.3559 14.322C29.8786 14.6393 30.2986 15.1107 30.6159 15.736C30.9332 16.352 31.0919 17.1033 31.0919 17.99H29.2159C29.2252 17.374 29.1599 16.884 29.0199 16.52C28.8892 16.1467 28.7026 15.8807 28.4599 15.722C28.2172 15.554 27.9326 15.47 27.6059 15.47C27.2606 15.47 26.9666 15.5447 26.7239 15.694C26.4906 15.8433 26.3132 16.072 26.1919 16.38C26.0706 16.6787 26.0099 17.0707 26.0099 17.556C26.0099 17.976 26.0892 18.326 26.2479 18.606C26.4066 18.886 26.6212 19.1007 26.8919 19.25C27.1626 19.39 27.4566 19.46 27.7739 19.46C28.1379 19.46 28.4319 19.3807 28.6559 19.222C28.8892 19.0633 29.0666 18.858 29.1879 18.606L30.9239 19.278C30.7186 19.67 30.4619 20.0107 30.1539 20.3C29.8459 20.58 29.4772 20.7947 29.0479 20.944C28.6186 21.0933 28.1286 21.168 27.5779 21.168ZM25.2399 17.99L25.2539 16.548H30.1819V17.99H25.2399ZM32.2863 21V14H34.0223L34.1343 15.288V21H32.2863ZM36.9203 21V17.416L38.7683 16.996V21H36.9203ZM36.9203 17.416C36.9203 16.94 36.8643 16.5713 36.7523 16.31C36.6496 16.0487 36.5003 15.862 36.3043 15.75C36.1083 15.6287 35.8796 15.568 35.6183 15.568C35.1423 15.5587 34.7736 15.7033 34.5123 16.002C34.2603 16.3007 34.1343 16.744 34.1343 17.332H33.5183C33.5183 16.5853 33.6256 15.9553 33.8403 15.442C34.0643 14.9193 34.3723 14.5227 34.7643 14.252C35.1563 13.972 35.6183 13.832 36.1503 13.832C36.9996 13.832 37.6483 14.0933 38.0963 14.616C38.5536 15.1293 38.7776 15.9227 38.7683 16.996L36.9203 17.416ZM45.2273 21L45.1293 19.698V11.2H46.9773V21H45.2273ZM43.0293 21.168C42.3853 21.168 41.8253 21.0187 41.3493 20.72C40.8826 20.4213 40.5186 19.9967 40.2573 19.446C39.996 18.8953 39.8653 18.2467 39.8653 17.5C39.8653 16.744 39.996 16.0953 40.2573 15.554C40.5186 15.0033 40.8826 14.5787 41.3493 14.28C41.8253 13.9813 42.3853 13.832 43.0293 13.832C43.6173 13.832 44.112 13.9813 44.5133 14.28C44.924 14.5787 45.2366 15.0033 45.4513 15.554C45.666 16.0953 45.7733 16.744 45.7733 17.5C45.7733 18.2467 45.666 18.8953 45.4513 19.446C45.2366 19.9967 44.924 20.4213 44.5133 20.72C44.112 21.0187 43.6173 21.168 43.0293 21.168ZM43.5053 19.474C43.8226 19.474 44.1026 19.39 44.3453 19.222C44.5973 19.054 44.7933 18.8207 44.9333 18.522C45.0733 18.2233 45.1433 17.8827 45.1433 17.5C45.1433 17.1173 45.0733 16.7767 44.9333 16.478C44.7933 16.1793 44.5973 15.9507 44.3453 15.792C44.1026 15.624 43.818 15.54 43.4913 15.54C43.1553 15.54 42.8613 15.624 42.6093 15.792C42.3573 15.9507 42.1566 16.1793 42.0073 16.478C41.858 16.7767 41.7833 17.1173 41.7833 17.5C41.7833 17.8827 41.858 18.2233 42.0073 18.522C42.1566 18.8207 42.3573 19.054 42.6093 19.222C42.8706 19.39 43.1693 19.474 43.5053 19.474Z"
-                                fill="white" />
+                                  d="M19.354 21.168C18.8593 21.168 18.3973 21.1073 17.968 20.986C17.5387 20.8647 17.156 20.6967 16.82 20.482C16.484 20.258 16.204 20.0107 15.98 19.74C15.7653 19.4693 15.6253 19.1847 15.56 18.886L17.436 18.326C17.5573 18.6433 17.772 18.9187 18.08 19.152C18.388 19.376 18.7753 19.4927 19.242 19.502C19.7367 19.5113 20.138 19.404 20.446 19.18C20.7633 18.956 20.922 18.6667 20.922 18.312C20.922 18.004 20.796 17.7473 20.544 17.542C20.3013 17.3273 19.9653 17.164 19.536 17.052L18.262 16.716C17.786 16.5947 17.366 16.4127 17.002 16.17C16.638 15.918 16.3533 15.61 16.148 15.246C15.9427 14.882 15.84 14.4573 15.84 13.972C15.84 13.048 16.1433 12.3293 16.75 11.816C17.366 11.2933 18.234 11.032 19.354 11.032C19.9793 11.032 20.5253 11.1253 20.992 11.312C21.468 11.4893 21.8647 11.746 22.182 12.082C22.4993 12.418 22.742 12.8147 22.91 13.272L21.048 13.846C20.936 13.5287 20.7307 13.258 20.432 13.034C20.1333 12.81 19.7553 12.698 19.298 12.698C18.8313 12.698 18.4627 12.8053 18.192 13.02C17.9307 13.2347 17.8 13.538 17.8 13.93C17.8 14.238 17.9027 14.4807 18.108 14.658C18.3227 14.8353 18.612 14.9707 18.976 15.064L20.264 15.386C21.104 15.5913 21.7573 15.96 22.224 16.492C22.6907 17.024 22.924 17.6167 22.924 18.27C22.924 18.8487 22.784 19.3573 22.504 19.796C22.224 20.2253 21.818 20.5613 21.286 20.804C20.754 21.0467 20.11 21.168 19.354 21.168ZM27.5779 21.168C26.8872 21.168 26.2759 21.014 25.7439 20.706C25.2119 20.3887 24.7919 19.9547 24.4839 19.404C24.1852 18.8533 24.0359 18.2187 24.0359 17.5C24.0359 16.7813 24.1899 16.1467 24.4979 15.596C24.8152 15.0453 25.2446 14.616 25.7859 14.308C26.3366 13.9907 26.9666 13.832 27.6759 13.832C28.2826 13.832 28.8426 13.9953 29.3559 14.322C29.8786 14.6393 30.2986 15.1107 30.6159 15.736C30.9332 16.352 31.0919 17.1033 31.0919 17.99H29.2159C29.2252 17.374 29.1599 16.884 29.0199 16.52C28.8892 16.1467 28.7026 15.8807 28.4599 15.722C28.2172 15.554 27.9326 15.47 27.6059 15.47C27.2606 15.47 26.9666 15.5447 26.7239 15.694C26.4906 15.8433 26.3132 16.072 26.1919 16.38C26.0706 16.6787 26.0099 17.0707 26.0099 17.556C26.0099 17.976 26.0892 18.326 26.2479 18.606C26.4066 18.886 26.6212 19.1007 26.8919 19.25C27.1626 19.39 27.4566 19.46 27.7739 19.46C28.1379 19.46 28.4319 19.3807 28.6559 19.222C28.8892 19.0633 29.0666 18.858 29.1879 18.606L30.9239 19.278C30.7186 19.67 30.4619 20.0107 30.1539 20.3C29.8459 20.58 29.4772 20.7947 29.0479 20.944C28.6186 21.0933 28.1286 21.168 27.5779 21.168ZM25.2399 17.99L25.2539 16.548H30.1819V17.99H25.2399ZM32.2863 21V14H34.0223L34.1343 15.288V21H32.2863ZM36.9203 21V17.416L38.7683 16.996V21H36.9203ZM36.9203 17.416C36.9203 16.94 36.8643 16.5713 36.7523 16.31C36.6496 16.0487 36.5003 15.862 36.3043 15.75C36.1083 15.6287 35.8796 15.568 35.6183 15.568C35.1423 15.5587 34.7736 15.7033 34.5123 16.002C34.2603 16.3007 34.1343 16.744 34.1343 17.332H33.5183C33.5183 16.5853 33.6256 15.9553 33.8403 15.442C34.0643 14.9193 34.3723 14.5227 34.7643 14.252C35.1563 13.972 35.6183 13.832 36.1503 13.832C36.9996 13.832 37.6483 14.0933 38.0963 14.616C38.5536 15.1293 38.7776 15.9227 38.7683 16.996L36.9203 17.416ZM45.2273 21L45.1293 19.698V11.2H46.9773V21H45.2273ZM43.0293 21.168C42.3853 21.168 41.8253 21.0187 41.3493 20.72C40.8826 20.4213 40.5186 19.9967 40.2573 19.446C39.996 18.8953 39.8653 18.2467 39.8653 17.5C39.8653 16.744 39.996 16.0953 40.2573 15.554C40.5186 15.0033 40.8826 14.5787 41.3493 14.28C41.8253 13.9813 42.3853 13.832 43.0293 13.832C43.6173 13.832 44.112 13.9813 44.5133 14.28C44.924 14.5787 45.2366 15.0033 45.4513 15.554C45.666 16.0953 45.7733 16.744 45.7733 17.5C45.7733 18.2467 45.666 18.8953 45.4513 19.446C45.2366 19.9967 44.924 20.4213 44.5133 20.72C44.112 21.0187 43.6173 21.168 43.0293 21.168ZM43.5053 19.474C43.8226 19.474 44.1026 19.39 44.3453 19.222C44.5973 19.054 44.7933 18.8207 44.9333 18.522C45.0733 18.2233 45.1433 17.8827 45.1433 17.5C45.1433 17.1173 45.0733 16.7767 44.9333 16.478C44.7933 16.1793 44.5973 15.9507 44.3453 15.792C44.1026 15.624 43.818 15.54 43.4913 15.54C43.1553 15.54 42.8613 15.624 42.6093 15.792C42.3573 15.9507 42.1566 16.1793 42.0073 16.478C41.858 16.7767 41.7833 17.1173 41.7833 17.5C41.7833 17.8827 41.858 18.2233 42.0073 18.522C42.1566 18.8207 42.3573 19.054 42.6093 19.222C42.8706 19.39 43.1693 19.474 43.5053 19.474Z"
+                                  fill="white"/>
                             </svg>
                           </div>
                         </div>
@@ -1581,11 +1582,11 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                           <div style="width: 40px; height: 40px; position: relative">
                             <div style="width: 38px; height: 38px; left: 1px; top: 1px; position: absolute"></div>
                             <img style="width: 46.67px; height: 44px; left: -3.33px; top: -5px; position: absolute"
-                              :src="icon5" />
+                                 :src="icon5"/>
                           </div>
                           <div style="justify-content: flex-start; align-items: center; display: inline-flex">
                             <div
-                              style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
+                                style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
                               More
                             </div>
                             <div style="width: 14px; height: 14px; position: relative">
@@ -1599,24 +1600,24 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
                 </div>
                 <div style="top:50%;left:15%;z-index: 999;position: fixed">
                   <div class="enter-the-room" :style="{ left: -(idx * 20) + 'px' }"
-                    v-for="(slide, idx) in enterRoomInfo2">
+                       v-for="(slide, idx) in enterRoomInfo2">
                     <div class="enter-content">
                       <div class="enter-left-content">
-                        <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg" />
+                        <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg"/>
                         <div class="enter-text-content">
                           <div
-                            style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
-                            {{ slide.nickName}}
+                              style="color: #09090B; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
+                            {{ slide.nickName }}
                           </div>
                           <div
-                            style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
+                              style="color: #09090B; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
                             {{ slide.type }}
                           </div>
                         </div>
                       </div>
-                      <img v-if="slide.giftImg" style="width: 39px; height: 39px; " :src="slide.giftImg" />
+                      <img v-if="slide.giftImg" style="width: 39px; height: 39px; " :src="slide.giftImg"/>
                       <div
-                        style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
+                          style="color: #09090B; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
                         ×{{ slide.num }}
                       </div>
                     </div>
@@ -1626,16 +1627,16 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
               </div>
               <nuxt-link to="/recharge.html">
                 <div
-                  style="box-shadow: 0 2px 0 0; border:2px solid #050505;width: 90px; padding-left: 2px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px; background: #F59E0B; border-radius: 6px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                    style="box-shadow: 0 2px 0 0; border:2px solid #050505;width: 90px; padding-left: 2px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px; background: #F59E0B; border-radius: 6px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
 
                   <div
-                    style="width: 40px; height: 40px; padding: 1.67px; justify-content: center; align-items: center; display: inline-flex">
-                    <nuxt-link to="/recharge.html"><img style="width: 36.67px; height: 36.67px" :src="icon7" />
+                      style="width: 40px; height: 40px; padding: 1.67px; justify-content: center; align-items: center; display: inline-flex">
+                    <nuxt-link to="/recharge.html"><img style="width: 36.67px; height: 36.67px" :src="icon7"/>
                     </nuxt-link>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; display: inline-flex">
                     <div
-                      style="color: var(--color-text-icon-color-1, #09090B);text-align: center;font-family: Figtree;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
+                        style="color: var(--color-text-icon-color-1, #09090B);text-align: center;font-family: Figtree;font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;">
                       Recharge
                     </div>
                     <div style="width: 14px; height: 14px; position: relative">
@@ -1649,52 +1650,52 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
           </div>
         </div>
         <div
-          style="border-radius: var(--Color-card-2, 12px);border: 2px solid #050505;box-shadow: 0px 4px 0px 0px #000;width: 330px; align-self: stretch; background: white; overflow: hidden; flex-direction: column; justify-content: space-between; align-items: flex-start; display: inline-flex">
+            style="border-radius: var(--Color-card-2, 12px);border: 2px solid #050505;box-shadow: 0px 4px 0px 0px #000;width: 330px; align-self: stretch; background: white; overflow: hidden; flex-direction: column; justify-content: space-between; align-items: flex-start; display: inline-flex">
           <div
-            style="align-self: stretch; padding: 12px; border-bottom: 1px #F4F4F5 solid; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">
+              style="align-self: stretch; padding: 12px; border-bottom: 1px #F4F4F5 solid; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">
             <div style="justify-content: flex-start; align-items: center; gap: 2px; display: flex">
               <div style="width: 16px; height: 16px; position: relative; background: white">
-                <img :src="icon9" style="width: 16px; height: 16px;" />
+                <img :src="icon9" style="width: 16px; height: 16px;"/>
               </div>
               <div
-                style="color: #09090B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                  style="color: #09090B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                 Online User:
               </div>
               <div
-                style="color: #09090B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                  style="color: #09090B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                 {{ userTotalCount }}
               </div>
             </div>
           </div>
           <div
-            style="align-self: stretch; flex: 1 1 0; padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex">
+              style="align-self: stretch; flex: 1 1 0; padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex">
             <div
-              style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
+                style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
               <div
-                style="flex: 1 1 0; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                  style="flex: 1 1 0; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                 {{ dataInfo.announcement }}
               </div>
             </div>
             <div ref="chatMsgRef" id="chatMsg"
-              style=" height: 400px;overflow-y: auto;border: 0px solid #ccc;padding: 10px;">
+                 style=" height: 400px;overflow-y: auto;border: 0px solid #ccc;padding: 10px;">
               <div v-for="(slide, id) in chatMsgInfo"
-                style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
+                   style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
                 <div style="justify-content: flex-start; align-items: flex-start; gap: 2px; display: flex">
                   <div
-                    style="color: #3B82F6; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word;word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      style="color: #3B82F6; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word;word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                     {{ slide.userName }}
                   </div>
                   <div
-                    style="color: #3B82F6; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                      style="color: #3B82F6; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                     :
                   </div>
                 </div>
                 <div v-if="slide.content == 'Enter the room'"
-                  style="width: 224px; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                     style="width: 224px; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                   {{ slide.content }}
                 </div>
                 <div v-else
-                  style="width: 224px; color: #3F3F46; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                     style="width: 224px; color: #3F3F46; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                   {{ slide.content }}
                 </div>
               </div>
@@ -1703,53 +1704,53 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         </div>
       </div>
     </section>
-    <section class="lg:hidden md" style="height: 100%">
+    <section class="lg:hidden md">
       <div :style="{ backgroundImage: 'url(' + icon11 + ')' }"
-        style="width:100%;height:100%;background-repeat: no-repeat;background-size: 100% 100%;background-attachment: fixed;">
-        <div class="px-1" style="width: 100%; height: 100%;position:relative;z-index:99;">
+           style="background-repeat: no-repeat;background-size: 100% 100%;">
+        <div class="px-1" style="position:relative;z-index:99;">
           <div class="flex justify-center" style="height: 5vh;width:100%;position: relative;top:1.5vh;left:1.8vw;">
             <img style="position:absolute;left:0;top:0;width: 24px;height: 24px;" :src="MoreIconBlack"
-              alt="MoreIconBlack" />
+                 alt="MoreIconBlack"/>
             <div class="flex justify-start">
               <img style="width: 26px; height: 26px; border-radius: 9999px" :src="Logo" alt="">
               <div style="color:#050505;font-weight: 600;">AwazMingle</div>
             </div>
           </div>
           <div
-            style="padding: 1vh 1vw;border-top-left-radius: 30px; border-top-right-radius: 30px; justify-content: flex-start; align-items: center; gap: 11px; display: inline-flex">
+              style="padding: 1vh 1vw;border-top-left-radius: 30px; border-top-right-radius: 30px; justify-content: flex-start; align-items: center; gap: 11px; display: inline-flex">
             <div style="justify-content: flex-start; align-items: center; gap: 5px; display: flex">
               <div
-                style="justify-content: center; align-items: center; display: flex;box-shadow: 0 1.5px 0 0 #050505;border-radius: 48%;border:1px solid #000;overflow: hidden">
-                <img style="width: 9vw;height: 9vw;object-fit: cover;" alt="avatarUrl" :src="dataInfo.avatarUrl" />
+                  style="justify-content: center; align-items: center; display: flex;box-shadow: 0 1.5px 0 0 #050505;border-radius: 48%;border:1px solid #000;overflow: hidden">
+                <img style="width: 9vw;height: 9vw;object-fit: cover;" alt="avatarUrl" :src="dataInfo.avatarUrl"/>
               </div>
               <div
-                style="flex-direction: column; width:60vw;justify-content: flex-start; align-items: flex-start; display: inline-flex">
+                  style="flex-direction: column; width:60vw;justify-content: flex-start; align-items: flex-start; display: inline-flex">
                 <div style="justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
                   <div
-                    style="color: rgba(0, 0, 0, 0.83); font-size: 3vw; font-family: Figtree; font-weight: 600; max-width: 55%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      style="color: rgba(0, 0, 0, 0.83); font-size: 3vw; font-family: Figtree; font-weight: 600; max-width: 55%; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                     {{ dataInfo.title }}
                   </div>
                   <div
-                    style="padding-left: 4.26px; padding-right: 4.26px; padding-top: 1.07px; padding-bottom: 1.07px;  border-radius: 5328.82px; justify-content: flex-start; align-items: center; gap: 1.07px; display: flex">
+                      style="padding-left: 4.26px; padding-right: 4.26px; padding-top: 1.07px; padding-bottom: 1.07px;  border-radius: 5328.82px; justify-content: flex-start; align-items: center; gap: 1.07px; display: flex">
                     <img style="width: 8vw; height:4vw;" :src="liveicon">
                   </div>
                 </div>
                 <div
-                  style="color: rgba(0, 0, 0, 0.83); font-size: 2vw;white-space: nowrap;  font-family: Figtree; font-weight: 500; max-width: 55%; word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;">
+                    style="color: rgba(0, 0, 0, 0.83); font-size: 2vw;white-space: nowrap;  font-family: Figtree; font-weight: 500; max-width: 55%; word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;">
                   {{ dataInfo.announcement }}
                 </div>
               </div>
               <div class="flex justify-center items-center gap-3.5">
                 <div
-                  style="display: flex;align-items: center;gap: var(--Spacing-2-5, 5px);border-radius: 23px;background: rgba(9, 9, 11, 0.10);padding: 0.7vh 2vw;">
+                    style="display: flex;align-items: center;gap: var(--Spacing-2-5, 5px);border-radius: 23px;background: rgba(9, 9, 11, 0.10);padding: 0.7vh 2vw;">
                   <img style="width:3vw;height:3vw;" :src="icon2" alt="eye">
                   <div
-                    style="color: var(--color-text-icon-color-2, #3F3F46);text-align: right;/* text-xs/normal */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 400;line-height: 16px; /* 133.333% */">
+                      style="color: var(--color-text-icon-color-2, #3F3F46);text-align: right;/* text-xs/normal */font-family: var(--font, Archivo);font-size: 12px;font-style: normal;font-weight: 400;line-height: 16px; /* 133.333% */">
                     5436
                   </div>
                 </div>
                 <div>
-                  <a href="/index.html" >
+                  <a href="/index.html">
                     <img style="width:5vw;height:5vw;" :src="back_up" alt="back_up">
                   </a>
                 </div>
@@ -1757,88 +1758,88 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             </div>
           </div>
           <div
-            style="padding: 1vh 2vw;color: var(--color-text-icon-color-1, #09090B);font-family: Figtree;font-size: 14px;font-style: normal;font-weight: 500;line-height: normal;">
+              style="padding: 1vh 2vw;color: var(--color-text-icon-color-1, #09090B);font-family: Figtree;font-size: 14px;font-style: normal;font-weight: 500;line-height: normal;">
             Online user:584
           </div>
           <div v-cloak class="chat-content">
             <div class="avatar-row">
               <div
-                style="width: 100%; height: 100%; justify-content: center; align-items: flex-start; gap: 21px; display: inline-flex">
+                  style="width: 100%; height: 100%; justify-content: center; align-items: flex-start; gap: 21px; display: inline-flex">
                 <div v-if="userList[0]"
-                  style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                     style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <div
-                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                      style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                     <div
-                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                        style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                       <img
-                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                        :src="userList[0].avatarUrl" />
+                          style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                          :src="userList[0].avatarUrl"/>
                     </div>
                     <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                       <div
-                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                          style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                         {{ userList[0].userName }}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-else
-                  style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                     style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <div
-                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                      style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                     <div
-                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                        style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                       <div
-                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                          style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                         <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                           <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                            :src="voice_desk" />
+                               :src="voice_desk"/>
                         </div>
                       </div>
                     </div>
                     <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                       <div
-                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                          style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                         &nbsp;No.1
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-if="userList[1]"
-                  style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                     style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <div
-                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                      style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                     <div
-                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                        style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                       <img
-                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                        :src="userList[0].avatarUrl" />
+                          style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                          :src="userList[0].avatarUrl"/>
                     </div>
                     <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                       <div
-                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                          style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                         {{ userList[0].userName }}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-else
-                  style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                     style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                   <div
-                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                      style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                     <div
-                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                        style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                       <div
-                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                          style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                         <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                           <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                            :src="voice_desk" />
+                               :src="voice_desk"/>
                         </div>
                       </div>
                     </div>
                     <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                       <div
-                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                          style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                         &nbsp;No.2
                       </div>
                     </div>
@@ -1849,160 +1850,160 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             </div>
             <div class="avatar-row">
               <div v-if="userList[2]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.3
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[3]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.4
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[4]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.5
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[5]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.6
                     </div>
                   </div>
@@ -2011,160 +2012,160 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             </div>
             <div class="avatar-row">
               <div v-if="userList[6]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.7
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[7]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.8
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[8]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.9
                     </div>
                   </div>
                 </div>
               </div>
               <div v-if="userList[9]"
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="overflow:hidden;width: 68px; height: 68px; position: relative;border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <img
-                      style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
-                      :src="userList[0].avatarUrl" />
+                        style="width: 100%; height: 100%;position: absolute; background: linear-gradient(0deg, white 0%, white 100%); "
+                        :src="userList[0].avatarUrl"/>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       {{ userList[0].userName }}
                     </div>
                   </div>
                 </div>
               </div>
               <div v-else
-                style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+                   style="flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
                 <div
-                  style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+                    style="height:11vh;flex-direction: column; justify-content: space-between; align-items: center; display: flex">
                   <div
-                    style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
+                      style="width: 68px; height: 68px; position: relative; border-radius: 12.32px;border: 1.232px solid var(--color-text-icon-color-1, #09090B);background: #F9F4FC;box-shadow: 0px 2.464px 0px 0px #000;">
                     <div
-                      style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+                        style="padding: 13px; left: 9px; top: 9px; position: absolute; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
                       <div style="width: 24px; height: 24px; position: relative; opacity: 0.50">
                         <img style="width: 20px; height: 20px; left: 2px; top: 3px; position: absolute"
-                          :src="voice_desk" />
+                             :src="voice_desk"/>
                       </div>
                     </div>
                   </div>
                   <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
                     <div
-                      style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                        style="text-align: center; color: #050505; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                       &nbsp;No.10
                     </div>
                   </div>
@@ -2177,21 +2178,21 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
             <div class="enter-the-room" :style="{ left: -(idx * 20) + 'px' }" v-for="(slide, idx) in enterRoomInfo2">
               <div class="enter-content">
                 <div class="enter-left-content">
-                  <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg" />
+                  <img style="width: 33px; height: 33px; border-radius: 9999px" :src="slide.headImg"/>
                   <div class="enter-text-content">
                     <div
-                      style="color: white; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
+                        style="color: white; font-size: 9.89px; font-family: Figtree; font-weight: 600; word-wrap: break-word">
                       {{ slide.nickName }}
                     </div>
                     <div
-                      style="color: white; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
+                        style="color: white; font-size: 13.19px; font-family: Figtree; font-weight: 700; word-wrap: break-word">
                       {{ slide.type }}
                     </div>
                   </div>
                 </div>
-                <img v-if="slide.giftImg" style="width: 39px; height: 39px; margin-right: 15px;" :src="slide.giftImg" />
+                <img v-if="slide.giftImg" style="width: 39px; height: 39px; margin-right: 15px;" :src="slide.giftImg"/>
                 <div
-                  style="color: #FFD41A; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
+                    style="color: #FFD41A; font-size: 18.66px; font-family: Mulish; font-style: italic; font-weight: 700; word-wrap: break-word;margin-right: 5px;">
                   ×{{ slide.num }}
                 </div>
               </div>
@@ -2200,75 +2201,75 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
 
           <nuxt-link to="/">
             <div
-              style="left: 90%; top: 0;width: 40px;height: 40px;z-index: 999; position: absolute; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">
+                style="left: 90%; top: 0;width: 40px;height: 40px;z-index: 999; position: absolute; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_719_12719)">
-                  <path d="M6 6L18 18" stroke="white" stroke-width="1.62857" />
-                  <path d="M18 6L6 18" stroke="white" stroke-width="1.62857" />
+                  <path d="M6 6L18 18" stroke="white" stroke-width="1.62857"/>
+                  <path d="M18 6L6 18" stroke="white" stroke-width="1.62857"/>
                 </g>
                 <defs>
                   <clipPath id="clip0_719_12719">
-                    <rect width="24" height="24" fill="white" />
+                    <rect width="24" height="24" fill="white"/>
                   </clipPath>
                 </defs>
               </svg>
             </div>
           </nuxt-link>
           <div
-            style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; left: 75%; top: 9px; position: absolute; background: rgba(255, 255, 255, 0.10); border-radius: 23px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
+              style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; left: 75%; top: 9px; position: absolute; background: rgba(255, 255, 255, 0.10); border-radius: 23px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
             <div style="justify-content: flex-start; align-items: center; gap: 2px; display: inline-flex">
               <div style="width: 16px; height: 16px; position: relative">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
-                    d="M1.61342 8.47562C1.52262 8.33186 1.47723 8.25998 1.45182 8.14911C1.43273 8.06583 1.43273 7.9345 1.45182 7.85122C1.47723 7.74035 1.52262 7.66847 1.61341 7.52471C2.36369 6.33672 4.59693 3.3335 8.00027 3.3335C11.4036 3.3335 13.6369 6.33672 14.3871 7.52471C14.4779 7.66847 14.5233 7.74035 14.5487 7.85122C14.5678 7.9345 14.5678 8.06583 14.5487 8.14911C14.5233 8.25998 14.4779 8.33186 14.3871 8.47562C13.6369 9.6636 11.4036 12.6668 8.00027 12.6668C4.59693 12.6668 2.36369 9.6636 1.61342 8.47562Z"
-                    stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      d="M1.61342 8.47562C1.52262 8.33186 1.47723 8.25998 1.45182 8.14911C1.43273 8.06583 1.43273 7.9345 1.45182 7.85122C1.47723 7.74035 1.52262 7.66847 1.61341 7.52471C2.36369 6.33672 4.59693 3.3335 8.00027 3.3335C11.4036 3.3335 13.6369 6.33672 14.3871 7.52471C14.4779 7.66847 14.5233 7.74035 14.5487 7.85122C14.5678 7.9345 14.5678 8.06583 14.5487 8.14911C14.5233 8.25998 14.4779 8.33186 14.3871 8.47562C13.6369 9.6636 11.4036 12.6668 8.00027 12.6668C4.59693 12.6668 2.36369 9.6636 1.61342 8.47562Z"
+                      stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   <path
-                    d="M8.00027 10.0002C9.10484 10.0002 10.0003 9.10473 10.0003 8.00016C10.0003 6.89559 9.10484 6.00016 8.00027 6.00016C6.8957 6.00016 6.00027 6.89559 6.00027 8.00016C6.00027 9.10473 6.8957 10.0002 8.00027 10.0002Z"
-                    stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      d="M8.00027 10.0002C9.10484 10.0002 10.0003 9.10473 10.0003 8.00016C10.0003 6.89559 9.10484 6.00016 8.00027 6.00016C6.8957 6.00016 6.00027 6.89559 6.00027 8.00016C6.00027 9.10473 6.8957 10.0002 8.00027 10.0002Z"
+                      stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
               <div
-                style="text-align: right; color: white; font-size: 12px; font-weight: normal; font-weight: 500; line-height: 16px; word-wrap: break-word">
+                  style="text-align: right; color: white; font-size: 12px; font-weight: normal; font-weight: 500; line-height: 16px; word-wrap: break-word">
                 {{ userTotalCount }}
               </div>
             </div>
           </div>
         </div>
-        <div class="mt-28"
-          style="width: 100%; height: 100%; bottom:0%;flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+        <div class="mt-20"
+             style="width: 100%; height: 100%; bottom:0%;flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
           <div style="justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
             <div
-              style="width: 224px; color: #FBBF24; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                style="margin-left:16px;width: 224px; color: #FBBF24; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
               {{ dataInfo.announcement }}
             </div>
           </div>
           <div ref="chatMsgRef" id="chatMsg1"
-            style=" height: 200px;overflow-y: auto;border: 0px solid #ccc;padding: 10px;">
+               style=" height: 200px;overflow-y: auto;border: 0px solid #ccc;padding: 10px;">
             <div v-for="(slide, id) in chatMsgInfo" :key="id"
-              style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
+                 style="align-self: stretch; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
               <div style="justify-content: flex-start; align-items: flex-start; gap: 2px; display: flex">
                 <div
-                  style="color: rgba(255, 255, 255, 0.70); font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    style="color: rgba(255, 255, 255, 0.70); font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                   {{ slide.userName }}
                 </div>
                 <div
-                  style="color: rgba(255, 255, 255, 0.70); font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                    style="color: rgba(255, 255, 255, 0.70); font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                   :
                 </div>
               </div>
               <div v-if="slide.content == 'Enter the room'"
-                style="width: 200px; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                   style="width: 200px; color: #F59E0B; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                 {{ slide.content }}
               </div>
               <div v-else
-                style="width: 200px; color: white; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
+                   style="width: 200px; color: white; font-size: 14px; font-family: Figtree; font-weight: 500; word-wrap: break-word">
                 {{ slide.content }}
               </div>
             </div>
           </div>
         </div>
         <div v-if="!voicePlay" @click="play" style="cursor: pointer; position: fixed;right: 4%;top:85%;">
-          <img :src="Unmute" alt="Unmute">
+          <img width="100" height="50" :src="Unmute" alt="Unmute">
           <!-- <svg width="97" height="32" viewBox="0 0 97 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="97" height="32" rx="16" fill="white" fill-opacity="0.1" />
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -2289,7 +2290,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
           </svg> -->
         </div>
         <div v-if="voicePlay" @click="noPlay" style="cursor: pointer; position: fixed;right: 4%;top:85%;">
-          <img :src="Unmute" alt="Unmute">
+          <img width="100" height="50" :src="Vector" alt="Vector">
           <!-- <svg width="79" height="32" viewBox="0 0 79 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="79" height="32" rx="16" fill="white" fill-opacity="0.1" />
             <path
@@ -2324,11 +2325,11 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         </div>
       </div>
       <el-drawer v-model="drawer" :direction="direction" :append-to-body=true :visible="drawer" size="50%"
-        title="I am the title" :with-header="false" :z-index=999
-        style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;background-color: #FFFFFF;">
-        <div style="position: sticky;top:0;z-index: 999;background: #FFFFFF;width: 100%">
+                 title="I am the title" :with-header="false" :z-index=999
+                 style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;background-color: #FFFFFF;">
+        <div style="position: sticky;top:-23px;height:8vh;z-index: 999;background: #FFFFFF;width: 100%">
           <div
-            style="color: #050505;padding:12px;margin-left:15px; font-size: 18px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word">
+              style="color: #050505;padding:12px;margin-left:15px; font-size: 18px; font-weight: normal; font-weight: 700; line-height: 28px; word-wrap: break-word">
             Gift
           </div>
         </div>
@@ -2336,28 +2337,28 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         <Swiper :pagination="{
           clickable: true  // 如果需要点击小点切换到对应的滑块，可以设置 clickable: true
         }"
-          :modules="[SwiperController, SwiperEffectCube, SwiperEffectFlip, SwiperGrid, SwiperNavigation, SwiperEffectCards]"
-          :loop="false" :navigation="{
+                :modules="[SwiperController, SwiperEffectCube, SwiperEffectFlip, SwiperGrid, SwiperNavigation, SwiperEffectCards]"
+                :loop="false" :navigation="{
             nextEl: 'null',
             prevEl: 'null',
           }">
           <!-- Left arrow -->
           <SwiperSlide v-for="(slide, idx) in giftInfoH5" :key="idx" class="h-full">
             <div
-              style=" overflow-y: auto;align-items: center;justify-content: center;display: grid; grid-template-columns: repeat(4, 1fr);">
+                style=" overflow-y: auto;align-items: center;justify-content: center;display: grid; grid-template-columns: repeat(4, 1fr);">
               <span v-for="(slide1, idx1) in slide" @click="activeGift1(idx1, slide1.goodsDto)" :key="idx1"
-                :class="{ 'active1': currentItem1 === idx1, 'no_active1': currentItem1 != idx1 }"
-                style="cursor: pointer;  height: 90px; float: left; ">
+                    :class="{ 'active1': currentItem1 === idx1, 'no_active1': currentItem1 != idx1 }"
+                    style="cursor: pointer;  height: 90px; float: left; ">
                 <div style="display: flex;align-items: center;flex-direction: column;">
-                  <img style="width: 40px; height: 40px; " :src="slide1.goodsDto.url" />
+                  <img style="width: 40px; height: 40px; " :src="slide1.goodsDto.url"/>
                   <p
-                    style="width: 50px; text-align: center; color: #050505;  overflow: hidden; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                      style="width: 50px; text-align: center; color: #050505;  overflow: hidden; font-size: 12px; font-family: Figtree; font-weight: 500; word-wrap: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                     {{
                       slide1.goodsDto.title
                     }}</p>
                   <p style="display: flex;align-items: center;">
                     <span>
-                      <img style="width: 9px; height: 9px;" :src="icon7" />
+                      <img style="width: 9px; height: 9px;" :src="icon7"/>
                     </span>
                     <span style="color: #050505;font-size:10px;font-weight: 300;">{{ slide1.goodsDto.price }}</span>
                   </p>
@@ -2367,37 +2368,37 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
           </SwiperSlide>
         </Swiper>
         <div
-          style="width: 100%;position:sticky; bottom: 0;z-index:999;background:#FFFFFF;height: 56px; justify-content: space-between; align-items: center; display: inline-flex">
+            style="width: 100%;position:sticky; bottom: -20px;z-index:999;background:#FFFFFF;height: 8vh; justify-content: space-between; align-items: center; display: inline-flex">
           <div
-            style="padding-top: 7px; margin-left: 8px;padding-bottom: 7px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+              style="padding-top: 7px; margin-left: 8px;padding-bottom: 7px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
             <div style="justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
               <div style="justify-content: flex-start; align-items: center; gap: 4px; display: flex">
                 <div style="width: 16px; height: 16px; position: relative">
-                  <img style="width: 16px; height: 16px; left: 0px; top: 0px; position: absolute" :src="icon7" />
+                  <img style="width: 16px; height: 16px; left: 0px; top: 0px; position: absolute" :src="icon7"/>
                 </div>
                 <div
-                  style="color: #050505; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
+                    style="color: #050505; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
                   {{ gold }}
                 </div>
               </div>
               <div style="justify-content: flex-start; align-items: center; display: flex">
                 <nuxt-link to="/recharge.html">
                   <div
-                    style="color: #F59E0B; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
+                      style="color: #F59E0B; font-size: 14px; font-family: Mulish; font-weight: 600; word-wrap: break-word">
                     Recharge
                   </div>
                 </nuxt-link>
                 <div style="width: 16px; height: 16px; position: relative;">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.33366 13.3335L10.667 8.00016L5.33366 2.66683" stroke="#F59E0B" stroke-width="1.33333"
-                      stroke-linecap="square" />
+                          stroke-linecap="square"/>
                   </svg>
                 </div>
               </div>
             </div>
           </div>
           <div @click="sendGift(currentItem1Info)"
-            style="padding: 6px 20px;margin-right: 8px;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 2px 0px 0px #050505;">
+               style="padding: 6px 20px;margin-right: 8px;border-radius: 4px;border: 1px solid #050505;background: #DACDF4;box-shadow: 0px 2px 0px 0px #050505;">
             Send
           </div>
         </div>
@@ -2405,11 +2406,11 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
           <button>
             <div style="width: 40px; height: 40px; position: relative">
               <div style="width: 38px; height: 38px; left: 1px; top: 1px; position: absolute"></div>
-              <img style="width: 46.67px; height: 44px; left: -3.33px; top: -2px; position: absolute" :src="icon5" />
+              <img style="width: 46.67px; height: 44px; left: -3.33px; top: -2px; position: absolute" :src="icon5"/>
             </div>
             <div style="justify-content: flex-start; align-items: center; display: inline-flex">
               <div
-                style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
+                  style="text-align: center; color: #71717A; font-size: 12px; font-family: Figtree; font-weight: 400; word-wrap: break-word">
                 More
               </div>
               <div style="width: 14px; height: 14px; position: relative">
@@ -2424,7 +2425,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
   </section>
   <ClientOnly>
     <el-dialog v-model="passwordDialog" :width="dialogWidth" destroy-on-close :close-on-press-escape="passwordClose"
-      :close-on-click-modal="passwordClose" :show-close="showClose" center class="login-dialog" append-to-body>
+               :close-on-click-modal="passwordClose" :show-close="showClose" center class="login-dialog" append-to-body>
       <div class="container">
         <div class="header">
           <!-- 头部内容 -->
@@ -2438,8 +2439,8 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         <div class="input-container">
           <div class="input-wrapper">
             <input v-for="(digit, index) in digits" @keydown="onKeyDown(index, $event)" inputmode="numeric"
-              pattern="[0-9]*" :key="index" v-model="digits[index]" @input="onDigitInput(index)" maxlength="1"
-              class="digit-input" />
+                   pattern="[0-9]*" :key="index" v-model="digits[index]" @input="onDigitInput(index)" maxlength="1"
+                   class="digit-input"/>
           </div>
         </div>
         <div @click="joinRoom" class="button" :disabled="confirmDisabled">
@@ -2539,9 +2540,8 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
     justify-content: space-between;
   }
 
-  .input-wrapper>input:focus {
-    border: 2px solid #F43F5E;
-    ;
+  .input-wrapper > input:focus {
+    border: 2px solid #F43F5E;;
     outline: none;
     /* 移除默认的轮廓效果 */
   }
@@ -2591,7 +2591,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
     &.lg {
       //background-color: #FAFAFA;
       position: relative;
-      top: -210px;
+      top: -285px;
       z-index: 1;
 
       .active {
@@ -2609,7 +2609,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         justify-content: center;
         margin-bottom: 10%;
         position: relative;
-        padding:5px 10px;
+        padding: 5px 10px;
       }
 
       .enter-content {
@@ -2746,7 +2746,7 @@ const popperStyle = ref("border-radius: 20px; background-color: #fff;")
         margin-left: 10px;
       }
 
-      &>div {
+      & > div {
         //position: fixed;
         //top: 0;
         //left: 0;

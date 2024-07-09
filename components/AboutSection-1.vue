@@ -31,44 +31,50 @@ import Logo from "assets/images/logotwo.png";
 import Index from "~/pages/index.vue";
 
 const QuestionsList = ref<array>([
-  {QuestionID: 1, QuestionsTitle: 'How do I create an account on AwazMingle?', asktions: 'No answer yet'},
+  {
+    QuestionID: 1,
+    QuestionsTitle: 'How do I create an account on AwazMingle?',
+    asktions: 'To create an account on AwazMingle, navigate to our homepage, clickon \'Sign Up\', fill in the required information, and follow the prompts.'
+  },
   {
     QuestionID: 2,
-    QuestionsTitle: 'How do I join a voice room in AwazMingle?',
-    asktions: 'Yes, AwazMingle prioritizes your privacy and security. We safeguard and never share your personal data with unauthorized parties without your explicit consent.'
+    QuestionsTitle: 'How do l join a voice room in AwazMingle?',
+    asktions: 'To join a voice room in AwazMingle, select \'Rooms\' from the menu.\n' +
+        'browse the list of active rooms, and click \'Join\' on your chosen room.'
   },
   {
     QuestionID: 3,
     QuestionsTitle: 'What kind of topics are discussed in AwazMingle voice rooms?',
-    asktions: 'No answer yet'
+    asktions: 'AwazMingle voice rooms focus on a variety of entertainment topics.including music, movies, gaming, and pop culture. You can select a roomthat matches your interests.'
   },
-  {QuestionID: 4, QuestionsTitle: 'Can I create my own voice room in AwazMingle?', asktions: 'No answer yet'},
   {
-    QuestionID: 5,
-    QuestionsTitle: 'How does AwazMingle ensure the quality of discussions in the voice rooms?',
-    asktions: 'No answer yet'
+    QuestionID: 4,
+    QuestionsTitle: 'How does AwazMingle ensure the quality of discussions in the voicerooms?',
+    asktions: ' AwazMingle ensures quality discussions in voice rooms by enforcingcommunity guidelines, providing moderation tools, and encouragingrespectful,constructive conversation.'
   },
+  // {
+  //   QuestionID: 5,
+  //   QuestionsTitle: 'How does AwazMingle ensure the quality of discussions in the voice rooms?',
+  //   asktions: 'No answer yet'
+  // },
 ])
-const open = ref<number>(0)
-const openstatus = ref<boolean>(false)
-const h5_open = ref<number>(0)
-const h5_openstatus = ref<boolean>(false)
+const open = ref<number>(-1)
+const h5_open = ref<number>(-1)
 const openFunc = (index: number) => {
-  if (openstatus.value) {
-    open.value -= index
+  if (open.value === index) {
+    open.value = -1
   } else {
-    open.value += index
+    open.value = index
   }
-  openstatus.value = !openstatus.value
 }
 
 const h5open = (index: number) => {
-  if (h5_openstatus.value) {
-    h5_open.value -= index
+  console.log(index)
+  if (h5_open.value === index) {
+    h5_open.value = -1
   } else {
-    h5_open.value += index
+    h5_open.value = index
   }
-  h5_openstatus.value = !h5_openstatus.value
 }
 
 const centerDialogVisible = ref<boolean>(false)
@@ -79,6 +85,10 @@ const usertext = ref<string>('')
 const userEmailtext = ref<string>('')
 const userphoneNumber = ref<string>('')
 const openContactUs = () => {
+  centerDialogVisible.value = !centerDialogVisible.value
+}
+const closeCOntact = () => {
+  ElMessage.success('Submission successful')
   centerDialogVisible.value = !centerDialogVisible.value
 }
 
@@ -180,21 +190,27 @@ const openContactUs = () => {
           <div
               style="align-self: stretch;justify-content: space-between; align-items: center; gap: 64px; display: flex">
             <div class="fucnbox">
-              <img :src="Email" alt="">
+              <div class="fucnbox-img">
+                <img width="64" height="64" :src="Email" alt="">
+              </div>
               <div class="functitle">Email</div>
-              <div class="funcinfo">info@teller.zone</div>
+              <div class="funcinfo" style="margin-top: 25px;">info@teller.zone</div>
             </div>
             <div class="fucnbox">
-              <img :src="address" alt="">
-              <div class="functitle" style="margin: unset;">Company address</div>
+              <div class="fucnbox-img">
+                <img width="64" height="64" :src="address" alt="">
+              </div>
+              <div class="functitle">Company address</div>
               <div class="funcinfo">H.NO-816 C/O SUBHASH KUMAR BANSAL, HARIJAN BASTI BENGALSUITING SECTOR
                 31,FARIDABAD,Faridabad,Haryana,India,121003
               </div>
             </div>
             <div class="fucnbox">
-              <img :src="phone" alt="">
+              <div class="fucnbox-img">
+                <img width="64" height="64" :src="phone" alt="">
+              </div>
               <div class="functitle">Contact Phone</div>
-              <div class="funcinfo">+91 8867952846</div>
+              <div class="funcinfo" style="margin-top: 25px;">+91 8867952846</div>
             </div>
           </div>
         </div>
@@ -252,7 +268,7 @@ const openContactUs = () => {
       </section>
       <section class="lg:hidden md">
         <div class="pt-16">
-          <img style="width: 64vw;height: 62vw;margin:0 auto;" :src="image3" alt="image2"/>
+          <img style="height: 62vw;margin:0 auto;" :src="image3" alt="image2"/>
         </div>
         <div class="py-6"
              style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
@@ -270,7 +286,7 @@ const openContactUs = () => {
           <img :src="rightJ" alt="">
         </div>
         <div class="pt-24">
-          <img style="width: 62vw;height: 62vw;margin:0 auto;" :src="image4" alt="image4">
+          <img style="height: 62vw;margin:0 auto;" :src="image4" alt="image4">
         </div>
         <div class="px-8 py-6"
              style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
@@ -288,8 +304,8 @@ const openContactUs = () => {
           <img :src="rightJ" alt="">
         </div>
         <div class="pt-24" style="position:relative;">
-          <img style="width: 62vw;height: 62vw;margin:0 auto;" :src="image5" alt="image5">
-          <img style="width:17vw;height:17vw;position: absolute;left:14vw;bottom: 7vw;" :src="imgtip_h5"
+          <img style="height: 62vw;margin:0 auto;" :src="image5" alt="image5">
+          <img style="width:17vw;height:17vw;position: absolute;left:10vw;bottom: 7vw;" :src="imgtip_h5"
                alt="imgtip_h5">
         </div>
         <div class="px-8 py-6"
@@ -311,7 +327,7 @@ const openContactUs = () => {
         <div class="p-4"
              style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
           <div class="flex justify-center items-center my-2">
-            <img :src="Email" alt="Email">
+            <img width="40" height="40" :src="Email" alt="Email">
             <span
                 style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Email</span>
           </div>
@@ -323,7 +339,7 @@ const openContactUs = () => {
         <div class="p-4"
              style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
           <div class="flex justify-center items-center my-2">
-            <img :src="address" alt="Email">
+            <img width="40" height="40" :src="address" alt="Email">
             <span
                 style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Company address</span>
           </div>
@@ -336,7 +352,7 @@ const openContactUs = () => {
         <div class="p-4"
              style="margin:3vw auto;width:90vw;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;gap: 10px;align-self: stretch;border-radius: var(--Color-card-2, 12px);border: 1px solid #050505;background: #FFF;box-shadow: 0px 4px 0px 0px #050505;">
           <div class="flex justify-center items-center my-2">
-            <img :src="phone" alt="Email">
+            <img width="40" height="40" :src="phone" alt="Email">
             <span
                 style="margin-left:2vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 500;line-height: normal;">Contact Phone </span>
           </div>
@@ -347,8 +363,8 @@ const openContactUs = () => {
         </div>
       </section>
       <section class="lg:hidden md">
-        <div class="px-24 my-24"
-             style="color: #050505;text-align: center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
+        <div
+             style="color: #050505; width:342px;margin:3rem auto 2rem auto;text-align:center;font-family: Archivo;font-size: 5.5vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.524px;">
           Some of the most frequently
           asked questions
         </div>
@@ -357,7 +373,7 @@ const openContactUs = () => {
           <div class="flex justify-between items-center my-2" style="width: 79vw">
             <div
                 style="width:60vw;color: #050505;text-align: left;font-family: Archivo;font-size: 3.5vw;font-style: normal;font-weight: 600;line-height: normal;">
-              {{ item.QuestionsTitle }}
+              {{ item.QuestionsTitle + item.QuestionID}}
             </div>
             <div style="width: 5vw;height: 3.5vh;" @click="h5open(item.QuestionID)">
               <div v-if="h5_open === item.QuestionID">
@@ -432,9 +448,9 @@ const openContactUs = () => {
         <div class="contact-us-textarea">
           <textarea></textarea>
         </div>
-        <div class="contact-us-btn">
+        <div class="contact-us-btn" @click="closeCOntact">
           <div>Send</div>
-          <img :src="rightJ" alt="">
+          <img width="15" height="15" :src="rightJ" alt="">
         </div>
       </div>
     </el-dialog>
@@ -542,6 +558,11 @@ const openContactUs = () => {
     border: 1px solid #050505;
     background: #DACDF4;
     box-shadow: 0px 4px 0px 0px #050505;
+    cursor: pointer;
+  }
+
+  .contact-us-btn:hover {
+    background-color: #C9B2F7;
   }
 }
 
@@ -587,6 +608,11 @@ const openContactUs = () => {
           border: 1px solid #050505;
           background: #DACDF4;
           box-shadow: 0px 4px 0px 0px #050505;
+          cursor: pointer;
+        }
+
+        .boxone-btn:hover {
+          background-color: #C9B2F7;
         }
 
         .Dive {
@@ -651,6 +677,11 @@ const openContactUs = () => {
           border: 1px solid #050505;
           background: #DACDF4;
           box-shadow: 0px 4px 0px 0px #050505;
+          cursor: pointer;
+        }
+
+        .boxtwo-btn:hover {
+          background-color: #C9B2F7;
         }
 
         .Dive {
@@ -691,16 +722,18 @@ const openContactUs = () => {
       .fucnbox {
         width: 400px;
         height: 270px;
-        padding: 41px 99.364px 40.401px 99.05px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
+        padding: 0 99.364px 0 99.05px;
         display: flex;
+        flex-direction: column;
+        align-items: center;
         border-radius: var(--Color-card-2, 12px);
         border: 1px solid #050505;
         background: #FFF;
         box-shadow: 0px 8px 0px 0px #050505;
+
+        .fucnbox-img {
+          margin: 25px 0 15px 0;
+        }
 
         .functitle {
           width: 200px;
@@ -724,6 +757,9 @@ const openContactUs = () => {
           font-style: normal;
           font-weight: 400;
           line-height: 30px; /* 187.5% */
+          img {
+            position: relative;
+          }
         }
       }
 
@@ -896,6 +932,10 @@ const openContactUs = () => {
             border: 1px solid #050505;
             background: #DACDF4;
             box-shadow: 0px 4px 0px 0px #050505;
+          }
+
+          .swiper-btn:hover {
+            background-color: #C9B2F7;
           }
         }
       }
